@@ -1,9 +1,9 @@
 SCALAC = scalac -feature
 
-LATEX = src/latex/*.scala
-HTML = src/html/*.scala
-GRAPHVIZ = src/graphviz/*.scala
-UTIL = src/util/*.scala
+LATEX = src/main/scala/latex/*.scala
+HTML = src/main/scala/html/*.scala
+GRAPHVIZ = src/main/scala/graphviz/*.scala
+UTIL = src/main/scala/util/*.scala
 SOURCES = ${UTIL} ${GRAPHVIZ} ${HTML} ${LATEX}
 
 SOURCEPATH = src
@@ -11,6 +11,7 @@ SOURCEPATH = src
 jmutils.jar: ${SOURCES}
 	${SCALAC} -d $@ $^ -sourcepath ${SOURCEPATH}
 
+doc: .doc-build
 .doc-build: ${SOURCES} src/root.scaladoc
 	mkdir -p doc
 	scaladoc -diagrams -diagrams-dot-path /usr/bin/dot \

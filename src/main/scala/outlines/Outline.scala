@@ -11,9 +11,11 @@
 package org.maraist.outlines
 import scala.language.implicitConversions
 import java.io.PrintWriter
+import org.maraist.latex.{LaTeXdoc,LaTeXRenderable}
 
 class Outline[E] (val items: Seq[OutlineItem[E]],
-                  val summary: Option[E] = None) {
+                  val summary: Option[E] = None)
+extends LaTeXRenderable {
   def formatAsItemTop(dest: PrintWriter, lead: String,
                       singular: String, plural: String)(
     implicit controls: OutlineOptions
@@ -40,6 +42,20 @@ class Outline[E] (val items: Seq[OutlineItem[E]],
   }
 
   def size: Int = items.size
+
+  override def toLaTeX(doc:LaTeXdoc): Unit = items.size match {
+    case 0 => { }
+    case 1 => { items(0).toLaTeX(doc) }
+    case n => {
+      doc ++= "\\begin{itemize}\n"
+      for(item <- items) {
+        doc ++= "\\item "
+        item.toLaTeX(doc)
+      }
+      doc ++= "\\end{itemize}\n"
+    }
+  }
+
 }
 
 object Outline {

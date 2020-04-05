@@ -4,7 +4,8 @@ LATEX = src/main/scala/latex/*.scala
 HTML = src/main/scala/html/*.scala
 GRAPHVIZ = src/main/scala/graphviz/*.scala
 UTIL = src/main/scala/util/*.scala
-SOURCES = ${UTIL} ${GRAPHVIZ} ${HTML} ${LATEX}
+OUTLINES = src/main/scala/outlines/*.scala
+SOURCES = ${UTIL} ${GRAPHVIZ} ${HTML} ${LATEX} ${OUTLINES}
 
 SOURCEPATH = src
 

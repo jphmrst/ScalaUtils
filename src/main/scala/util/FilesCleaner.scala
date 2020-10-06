@@ -13,7 +13,7 @@ import java.io.File
 import scala.collection.mutable.ArrayBuffer
 
 class FilesCleaner(filenames:String*) {
-  val names:ArrayBuffer[String] = filenames.to[ArrayBuffer]
+  val names:ArrayBuffer[String] = collection.mutable.ArrayBuffer(filenames: _*)
   def clean:Unit = for(filename <- filenames) {
     new File(filename).delete()
   }

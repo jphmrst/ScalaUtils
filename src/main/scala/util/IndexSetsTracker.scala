@@ -30,7 +30,7 @@ class IndexSetsTracker(private val count:Int,
   def size:Int = setsBuf.size
   def getIndex(elements:Set[Int]):Int = {  // scalastyle:ignore
     var thisIdx = 0
-    var toFile = elements.to[Seq].sorted
+    var toFile = elements.toSeq.sorted
     root match {
       case Absent() => {
         root = newTree(thisIdx,elements,toFile)

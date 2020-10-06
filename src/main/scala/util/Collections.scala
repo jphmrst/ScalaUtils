@@ -75,7 +75,7 @@ object Collections {
       new Iterator[A] {
         var current = basis.next
         override def hasNext:Boolean = current.hasNext || basis.hasNext
-        override def next:A = {
+        override def next():A = {
           if (!current.hasNext) current = basis.next
           current.next
         }

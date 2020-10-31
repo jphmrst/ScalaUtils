@@ -58,7 +58,7 @@ object Collections {
              || (headIterator.hasNext && !hoistedXs.isEmpty))
           override def next():List[A] = {
             if (!tailIterator.hasNext) {
-              currentHead = headIterator.next
+              currentHead = headIterator.next()
               tailIterator = hoistedXs.iterator
             }
             val result = currentHead :: tailIterator.next()
@@ -73,11 +73,11 @@ object Collections {
     val basis = for(iter <- iters if iter.hasNext) yield iter
     if (basis.hasNext) {
       new Iterator[A] {
-        var current = basis.next
+        var current = basis.next()
         override def hasNext:Boolean = current.hasNext || basis.hasNext
         override def next():A = {
-          if (!current.hasNext) current = basis.next
-          current.next
+          if (!current.hasNext) current = basis.next()
+          current.next()
         }
       }
     } else

@@ -41,7 +41,7 @@ object LaTeXRenderables {
   private val singleCenteredColumnEnd:String = "\\end{tabular}"
 
   def iterableVerticalTable[A<:LaTeXRenderable](items:Iterable[A],
-                                                doc:LaTeXdoc) {
+                                                doc:LaTeXdoc): Unit = {
     doc ++= singleCenteredColumnBegin
     var sep = ""
     for(item <- items) {
@@ -52,7 +52,7 @@ object LaTeXRenderables {
     doc ++= singleCenteredColumnEnd
   }
   def iterableVerticalTableOrSolo[A<:LaTeXRenderable](items:Iterable[A],
-                                                      doc:LaTeXdoc) {
+                                                      doc:LaTeXdoc): Unit = {
     items.size match {
       case 0 => { }
       case 1 => items.iterator.next().toLaTeX(doc)
@@ -69,7 +69,7 @@ object LaTeXRenderables {
     }
   }
   def iterableVerticalTable[A](items:Iterable[A],doc:LaTeXdoc,
-                               helper:(A,LaTeXdoc)=>Unit) {
+                               helper:(A,LaTeXdoc)=>Unit): Unit = {
     if (items.isEmpty) {
       doc ++= "---"
     } else {

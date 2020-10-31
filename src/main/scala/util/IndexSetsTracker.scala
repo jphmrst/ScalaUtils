@@ -72,7 +72,7 @@ class IndexSetsTracker(private val count:Int,
   private def newTree(thisIdx:Int, set:Set[Int],
                       elements:Seq[Int]):TrackTree = {
     if (thisIdx == count) {
-      val slot:Int=sets.length
+      val slot:Int = sets().length
       setsBuf += set
       Present(slot)
     } else if (!elements.isEmpty && thisIdx == elements.head) {

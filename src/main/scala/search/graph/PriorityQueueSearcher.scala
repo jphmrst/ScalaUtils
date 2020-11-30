@@ -38,8 +38,8 @@ class PriorityQueueSearcher[
 ](
   goalCheckerFactory: () => GoalChecker[Node],
   frontierFactory: () => Front,
-  exploredSetFactory: (Front) => ExploredSet[Node],
-  initializer: (State) => Node
+  exploredSetFactory: Front => ExploredSet[Node],
+  initializer: State => Node
 )
 extends GraphSearcher[State, Node, Front](
   goalCheckerFactory, frontierFactory, exploredSetFactory, initializer
@@ -79,9 +79,9 @@ extends GraphSearcher[State, Node, Front](
   def this(
     goalCheckerFactory: () => GoalChecker[Node],
     prioritizer: Comparator[Node],
-    frontierMetafactory: (Comparator[Node]) => () => Front,
-    exploredSetFactory: (Front) => ExploredSet[Node],
-    initializer: (State) => Node
+    frontierMetafactory: Comparator[Node] => () => Front,
+    exploredSetFactory: Front => ExploredSet[Node],
+    initializer: State => Node
   ) = this(goalCheckerFactory, frontierMetafactory.apply(prioritizer),
            exploredSetFactory, initializer)
 }

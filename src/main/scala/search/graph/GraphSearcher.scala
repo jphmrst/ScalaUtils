@@ -36,8 +36,8 @@ class GraphSearcher[State,
                     F <: Frontier[Node]](
   val goalCheckerFactory: () => GoalChecker[Node],
   val frontierFactory: () => F,
-  val exploredSetFactory: (F) => ExploredSet[Node],
-  val initializer: (State) => Node
+  val exploredSetFactory: F => ExploredSet[Node],
+  val initializer: State => Node
 ) {
   private var addedToFrontier: Long = -1
   private var notAddedToFrontier: Long = -1

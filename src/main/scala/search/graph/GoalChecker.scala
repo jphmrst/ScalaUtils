@@ -43,7 +43,10 @@ object GoalChecker {
       override def get(): N = throw new SearchFailureException()
     }
 
-  def liftPredicate[S, N <: SearchTreeNode[N,S]](pred: (S) => Boolean): (N) => Boolean =
-    (n) => pred(n.state)
+  def liftPredicate[S, N <: SearchTreeNode[N,S]](pred: (S) => Boolean): GoalChecker[N] =
+    new GoalChecker[N] {
+      override def test(n: N): Boolean = pred(n.state)
+      override def get(): N = throw new SearchFailureException()
+    }
 }
 

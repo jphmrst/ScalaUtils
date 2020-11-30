@@ -40,10 +40,10 @@ class AStarFrontierSearcher[
   Node <: SearchTreeNode[Node,State] with KnowsOwnCost,
   Front <: Frontier.PriorityQueue[Node]
 ](goalTest: GoalChecker[Node],
-  val heuristic: (Node) => Double,
-  frontierMetafactory: (Comparator[Node]) => () => Front,
-  exploredSetFactory: (Front) => ExploredSet[Node],
-  initializer: (State) => Node
+  val heuristic: Node => Double,
+  frontierMetafactory: Comparator[Node] => () => Front,
+  exploredSetFactory: Front => ExploredSet[Node],
+  initializer: State => Node
 )
 extends PriorityQueueSearcher[State, Node, Front](
   () => GoalChecker.firstGoal(goalTest),
@@ -83,9 +83,9 @@ extends PriorityQueueSearcher[State, Node, Front](
    */
   def this(
     goalTest: GoalChecker[Node],
-    heuristic: (Node) => Double,
-    frontierMetafactory: (Comparator[Node]) => () => Front,
-    initializer: (State) => Node
+    heuristic: Node => Double,
+    frontierMetafactory: Comparator[Node] => () => Front,
+    initializer: State => Node
   ) =
     this(goalTest, heuristic, frontierMetafactory,
          ExploredSet.doNotTrack[Front, Node], initializer)
@@ -117,10 +117,10 @@ object AStarFrontierSearcher {
     Front <: Frontier.PriorityQueue[Nodes.SimpleTreeCostNode[State]]
   ](
     goalTest: GoalChecker[Nodes.SimpleTreeCostNode[State]],
-    heuristic: (Nodes.SimpleTreeCostNode[State]) => Double,
-    frontierMetafactory: (Comparator[Nodes.SimpleTreeCostNode[State]]) => () => Front,
-    exploredSetFactory: (Front) => ExploredSet[Nodes.SimpleTreeCostNode[State]],
-    initializer: (State) => Nodes.SimpleTreeCostNode[State]
+    heuristic: Nodes.SimpleTreeCostNode[State] => Double,
+    frontierMetafactory: Comparator[Nodes.SimpleTreeCostNode[State]] => () => Front,
+    exploredSetFactory: Front => ExploredSet[Nodes.SimpleTreeCostNode[State]],
+    initializer: State => Nodes.SimpleTreeCostNode[State]
   )
   extends AStarFrontierSearcher[State,
                                 Nodes.SimpleTreeCostNode[State],
@@ -130,70 +130,71 @@ object AStarFrontierSearcher {
                                   exploredSetFactory,
                                   initializer)
   {
-//    /**
-//     * Constructor for this class which does not maintain an explored
-//     * set.
-//     *
-//     * @param stateTest A boolean-returning function checking whether
-//     * a state space element is a goal state.
-//     *
-//     * @param heuristic Heuristic function for this search application.
-//     *
-//     * @param frontierMetafactory This function maps a {@link
-//     * Comparator} for tree nodes to a {@link
-//     * java.util.function.Supplier Supplier} of new, empty Front
-//     * instances.
-//     *
-//     * @param expander Generates the successor states from some state,
-//     * each associated with a cost.
-//     */
-//    def this(
-//      stateTest: (State) => Boolean,
-//      heuristic: (State) => Double,
-//      frontierMetafactory: (Comparator[Nodes.SimpleTreeCostNode[State]]
-//                          ) => () => Front,
-//      expander: (State) => Iterable[Nodes.CostAndStep[State]]
-//    ) =
-//      this(GoalChecker.liftPredicate[State,Nodes.SimpleTreePathCostNode[State]](stateTest),
-//           Nodes.liftHeuristic[State,
-//                               Nodes.SimpleTreeCostNode[State]](heuristic)(_),
-//           frontierMetafactory,
-//           ExploredSet.doNotTrack[Front,Nodes.SimpleTreePathCostNode[State]](_),
-//           Nodes.SimpleTreeCostNode.initializer[State](expander)(_))
-//
-//    /**
-//     * Constructor for this class which maintains an explored
-//     * set using a hashing of the state representations.
-//     *
-//     * @param stateTest A boolean-returning function checking whether
-//     * a state space element is a goal state.
-//     *
-//     * @param heuristic Heuristic function for this search application.
-//     *
-//     * @param frontierMetafactory This function maps a {@link
-//     * Comparator} for tree nodes to a {@link
-//     * java.util.function.Supplier Supplier} of new, empty Front
-//     * instances.
-//     *
-//     * @param hashArtifactBuilder Generates a hashable object from a
-//     * state element.
-//     *
-//     * @param expander Generates the successor states from some state,
-//     * each associated with a cost.
-//     */
-//    def this(stateTest: (State) => Boolean,
-//         heuristic: (State) => Double,
-//         frontierMetafactory: (Comparator[Nodes.SimpleTreeCostNode[State]]
-//                             ) => () => Front,
-//         hashArtifactBuilder: (State) => Object,
-//         expander: (State) => Iterable[Nodes.CostAndStep[State]]) {
-//      this(GoalChecker.liftPredicate[State,Nodes.SimpleTreePathCostNode[State]](stateTest),
-//           Nodes.liftHeuristic[State, Nodes.SimpleTreePathCostNode[State]](heuristic)(_),
-//           frontierMetafactory,
-//           ExploredSet.trackGeneratedByArtifactHashSet
-//             (n => hashArtifactBuilder(n.getState())),
-//           Nodes.SimpleTreeCostNode.initializer[State](expander)(_));
-//    }
+
+
+    /**
+    * Constructor for this class which does not maintain an explored
+    * set.
+    *
+    * @param stateTest A boolean-returning function checking whether
+    * a state space element is a goal state.
+    *
+    * @param heuristic Heuristic function for this search application.
+    *
+    * @param frontierMetafactory This function maps a {@link
+    * Comparator} for tree nodes to a {@link
+    * java.util.function.Supplier Supplier} of new, empty Front
+    * instances.
+    *
+    * @param expander Generates the successor states from some state,
+    * each associated with a cost.
+    */
+    def this(
+      stateTest: State => Boolean,
+      heuristic: State => Double,
+      frontierMetafactory: Comparator[Nodes.SimpleTreeCostNode[State]] => () => Front,
+      expander: State => Iterable[Nodes.CostAndStep[State]]
+    ) =
+      this(GoalChecker.liftPredicate[State,Nodes.SimpleTreeCostNode[State]](stateTest),
+           Nodes.liftHeuristic[State,
+                               Nodes.SimpleTreeCostNode[State]](heuristic),
+           frontierMetafactory,
+           f => ExploredSet.doNotTrack[Front,Nodes.SimpleTreeCostNode[State]](f),
+           Nodes.SimpleTreeCostNode.initializer[State](expander))
+
+
+    /**
+    * Constructor for this class which maintains an explored
+    * set using a hashing of the state representations.
+    *
+    * @param stateTest A boolean-returning function checking whether
+    * a state space element is a goal state.
+    *
+    * @param heuristic Heuristic function for this search application.
+    *
+    * @param frontierMetafactory This function maps a {@link
+    * Comparator} for tree nodes to a {@link
+    * java.util.function.Supplier Supplier} of new, empty Front
+    * instances.
+    *
+    * @param hashArtifactBuilder Generates a hashable object from a
+    * state element.
+    *
+    * @param expander Generates the successor states from some state,
+    * each associated with a cost.
+    */
+    def this(stateTest: State => Boolean,
+             heuristic: State => Double,
+             frontierMetafactory: Comparator[Nodes.SimpleTreeCostNode[State]] => () => Front,
+             hashArtifactBuilder: Nodes.SimpleTreeCostNode[State] => Object,
+             expander: State => Iterable[Nodes.CostAndStep[State]]) =
+               this(GoalChecker.liftPredicate[State,Nodes.SimpleTreeCostNode[State]](stateTest),
+                    Nodes.liftHeuristic[State, Nodes.SimpleTreeCostNode[State]](heuristic),
+                    frontierMetafactory,
+                    f => ExploredSet.trackGeneratedByArtifactHashSet[
+                      Front, Nodes.SimpleTreeCostNode[State], Object
+                    ](hashArtifactBuilder)(f),
+                    Nodes.SimpleTreeCostNode.initializer[State](expander))
   }
 
   /**
@@ -212,84 +213,79 @@ object AStarFrontierSearcher {
     Front <: Frontier.PriorityQueue[Nodes.SimpleTreePathCostNode[State]]
   ](
     goalTest: GoalChecker[Nodes.SimpleTreePathCostNode[State]],
-    heuristic: (Nodes.SimpleTreePathCostNode[State]) => Double,
-    frontierMetafactory: (Comparator[Nodes.SimpleTreePathCostNode[State]]) => () => Front,
-    exploredSetFactory: (Front) => ExploredSet[Nodes.SimpleTreePathCostNode[State]],
-    initializer: (State) => Nodes.SimpleTreePathCostNode[State]
+    heuristic: Nodes.SimpleTreePathCostNode[State] => Double,
+    frontierMetafactory: Comparator[Nodes.SimpleTreePathCostNode[State]] => () => Front,
+    exploredSetFactory: Front => ExploredSet[Nodes.SimpleTreePathCostNode[State]],
+    initializer: State => Nodes.SimpleTreePathCostNode[State]
   )
   extends AStarFrontierSearcher[
     State, Nodes.SimpleTreePathCostNode[State], Front
   ](goalTest, heuristic, frontierMetafactory, exploredSetFactory, initializer
   ) {
 
-//    /**
-//     * Constructor for this class which maintains an explored
-//     * set using a hashing of the state representations.
-//     *
-//     * @param stateTest A boolean-returning function checking whether
-//     * a state space element is a goal state.
-//     *
-//     * @param heuristic Heuristic function for this search application.
-//     *
-//     * @param frontierMetafactory This function maps a {@link
-//     * Comparator} for tree nodes to a {@link
-//     * java.util.function.Supplier Supplier} of new, empty Front
-//     * instances.
-//     *
-//     * @param hashArtifactBuilder Generates a hashable object from a
-//     * state element.
-//     *
-//     * @param expander Generates the successor states from some state,
-//     * each associated with a cost.
-//     */
-//    def this(
-//      stateTest: (State) => Boolean,
-//      heuristic: (State) => Double,
-//      frontierMetafactory: (Comparator[Nodes.SimpleTreePathCostNode[State]]
-//                          ) => () => Front,
-//      hashArtifactBuilder: (State) => Object,
-//      expander: (State) => Iterable[Nodes.CostAndStep[State]]
-//    ) =
-//      this(
-//        GoalChecker.liftPredicate[State,Nodes.SimpleTreePathCostNode[State]](stateTest),
-//        Nodes.liftHeuristic[State, Nodes.SimpleTreePathCostNode[State]](heuristic)(_),
-//        frontierMetafactory,
-//        ExploredSet.trackGeneratedByArtifactHashSet[
-//          Front,
-//          Nodes.SimpleTreePathCostNode[State],
-//          State
-//        ]
-//        ((n: Nodes.SimpleTreePathCostNode[State])
-//         => hashArtifactBuilder(n.getState())),
-//        Nodes.SimpleTreePathCostNode.initializer[State](expander)(_)
-//      )
+    /**
+    * Constructor for this class which maintains an explored
+    * set using a hashing of the state representations.
+    *
+    * @param stateTest A boolean-returning function checking whether
+    * a state space element is a goal state.
+    *
+    * @param heuristic Heuristic function for this search application.
+    *
+    * @param frontierMetafactory This function maps a {@link
+    * Comparator} for tree nodes to a {@link
+    * java.util.function.Supplier Supplier} of new, empty Front
+    * instances.
+    *
+    * @param hashArtifactBuilder Generates a hashable object from a
+    * state element.
+    *
+    * @param expander Generates the successor states from some state,
+    * each associated with a cost.
+    */
+    def this(
+      stateTest: State => Boolean,
+      heuristic: State => Double,
+      frontierMetafactory: Comparator[Nodes.SimpleTreePathCostNode[State]] => () => Front,
+      hashArtifactBuilder: Nodes.SimpleTreePathCostNode[State] => Object,
+      expander: State => Iterable[Nodes.CostAndStep[State]]
+    ) =
+      this(
+        GoalChecker.liftPredicate[State,Nodes.SimpleTreePathCostNode[State]](stateTest),
+        Nodes.liftHeuristic[State, Nodes.SimpleTreePathCostNode[State]](heuristic),
+        frontierMetafactory,
+        (f => ExploredSet.trackGeneratedByArtifactHashSet[
+            Front, Nodes.SimpleTreePathCostNode[State], Object
+          ](hashArtifactBuilder)(f)),
+        Nodes.SimpleTreePathCostNode.initializer[State](expander)
+      )
 
-//    /**
-//     * Constructor for this class which does not maintain an explored
-//     * set.
-//     *
-//     * @param stateTest A boolean-returning function checking whether
-//     * a state space element is a goal state.
-//     *
-//     * @param heuristic Heuristic function for this search application.
-//     *
-//     * @param frontierMetafactory This function maps a {@link
-//     * Comparator} for tree nodes to a {@link
-//     * java.util.function.Supplier Supplier} of new, empty Front
-//     * instances.
-//     *
-//     * @param expander Generates the successor states from some state,
-//     * each associated with a cost.
-//     */
-//    def this(
-//      stateTest: (State) => Boolean,
-//      heuristic: (State) => Double,
-//      frontierMetafactory: (Comparator[Nodes.SimpleTreePathCostNode[State]]
-//                          ) => () => Front,
-//      expander: (State) => Iterable[Nodes.CostAndStep[State]]) =
-//        this(GoalChecker.liftPredicate[State,Nodes.SimpleTreePathCostNode[State]](stateTest)(_),
-//             heuristic,
-//             frontierMetafactory,
-//             Nodes.SimpleTreePathCostNode.initializer[State](expander))
+    /**
+    * Constructor for this class which does not maintain an explored
+    * set.
+    *
+    * @param stateTest A boolean-returning function checking whether
+    * a state space element is a goal state.
+    *
+    * @param heuristic Heuristic function for this search application.
+    *
+    * @param frontierMetafactory This function maps a {@link
+    * Comparator} for tree nodes to a {@link
+    * java.util.function.Supplier Supplier} of new, empty Front
+    * instances.
+    *
+    * @param expander Generates the successor states from some state,
+    * each associated with a cost.
+    */
+    def this(
+      stateTest: State => Boolean,
+      heuristic: State => Double,
+      frontierMetafactory: Comparator[Nodes.SimpleTreePathCostNode[State]] => () => Front,
+      expander: State => Iterable[Nodes.CostAndStep[State]]) =
+        this(GoalChecker.liftPredicate[State,Nodes.SimpleTreePathCostNode[State]](stateTest),
+             Nodes.liftHeuristic[State, Nodes.SimpleTreePathCostNode[State]](heuristic),
+             frontierMetafactory,
+             ExploredSet.doNotTrack[Front, Nodes.SimpleTreePathCostNode[State]](_),
+             Nodes.SimpleTreePathCostNode.initializer[State](expander))
   }
 }

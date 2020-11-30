@@ -25,8 +25,8 @@ import java.util.Comparator
  */
 class BreadthFirstSearcher[State, Node <: SearchTreeNode[Node,State]](
   goalCheckerFactory: () => GoalChecker[Node],
-  exploredSetFactory: (Frontier.Queue[Node]) => ExploredSet[Node],
-  initializer: (State) => Node
+  exploredSetFactory: Frontier.Queue[Node] => ExploredSet[Node],
+  initializer: State => Node
 )
 extends GraphSearcher[State, Node, Frontier.Queue[Node]](
   goalCheckerFactory, Frontier.queueFactory[Node],
@@ -47,7 +47,7 @@ extends GraphSearcher[State, Node, Frontier.Queue[Node]](
    * space element.
    */
   def this(goalCheckerFactory: () => GoalChecker[Node],
-           init: (State) => Node) =
+           init: State => Node) =
     this(goalCheckerFactory,
          ExploredSet.trackStateByHashSet[Frontier.Queue[Node], State, Node],
          init)
@@ -64,18 +64,18 @@ extends GraphSearcher[State, Node, Frontier.Queue[Node]](
    * @param initializer Creates an initial tree node from a search
    * space element.
    */
-  def this(stateChecker: (State) => Boolean,
-           initializer: (State) => Node) =
+  def this(stateChecker: State => Boolean,
+           initializer: State => Node) =
     this(GoalChecker.goalCheckerFactory[State, Node](stateChecker),
          initializer)
 }
 
 object BreadthFirstSearcher {
   def build[S](
-    stateChecker: (S) => Boolean, expander: (S) => Iterable[S]
+    stateChecker: S => Boolean, expander: S => Iterable[S]
   ): BreadthFirstSearcher[S, Nodes.SimpleTreeNode[S]] =
     new BreadthFirstSearcher[S, Nodes.SimpleTreeNode[S]](
       GoalChecker.goalCheckerFactory[S, Nodes.SimpleTreeNode[S]](stateChecker),
-      Nodes.SimpleTreeNode.initializer[S](expander)(_)
+      Nodes.SimpleTreeNode.initializer[S](expander)
     )
 }

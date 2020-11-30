@@ -6,8 +6,8 @@ object Nodes {
 
   class CostAndStep[S](val cost: Double, val state: S) { }
 
-  def liftHeuristic[S, N <: SearchTreeNode[N,S]](hs: (S) => Double)(node: N): Double =
-    hs.apply(node.state)
+  def liftHeuristic[S, N <: SearchTreeNode[N,S]](hs: (S) => Double): N => Double =
+    (node: N) => hs.apply(node.state)
 
   // -----------------------------------------------------------------
   // Just a simple wrapper for the state.  No cost, no history
@@ -39,8 +39,8 @@ object Nodes {
       }
   }
   object SimpleTreeNode {
-    def initializer[S](expander: (S) => Iterable[S])(state: S): SimpleTreeNode[S] =
-      new SimpleTreeNode[S](expander, state)
+    def initializer[S](expander: (S) => Iterable[S]): S => SimpleTreeNode[S] =
+      (state: S) => new SimpleTreeNode[S](expander, state)
   }
 
   // -----------------------------------------------------------------
@@ -83,10 +83,8 @@ object Nodes {
   }
 
   object SimpleTreeCostNode {
-    def initializer[S](
-      expander: (S) => Iterable[CostAndStep[S]]
-    )(state: S): SimpleTreeCostNode[S] =
-      new SimpleTreeCostNode[S](expander, 0.0, state)
+    def initializer[S](expander: (S) => Iterable[CostAndStep[S]]): S => SimpleTreeCostNode[S] =
+      (state: S) => new SimpleTreeCostNode[S](expander, 0.0, state)
   }
 
   // -----------------------------------------------------------------
@@ -132,8 +130,8 @@ object Nodes {
       }
 
 
-    def initializer[S](expander: (S) => Iterable[S])(state: S): SimpleTreePathNode[S] =
-      new SimpleTreePathNode[S](expander, state)
+    def initializer[S](expander: (S) => Iterable[S]): S => SimpleTreePathNode[S] =
+      (state: S) => new SimpleTreePathNode[S](expander, state)
   }
 
   // -----------------------------------------------------------------
@@ -193,9 +191,7 @@ object Nodes {
   }
 
   object SimpleTreePathCostNode {
-    def initializer[S](
-      expander: (S) => Iterable[CostAndStep[S]]
-    )(state: S): SimpleTreePathCostNode[S] =
-      new SimpleTreePathCostNode[S](expander, 0.0, state)
+    def initializer[S](expander: (S) => Iterable[CostAndStep[S]]): S => SimpleTreePathCostNode[S] =
+      (state: S) => new SimpleTreePathCostNode[S](expander, 0.0, state)
   }
 }

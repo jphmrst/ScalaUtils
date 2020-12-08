@@ -117,7 +117,3 @@ trait AssignmentSet[Var, Val, AS <: AssignmentSet[Var, Val, AS]] {
 trait Problem[Var, Val] {
 }
 
-trait Inferences[Var, Val, AS <: AssignmentSet[Var, Val, AS]] {
-  def isFailure: Boolean
-}
-

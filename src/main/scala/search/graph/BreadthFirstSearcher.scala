@@ -11,8 +11,8 @@ import java.util.Comparator
  * @tparam Node Type representing nodes in the search tree.  Each
  * node typically contains a reference to a State element.
  *
- * @param goalCheckerFactory The {@link
- * java.util.function.Supplier#get get} method of this object must
+ * @param goalCheckerFactory The
+ * {@link java.util.function.Supplier#get get} method of this object must
  * return a predicate on tree nodes used to tell if they are goal
  * nodes.
  *
@@ -38,8 +38,8 @@ extends GraphSearcher[State, Node, Frontier.Queue[Node]](
    *  HashSet} on state elements for detecting previously-explored
    *  nodes.
    *
-   * @param goalCheckerFactory The {@link
-   * java.util.function.Supplier#get get} method of this object must
+   * @param goalCheckerFactory The
+   * {@link java.util.function.Supplier#get get} method of this object must
    * return a predicate on tree nodes used to tell if they are goal
    * nodes.
    *
@@ -53,10 +53,11 @@ extends GraphSearcher[State, Node, Frontier.Queue[Node]](
          init)
 
   /**
-   *  Constructor which uses a {@linkplain
-   *  java.util.function.Predicate predicate} on goals for checking
-   *  success of a tree node, and which defaults to a {@link
-   *  java.util.HashSet HashSet} on state elements for detecting
+   *  Constructor which uses a
+   *  {@linkplain java.util.function.Predicate predicate}
+   *  on goals for checking
+   *  success of a tree node, and which defaults to a
+   *  {@link java.util.HashSet HashSet} on state elements for detecting
    *  previously-explored nodes.
    *
    * @param stateChecker Success predicate on state elements.

@@ -13,8 +13,8 @@ import org.maraist.search.Searcher
 import org.maraist.search.SearchFailureException
 
 /**
- *  Topmost class encapsulating graph search.  The {@link
- *  org.maraist.search.graph.GraphSearcher#search search} method
+ *  Topmost class encapsulating graph search.  The
+ * {@link org.maraist.search.graph.GraphSearcher#search search} method
  *  implements the Graph-Search algorithm of Russell and Norvig (2nd
  *  ed., Figure 3.7, p. 77), with customizable behavior provided as
  *  constructor arguments.
@@ -27,8 +27,9 @@ import org.maraist.search.SearchFailureException
  * @tparam F Type representing the (entire) search frontier
  * (open set).
  *
- * @param goalCheckerFactory The {@link
- * java.util.function.Supplier#get get} method of this object must
+ * @param goalCheckerFactory The
+ * {@link java.util.function.Supplier#get get}
+ * method of this object must
  * return a predicate on tree nodes used to tell if they are goal
  * nodes.
  *

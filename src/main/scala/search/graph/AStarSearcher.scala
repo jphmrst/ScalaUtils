@@ -172,7 +172,8 @@ object AStarSearcher {
      *
      * @param heuristic Heuristic function for this search application.
      *
-     * @param heuristic Generates an artifact which can be used in a
+     * @param hashArtifactBuilder
+     * Generates an artifact which can be used in a
      * hashtable to recall storage of a node.
      *
      * @param expander Generates the successor states from some state,

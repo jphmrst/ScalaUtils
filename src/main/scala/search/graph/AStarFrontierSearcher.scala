@@ -3,7 +3,7 @@ package org.maraist.search.graph
 import java.util.Comparator
 
 /**
- *  Extension of {@link PriorityQueueSearcher} with A*'s
+ *  Extension of {@link org.maraist.search.graph.PriorityQueueSearcher} with A*'s
  *  prioritization formula <i>f(n) = g(n)+h(n)</i>, still leaving the
  *  exact structure of the frontier as a configurable option.
  *
@@ -20,19 +20,19 @@ import java.util.Comparator
  *
  * @param heuristic Heuristic function for this search application.
  *
- * @param frontierMetafactory This function maps a {@link
- * Comparator} for tree nodes to a {@link
- * java.util.function.Supplier Supplier} of new, empty Frontier
+ * @param frontierMetafactory This function maps a
+ * {@link java.util.Comparator} for tree nodes to a
+ * {@link java.util.function.Supplier Supplier} of new, empty Frontier
  * instances.
  *
  * @param exploredSetFactory Structure used to manage adding
  * elements to the frontier, in particular for avoiing duplication.
  * Passed as-is to the primary constructor for this class, and
- * thence to the {@linkplain GraphSearcher parent} constructor.
+ * thence to the {@linkplain org.maraist.search.graph.GraphSearcher parent} constructor.
  *
  * @param initializer Creates an initial tree node from a search
  * space element.  Passed as-is to the primary constructor for this
- * class, and thence to the {@linkplain GraphSearcher parent}
+ * class, and thence to the {@linkplain org.maraist.search.graph.GraphSearcher parent}
  * constructor.
  */
 class AStarFrontierSearcher[
@@ -71,14 +71,15 @@ extends PriorityQueueSearcher[State, Node, Front](
    *
    * @param heuristic Heuristic function for this search application.
    *
-   * @param frontierMetafactory This function maps a {@link
-   * Comparator} for tree nodes to a {@link
-   * java.util.function.Supplier Supplier} of new, empty Frontier
+   * @param frontierMetafactory This function maps a
+   * {@link java.util.Comparator} for tree nodes to a
+   * {@link java.util.function.Supplier Supplier} of new, empty Frontier
    * instances.
    *
    * @param initializer Creates an initial tree node from a search
    * space element.  Passed as-is to the primary constructor for this
-   * class, and thence to the {@linkplain GraphSearcher parent}
+   * class, and thence to the
+   * {@linkplain org.maraist.search.graph.GraphSearcher parent}
    * constructor.
    */
   def this(
@@ -102,7 +103,7 @@ extends PriorityQueueSearcher[State, Node, Front](
 object AStarFrontierSearcher {
 
   /**
-   *  A specialization of {@link AStarFrontierSearcher} to use a
+   *  A specialization of {@link org.maraist.search.graph.AStarFrontierSearcher} to use a
    *  minimal implementation of unrelated search tree nodes (with a
    *  state and accumulated cost only), with the frontier
    *  implementation still exposed as a type parameter.
@@ -133,22 +134,21 @@ object AStarFrontierSearcher {
 
 
     /**
-    * Constructor for this class which does not maintain an explored
-    * set.
-    *
-    * @param stateTest A boolean-returning function checking whether
-    * a state space element is a goal state.
-    *
-    * @param heuristic Heuristic function for this search application.
-    *
-    * @param frontierMetafactory This function maps a {@link
-    * Comparator} for tree nodes to a {@link
-    * java.util.function.Supplier Supplier} of new, empty Front
-    * instances.
-    *
-    * @param expander Generates the successor states from some state,
-    * each associated with a cost.
-    */
+     * Constructor for this class which does not maintain an explored
+     * set.
+     *
+     * @param stateTest A boolean-returning function checking whether
+     * a state space element is a goal state.
+     *
+     * @param heuristic Heuristic function for this search application.
+     *
+     * @param frontierMetafactory This function maps a
+     * {@link java.util.Comparator} for tree nodes to a {@link java.util.function.Supplier Supplier} of new, empty Front
+     * instances.
+     *
+     * @param expander Generates the successor states from some state,
+     * each associated with a cost.
+     */
     def this(
       stateTest: State => Boolean,
       heuristic: State => Double,
@@ -172,9 +172,9 @@ object AStarFrontierSearcher {
     *
     * @param heuristic Heuristic function for this search application.
     *
-    * @param frontierMetafactory This function maps a {@link
-    * Comparator} for tree nodes to a {@link
-    * java.util.function.Supplier Supplier} of new, empty Front
+    * @param frontierMetafactory This function maps a
+    * {@link java.util.Comparator} for tree nodes to a
+    * {@link java.util.function.Supplier Supplier} of new, empty Front
     * instances.
     *
     * @param hashArtifactBuilder Generates a hashable object from a
@@ -198,7 +198,7 @@ object AStarFrontierSearcher {
   }
 
   /**
-   *  A specialization of {@link AStarFrontierSearcher} to use a
+   *  A specialization of {@link org.maraist.search.graph.AStarFrontierSearcher} to use a
    *  minimal implementation of hierarchical search tree nodes (with a
    *  state, accumulated cost, and pointer to a parent tree node),
    *  with the frontier implementation still exposed as a type
@@ -232,9 +232,9 @@ object AStarFrontierSearcher {
     *
     * @param heuristic Heuristic function for this search application.
     *
-    * @param frontierMetafactory This function maps a {@link
-    * Comparator} for tree nodes to a {@link
-    * java.util.function.Supplier Supplier} of new, empty Front
+    * @param frontierMetafactory This function maps a
+    * {@link java.util.Comparator} for tree nodes to a
+    * {@link java.util.function.Supplier Supplier} of new, empty Front
     * instances.
     *
     * @param hashArtifactBuilder Generates a hashable object from a
@@ -269,9 +269,9 @@ object AStarFrontierSearcher {
     *
     * @param heuristic Heuristic function for this search application.
     *
-    * @param frontierMetafactory This function maps a {@link
-    * Comparator} for tree nodes to a {@link
-    * java.util.function.Supplier Supplier} of new, empty Front
+    * @param frontierMetafactory This function maps a
+    * {@link java.util.Comparator} for tree nodes to a
+    * {@link java.util.function.Supplier Supplier} of new, empty Front
     * instances.
     *
     * @param expander Generates the successor states from some state,

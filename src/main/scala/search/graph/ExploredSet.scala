@@ -4,7 +4,8 @@ import scala.collection.mutable.HashSet;
 /**
  *  Methods required of a representation of an explored set.
  *
- *  The {@link ExploredSets} class contains some standard
+ *  The {@link org.maraist.search.graph.ExploredSet}
+ *  companion object contains some standard
  *  implementations and utilities of this interface.
  *
  * @tparam Node The type of tree nodes stored in the explored set.

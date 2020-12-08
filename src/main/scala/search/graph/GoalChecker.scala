@@ -23,8 +23,8 @@ trait GoalChecker[Node] {
 
   /**
    * When a search exhausts the frontier, this method can return the
-   * result, or else should throw a {@link
-   * org.maraist.search.SearchFailureException
+   * result, or else should throw a
+   * {@link org.maraist.search.SearchFailureException
    * SearchFailureException}.
    */
   def get(): Node

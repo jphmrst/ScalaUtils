@@ -9,6 +9,7 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.search.csp
+import scala.collection.mutable.StringBuilder
 import org.maraist.search.Searcher
 import org.maraist.search.SearchFailureException
 
@@ -23,11 +24,27 @@ import org.maraist.search.SearchFailureException
  * @tparam AS Actual implementation type for this trait.
  */
 trait AssignmentSet[Var, Val, AS <: AssignmentSet[Var, Val, AS]] {
+  /**
+   *  Helper method for subclasses to refer to the runtime type
+   *  of an instance.
+   */
+  protected def self: AS
 
   /**
    *  Returns {@code true} if this set corresponds to search failure.
    */
   def isFailure: Boolean
+
+  /**
+   *  Returns {@code true} if all variables are assigned.
+   */
+  def isComplete: Boolean
+
+  /**
+   * Returns the collection of variable which have been bound to
+   * a value.
+   */
+  def boundSet: Set[Var]
 
   /**
    * Returns {@code true} if the given variable-value assignment
@@ -46,4 +63,20 @@ trait AssignmentSet[Var, Val, AS <: AssignmentSet[Var, Val, AS]] {
    *  variable-value binding from this set.
    */
   def remove(variable: Var, value: Val): Unit
+
+  /**
+   *  Retrieve the value bound to the given variable, if one exists.
+   */
+  def apply(variable: Var): Option[Val]
+
+  override def toString(): String = {
+    val sb = new StringBuilder
+    for (variable <- boundSet)
+      apply(variable) match {
+        case None => { }
+        case Some(value) =>
+          sb.append(variable.toString() ++ ": " ++ value.toString() ++ "\n")
+      }
+    sb.toString()
+  }
 }

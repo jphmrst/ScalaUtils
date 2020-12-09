@@ -11,6 +11,7 @@
 package org.maraist.search.csp
 import org.maraist.search.Searcher
 import org.maraist.search.SearchFailureException
+import org.maraist.search.csp.Debug.debugOn
 
 /**
  *  Topmost class encapsulating backtracking search for a CSP.  The
@@ -84,6 +85,11 @@ class Backtrack[
     }
 
     val variable: Var = selectNextVariable(given)
+    if (debugOn) {
+      println("")
+      print(given)
+      printf("Selected variable %s\n", variable)
+    }
     for(value <- domainValues(given, variable, csp)) {
       if (given.isConsistent(variable, value)) {
         val added = given.add(variable, value)

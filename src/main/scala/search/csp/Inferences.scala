@@ -22,3 +22,13 @@ trait Inferences[Var, Val, AS <: AssignmentSet[Var, Val, AS]] {
   def isFailure: Boolean
 }
 
+class NoInference[Var, Val, AS <: AssignmentSet[Var, Val, AS]]
+extends Inferences[Var, Val, AS] {
+  override def isFailure: Boolean = false
+}
+
+object NoInference {
+  def apply[Var, Val, AS <: AssignmentSet[Var, Val, AS]] =
+    new NoInference[Var, Val, AS]
+}
+

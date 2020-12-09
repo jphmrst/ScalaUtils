@@ -16,5 +16,14 @@ import org.maraist.search.SearchFailureException
  *  Elements of a CSP problem.
  */
 trait Problem[Var, Val] {
+  def variables: Seq[Var]
+  def constraints: Seq[Constraint[Var, Val]]
 }
 
+object Problem {
+
+  class HashSetProblem[Var, Val](val variables: Seq[Var],
+                                 val constraints: Seq[Constraint[Var, Val]])
+  extends Problem[Var, Val]
+
+}

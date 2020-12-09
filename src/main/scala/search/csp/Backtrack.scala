@@ -106,14 +106,3 @@ class Backtrack[
   }
 
 }
-
-trait AssignmentSet[Var, Val, AS <: AssignmentSet[Var, Val, AS]] {
-  def isFailure: Boolean
-  def isConsistent(variable: Var, value: Val): Boolean
-  def add(variable: Var, value: Val): AS
-  def remove(variable: Var, value: Val): Unit
-}
-
-trait Problem[Var, Val] {
-}
-

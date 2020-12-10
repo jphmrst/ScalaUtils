@@ -11,6 +11,6 @@
 package org.maraist.search
 
 /**
- * Implementations of and support for graph search algorithms
+ * Implementations of and support for graph search algorithms.
  */
 package object graph

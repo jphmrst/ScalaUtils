@@ -12,6 +12,7 @@ package org.maraist.search.local
 import scala.collection.immutable.HashMap
 import scala.collection.mutable.TreeSet
 import scala.util.Random
+import scala.math.{log,exp}
 import org.maraist.search.Searcher
 import org.maraist.search.SearchFailureException
 import org.maraist.search.Debug.debugOn
@@ -82,6 +83,11 @@ extends Beam[S] {
   override def iterator: Iterator[S] = store.iterator
 }
 
+/**
+ *  Generators for the function arguments to
+ *  {@link org.maraist.search.local.BeamSearcher}
+ *  needed for stochastic beam search.
+ */
 object StochasticBeam {
   import BeamSearcher._
 
@@ -110,16 +116,169 @@ object StochasticBeam {
           else Some(new StochasticBeamBuilder[S](sb))
 }
 
+/**
+ *  Specialization of a
+ *  {@linkplain org.maraist.search.local.BeamSearcher beam searcher}
+ *  to a stochastic stochastic beam search, where some or all of the
+ *  beam is drawn randomly from the possible successors.
+ *
+ * @tparam S Elements generated in the search.
+ *
+ * @param successors Function returning the successors of some
+ * search element.
+ *
+ * @param stateCompare Determines the ordering between two states,
+ * where a more preferred state is ordered greater than a less
+ * preferred state.
+ *
+ * @param retainProbability Function calculating the retention
+ * probability of a state.  It should be the case that if the
+ * {@code stateCompare} ranks state {@code x} as greater than
+ * {@code y}, then this function should return a greater value
+ * for {@code x} than for {@code y} --- but this is not checked.
+ *
+ * @param nextBeam Function which either initializes a beam
+ * builder from the result of the previous cycle, or instead
+ * indicates that search could conclude.
+ *
+ * @param beamLength Function calculating the total size of the
+ * next beam.
+ *
+ * @param retainOnOrder Function calculating the number of elements
+ * of the next beam which should be taken directly from the best
+ * scoring successors.
+ *
+ * @param randoms Random number generator for choosing from
+ * successor beams.
+ */
 class StochasticBeamSearcher[S](
-  nextBeam: StochasticBeam[S] => Option[StochasticBeamBuilder[S]],
   successors: S => Iterable[Option[S]],
   stateCompare: Ordering[S],
   retainProbability: S => Double,
+  nextBeam: StochasticBeam[S] => Option[StochasticBeamBuilder[S]],
   beamLength: StochasticBeamBuilder[S] => Int,
   retainOnOrder: StochasticBeamBuilder[S] => Int,
   randoms: Random
 ) extends BeamSearcher[S, StochasticBeam[S]](
+  successors,
   StochasticBeam.firstBeam[S](stateCompare, retainProbability, beamLength,
                               retainOnOrder, randoms),
-  nextBeam, successors, StochasticBeam.extractor[S]) {
+  nextBeam, StochasticBeam.extractor[S]) {
+
+  /**
+   *  Alternative constructor specifying an objective function whose
+   *  value should be either maximized or minimized.  The ordering
+   *  on states is constructed from this these two arguments.
+   *
+   * @param evaluator Objective or penalty function mapping each
+   * state to a real number.
+   *
+   * @param maximize {@code true} if search should maximize the
+   * objective function; {@code false} if search should minimize
+   * it.
+   *
+   * @param successors Function returning the successors of some
+   * search element.
+   *
+   * @param nextBeam Function which either initializes a beam
+   * builder from the result of the previous cycle, or instead
+   * indicates that search could conclude.
+   *
+   * @param retainProbability Function calculating the retention
+   * probability of a state.  It should be the case that if the
+   * {@code stateCompare} ranks state {@code x} as greater than
+   * {@code y}, then this function should return a greater value
+   * for {@code x} than for {@code y} --- but this is not checked.
+   *
+   * @param beamLength Function calculating the total size of the
+   * next beam.
+   *
+   * @param retainOnOrder Function calculating the number of elements
+   * of the next beam which should be taken directly from the best
+   * scoring successors.
+   *
+   * @param randoms Random number generator for choosing from
+   * successor beams.
+   */
+  def this(
+    evaluator: S => Double,
+    maximize: Boolean,
+    successors: S => Iterable[Option[S]],
+    nextBeam: StochasticBeam[S] => Option[StochasticBeamBuilder[S]],
+    retainProbability: S => Double,
+    beamLength: StochasticBeamBuilder[S] => Int,
+    retainOnOrder: StochasticBeamBuilder[S] => Int,
+    randoms: Random
+  ) = this(successors,
+           if (maximize)
+             new Ordering[S] {
+               override def compare(x: S, y: S): Int =
+                 evaluator(x).compare(evaluator(y))
+             }
+           else
+             new Ordering[S] {
+               override def compare(x: S, y: S): Int =
+                 evaluator(y).compare(evaluator(x))
+             },
+           retainProbability, nextBeam, beamLength, retainOnOrder, randoms)
+
+  /**
+   *  Alternative constructor specifying an objective function whose
+   *  value should be either maximized or minimized.  The ordering
+   *  on states and the calculator for the relative probability of
+   *  selecting a successor state are both constructed from this
+   *  these two arguments.
+   *
+   * @param evaluator Objective or penalty function mapping each
+   * state to a real number.  This function should never return
+   * a negative number: this constructor uses
+   * logarithmic/exponential functions to calculate the probability
+   * that a successor state is retained in the beam, and negative
+   * evaluations may raise exceptions.
+   *
+   * @param maximize {@code true} if search should maximize the
+   * objective function; {@code false} if search should minimize
+   * it.
+   *
+   * @param successors Function returning the successors of some
+   * search element.
+   *
+   * @param nextBeam Function which either initializes a beam
+   * builder from the result of the previous cycle, or instead
+   * indicates that search could conclude.
+   *
+   * @param beamLength Function calculating the total size of the
+   * next beam.
+   *
+   * @param retainOnOrder Function calculating the number of elements
+   * of the next beam which should be taken directly from the best
+   * scoring successors.
+   *
+   * @param randoms Random number generator for choosing from
+   * successor beams.
+   */
+  def this(
+    evaluator: S => Double,
+    maximize: Boolean,
+    successors: S => Iterable[Option[S]],
+    nextBeam: StochasticBeam[S] => Option[StochasticBeamBuilder[S]],
+    beamLength: StochasticBeamBuilder[S] => Int,
+    retainOnOrder: StochasticBeamBuilder[S] => Int,
+    randoms: Random
+  ) = this(successors,
+           if (maximize)
+             new Ordering[S] {
+               override def compare(x: S, y: S): Int =
+                 evaluator(x).compare(evaluator(y))
+             }
+           else
+             new Ordering[S] {
+               override def compare(x: S, y: S): Int =
+                 evaluator(y).compare(evaluator(x))
+             },
+           if (maximize)
+             (s: S) => log(evaluator(s))
+           else
+             (s: S) => exp(- evaluator(s)),
+           nextBeam, beamLength, retainOnOrder, randoms)
 }

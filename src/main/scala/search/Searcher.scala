@@ -56,7 +56,10 @@ trait Searcher[State, Node] {
   def debugInitialNode(node: Node): Unit
 
   /**
+   *  This method prints a debugging message about finding a goal
+   *  node.
    *
+   * @param node The tree node in question.
    */
-  def debugGoalFound(node: Node)
+  def debugGoalFound(node: Node): Unit
 }

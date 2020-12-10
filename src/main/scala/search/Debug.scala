@@ -1,4 +1,4 @@
-package org.maraist.search.csp
+package org.maraist.search
 
 object Debug {
   val debugOn: Boolean = false

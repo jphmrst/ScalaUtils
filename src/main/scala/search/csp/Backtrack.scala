@@ -11,7 +11,7 @@
 package org.maraist.search.csp
 import org.maraist.search.Searcher
 import org.maraist.search.SearchFailureException
-import org.maraist.search.csp.Debug.debugOn
+import org.maraist.search.Debug.debugOn
 
 /**
  *  Topmost class encapsulating backtracking search for a CSP.  The

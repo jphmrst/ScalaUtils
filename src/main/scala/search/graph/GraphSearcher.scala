@@ -14,7 +14,7 @@ import org.maraist.search.SearchFailureException
 
 /**
  *  Topmost class encapsulating graph search.  The
- * {@link org.maraist.search.graph.GraphSearcher#search search} method
+ *  {@link org.maraist.search.graph.GraphSearcher#search search} method
  *  implements the Graph-Search algorithm of Russell and Norvig (2nd
  *  ed., Figure 3.7, p. 77), with customizable behavior provided as
  *  constructor arguments.

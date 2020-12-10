@@ -12,7 +12,7 @@ package org.maraist.search.csp
 import scala.collection.mutable.HashMap
 import scala.collection.mutable.HashSet
 import org.maraist.search.SearchFailureException
-import org.maraist.search.csp.Debug.debugOn
+import org.maraist.search.Debug.debugOn
 
 /**
  * Mutable hashtable-based partial implementation of variable-value

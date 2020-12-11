@@ -49,13 +49,13 @@ class StochasticBeamBuilder[S](
   val randoms: Random
 )
 extends BeamBuilder[S, StochasticBeam[S]] {
+  /**
+   *  Alternative constructor receiving only a
+   *  {{org.maraist.search.local.StochasticBeam}}.
+   *
+   * @param sb The preceeding beam.
+   */
   def this(sb: StochasticBeam[S]) =
-    /**
-     *  Alternative constructor receiving only a
-     *  {{org.maraist.search.local.StochasticBeam}}.
-     *
-     * @param sb The preceeding beam.
-     */
     this(1 + sb.generation, sb.stateCompare, sb.retainProbability,
          sb.beamLength, sb.retainOnOrder, sb.randoms)
 
@@ -63,6 +63,8 @@ extends BeamBuilder[S, StochasticBeam[S]] {
   val store = TreeSet[S]()(stateCompare)
   /** Number of items stored in this beam. */
   var size: Int = 0
+  /** Number of items stored in this beam. */
+  def length: Int = size
   /** Add a search space element to this beam. */
   def add(state: S): Unit = {
     store += state

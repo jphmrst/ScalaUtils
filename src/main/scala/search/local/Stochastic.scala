@@ -17,6 +17,29 @@ import org.maraist.search.Searcher
 import org.maraist.search.SearchFailureException
 import org.maraist.search.Debug.debugOn
 
+/**
+ * Beam builder based on an objective function, but stochasticly keeping
+ * certain non-optimized elements in the beam.
+ *
+ * @tparam S Type of elements of the search space.
+ *
+ * @param generation The genertion number of this builder.
+ *
+ * @param stateCompare Imposes an order on search space elements,
+ * where a more preferred element is ranked higher.
+ *
+ * @param retainProbability Function giving the relative probability
+ * of retaining a search space element in the beam.
+ *
+ * @param beamLength Function mapping a beam builder to the length
+ * of the next beam.
+ *
+ * @param retainOnOrder Function mapping a beam builder to the number
+ * of elements of a beam which should be retained based on the
+ * quality ordering alone, not subject to probabilistic retention.
+ *
+ * @param randoms A random number generator for this search.
+ */
 class StochasticBeamBuilder[S](
   val generation: Int,
   val stateCompare: Ordering[S],
@@ -27,19 +50,54 @@ class StochasticBeamBuilder[S](
 )
 extends BeamBuilder[S, StochasticBeam[S]] {
   def this(sb: StochasticBeam[S]) =
+    /**
+     *  Alternative constructor receiving only a
+     *  {{org.maraist.search.local.StochasticBeam}}.
+     *
+     * @param sb The preceeding beam.
+     */
     this(1 + sb.generation, sb.stateCompare, sb.retainProbability,
          sb.beamLength, sb.retainOnOrder, sb.randoms)
 
+  /** Store for the items in this beam. */
   val store = TreeSet[S]()(stateCompare)
+  /** Number of items stored in this beam. */
   var size: Int = 0
+  /** Add a search space element to this beam. */
   def add(state: S): Unit = {
     store += state
     size = size + 1
   }
-  def length: Int = size
+  /** Return the beam we are building. */
   def toBeam = new StochasticBeam[S](this)
 }
 
+/**
+ * Beam for search based on an objective function, but stochasticly
+ * keeping certain non-optimized elements in the beam.
+ *
+ * @tparam S Type of elements of the search space.
+ *
+ * @param generation The genertion number of this builder.
+ *
+ * @param stateCompare Imposes an order on search space elements,
+ * where a more preferred element is ranked higher.
+ *
+ * @param retainProbability Function giving the relative probability
+ * of retaining a search space element in the beam.
+ *
+ * @param beamLength Function mapping a beam builder to the length
+ * of the next beam.
+ *
+ * @param retainOnOrder Function mapping a beam builder to the number
+ * of elements of a beam which should be retained based on the
+ * quality ordering alone, not subject to probabilistic retention.
+ *
+ * @param randoms A random number generator for this search.
+ *
+ * @param store Elements to be stored in the beam, ordered from
+ * least to most preferred.
+ */
 class StochasticBeam[S](val generation: Int,
                         val stateCompare: Ordering[S],
                         val retainProbability: S => Double,

@@ -228,7 +228,7 @@ class StochasticBeamSearcher[S](
   /**
    *  Alternative constructor specifying an objective function whose
    *  value should be either maximized or minimized.  The ordering
-   *  on states is constructed from this these two arguments.
+   *  on states is constructed from these two arguments.
    *
    * @param evaluator Objective or penalty function mapping each
    * state to a real number.

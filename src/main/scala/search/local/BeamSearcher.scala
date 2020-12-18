@@ -159,3 +159,10 @@ object BeamSearcher {
    */
   type ExtractorFn[S,B <: Beam[S]] = B => S
 }
+
+object BeamSearchConverters {
+  import scala.language.implicitConversions
+  implicit def intToSBBuilder[S](i: Int): StochasticBeamBuilder[S] => Int =
+    (_) => i
+  implicit val randomizer = new scala.util.Random
+}

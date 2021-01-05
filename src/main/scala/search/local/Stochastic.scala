@@ -23,7 +23,7 @@ import org.maraist.search.Debug.debugOn
  *
  * @tparam S Type of elements of the search space.
  *
- * @param generation The genertion number of this builder.
+ * @param generation The generation number of this builder.
  *
  * @param stateCompare Imposes an order on search space elements,
  * where a more preferred element is ranked higher.

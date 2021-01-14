@@ -87,7 +87,7 @@ trait BeamBuilder[S, B <: Beam[S]] {
  * the final beam.
  */
 class BeamSearcher[State, B <: Beam[State]](
-  val successors: State => Iterable[State],
+  val successors: State => Iterator[State],
   val firstBeam: State => B,
   val nextBeam: B => Option[BeamBuilder[State, B]],
   val extractor: B => State
@@ -144,7 +144,7 @@ object BeamSearcher {
   /**
    * Functions which return the successors of some search element.
    */
-  type SuccessorsFn[S] = S => Iterable[S]
+  type SuccessorsFn[S] = S => Iterator[S]
 
   /**
    * Functions which extract the result of a search from the final

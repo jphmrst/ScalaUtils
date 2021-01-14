@@ -13,13 +13,13 @@ package org.maraist.util
 /**
   * Transform several Iterators into a single Iterator.
   */
-class MultiIterator[A](val metaIterator: Iterator[Iterator[A]])
+class MultiIterator[A](private val metaIterator: Iterator[Iterator[A]])
 extends Iterator[A] {
 
   def this(iters: Iterable[Iterator[A]]) = this(iters.iterator)
 
-  var currentIterator = firstNonempty()
-  var nextA: Option[A] = updateNextA()
+  private var currentIterator = firstNonempty()
+  private var nextA: Option[A] = updateNextA()
 
   private def firstNonempty(): Iterator[A] = {
     while (metaIterator.hasNext) {
@@ -33,7 +33,10 @@ extends Iterator[A] {
     case false => None
   }
 
+  /** {@inheritDocs} */
   override def hasNext: Boolean = !nextA.isEmpty
+
+  /** {@inheritDocs} */
   override def next(): A = nextA match {
     case None => throw new NoSuchElementException
     case Some(a) => {

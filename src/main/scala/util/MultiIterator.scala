@@ -10,9 +10,14 @@
 
 package org.maraist.util
 
-class MutiIterator[A](val iters: Seq[Iterator[A]]) extends Iterator[A] {
+/**
+  * Transform several Iterators into a single Iterator.
+  */
+class MultiIterator[A](val metaIterator: Iterator[Iterator[A]])
+extends Iterator[A] {
 
-  val metaIterator = iters.iterator
+  def this(iters: Iterable[Iterator[A]]) = this(iters.iterator)
+
   var currentIterator = firstNonempty()
   var nextA: Option[A] = updateNextA()
 
@@ -28,8 +33,8 @@ class MutiIterator[A](val iters: Seq[Iterator[A]]) extends Iterator[A] {
     case false => None
   }
 
-  def hasNext: Boolean = !nextA.isEmpty
-  def next(): A = nextA match {
+  override def hasNext: Boolean = !nextA.isEmpty
+  override def next(): A = nextA match {
     case None => throw new NoSuchElementException
     case Some(a) => {
       if (!currentIterator.hasNext) {
@@ -39,4 +44,9 @@ class MutiIterator[A](val iters: Seq[Iterator[A]]) extends Iterator[A] {
       a
     }
   }
+}
+
+object MultiIterator {
+  def apply[A](iters: Iterator[Iterable[A]]): Iterator[A] =
+    new MultiIterator(iters.map(_.iterator))
 }

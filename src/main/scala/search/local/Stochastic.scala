@@ -212,7 +212,7 @@ object StochasticBeam {
  * successor beams.
  */
 class StochasticBeamSearcher[S](
-  successors: S => Iterable[Option[S]],
+  successors: S => Iterable[S],
   stateCompare: Ordering[S],
   retainProbability: S => Double,
   nextBeam: StochasticBeam[S] => Option[StochasticBeamBuilder[S]],
@@ -263,7 +263,7 @@ class StochasticBeamSearcher[S](
   def this(
     evaluator: S => Double,
     maximize: Boolean,
-    successors: S => Iterable[Option[S]],
+    successors: S => Iterable[S],
     nextBeam: StochasticBeam[S] => Option[StochasticBeamBuilder[S]],
     retainProbability: S => Double,
     beamLength: StochasticBeamBuilder[S] => Int,
@@ -320,7 +320,7 @@ class StochasticBeamSearcher[S](
   def this(
     evaluator: S => Double,
     maximize: Boolean,
-    successors: S => Iterable[Option[S]],
+    successors: S => Iterable[S],
     nextBeam: StochasticBeam[S] => Option[StochasticBeamBuilder[S]],
     beamLength: StochasticBeamBuilder[S] => Int,
     retainOnOrder: StochasticBeamBuilder[S] => Int,

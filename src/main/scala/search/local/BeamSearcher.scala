@@ -73,21 +73,21 @@ trait BeamBuilder[S, B <: Beam[S]] {
  *
  * @tparam B Beam passed from one cycle of search to the next.
  *
- * @param firstBeam Function which produces an initial beam
- * from a search element.
- *
- * @param nextBeam Function which either initializes a beam
- * builder from the result of the previous cycle, or instead
- * indicates that search could conclude.
- *
- * @param successors Function returning the successors of some
+ * @param firstBeam Function which produces an initial beam from a
  * search element.
  *
- * @param extractor Function extracting the result of the
- * search from the final beam.
+ * @param nextBeam Function which either initializes a beam builder
+ * from the result of the previous cycle, or instead indicates that
+ * search could conclude.
+ *
+ * @param successors Function returning the successors of some search
+ * element.
+ *
+ * @param extractor Function extracting the result of the search from
+ * the final beam.
  */
 class BeamSearcher[State, B <: Beam[State]](
-  val successors: State => Iterable[Option[State]],
+  val successors: State => Iterable[State],
   val firstBeam: State => B,
   val nextBeam: B => Option[BeamBuilder[State, B]],
   val extractor: B => State
@@ -113,11 +113,7 @@ class BeamSearcher[State, B <: Beam[State]](
       case None => srcBeam
       case Some(beam) => {
         for (st <- srcBeam)
-          for (optSucc <- successors(st))
-            optSucc match {
-              case None => { }
-              case Some(succ) => beam.add(succ)
-            }
+          for (succ <- successors(st)) beam.add(succ)
         if (beam.length == 0)
           srcBeam
         else
@@ -128,34 +124,31 @@ class BeamSearcher[State, B <: Beam[State]](
 }
 
 /**
- *  Type synonyms for the function types used in the
- *  {@link org.maraist.search.local.BeamSearcher}
- *  constructor arguments.
+ *  Type synonyms for the function types used in the {@link
+ *  org.maraist.search.local.BeamSearcher} constructor arguments.
  */
 object BeamSearcher {
 
   /**
-   * Functions which produces an initial beam from a
-   * search element.
+   * Functions which produces an initial beam from a search element.
    */
   type FirstBeamFn[S,B <: Beam[S]] = S => B
 
   /**
-   * Functions which either initializes a beam builder
-   * from the result of the previous cycle, or instead
-   * indicates that search could conclude.
+   * Functions which either initializes a beam builder from the result
+   * of the previous cycle, or instead indicates that search could
+   * conclude.
    */
   type NextBeamFn[S,B <: Beam[S], BB <: BeamBuilder[S,B]] = B => Option[BB]
 
   /**
-   * Functions which return the successors of some search
-   * element.
+   * Functions which return the successors of some search element.
    */
-  type SuccessorsFn[S] = S => Iterable[Option[S]]
+  type SuccessorsFn[S] = S => Iterable[S]
 
   /**
-   * Functions which extract the result of a search from
-   * the final beam.
+   * Functions which extract the result of a search from the final
+   * beam.
    */
   type ExtractorFn[S,B <: Beam[S]] = B => S
 }

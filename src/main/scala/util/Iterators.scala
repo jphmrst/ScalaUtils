@@ -10,7 +10,7 @@
 
 package org.maraist.util
 
-/** Utilities for combining and simplifying Iteraors and Iterables. */
+/** Utilities for combining and simplifying Iterators and Iterables. */
 object Iterators {
 
   /**

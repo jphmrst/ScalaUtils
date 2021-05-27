@@ -128,10 +128,7 @@ extends Beam[S] {
                              * src.randoms.nextDouble()))
              builder.result()
            }
-           val othersSorted = new TreeSet[S]()(new Ordering[S] {
-             override def compare(x: S, y: S): Int =
-               scores(x).compare(scores(y))
-           })
+           val othersSorted = new TreeSet[S]()(new SBOrder[S](scores))
            othersSorted ++= others
            storeBuilder ++= othersSorted.takeRight(
              src.beamLength(src) - keepTop
@@ -141,6 +138,15 @@ extends Beam[S] {
 
   override def apply(i: Int): S = store(i)
   override def iterator: Iterator[S] = store.iterator
+}
+
+/**
+  * Temporary workaround for scalac 3.0.0 bug preventing inlining this
+  * class above --- see https://github.com/lampepfl/dotty/issues/12632
+  */
+private[local] class SBOrder[S](val scores: HashMap[S, Double])
+    extends Ordering[S] {
+  override def compare(x: S, y: S): Int = scores(x).compare(scores(y))
 }
 
 /**

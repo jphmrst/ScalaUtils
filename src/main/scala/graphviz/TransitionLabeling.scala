@@ -14,7 +14,6 @@ trait TransitionLabeling[-T] {
   def getLabel(t:T):String
 }
 object TransitionLabeling {
-  implicit object ViaToString extends TransitionLabeling[Any] {
+  given TransitionLabeling[Any] with
     def getLabel(s:Any):String = s.toString()
-  }
 }

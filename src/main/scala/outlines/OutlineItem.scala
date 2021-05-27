@@ -20,7 +20,7 @@ extends LaTeXRenderable {
   def formatAsItem(
     dest: PrintWriter, lead: String, prefix: String = ""
   )(
-    implicit controls: OutlineOptions
+    using controls: OutlineOptions
   ): Unit = {
     if (controls.summarize) {
       summary match {
@@ -33,7 +33,7 @@ extends LaTeXRenderable {
   }
 
   def fullFormatAsItem(dest:PrintWriter, lead:String, prefix:String)(
-    implicit controls: OutlineOptions
+    using controls: OutlineOptions
   ): Unit = {
     dest.println(lead + prefix + heading)
     val sublead = "  " + lead

@@ -9,7 +9,6 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.outlines
-import scala.language.implicitConversions
 import java.io.PrintWriter
 
 case class OutlineOptions (

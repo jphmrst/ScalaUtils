@@ -16,11 +16,10 @@ trait NodeLabeling[-S] {
   def getLabel(s:S):String
 }
 object NodeLabeling {
-  implicit object ViaToString extends NodeLabeling[Any] {
+  given NodeLabeling[Any] with
     def getLabel(s:Any):String = s.toString()
-  }
 
-  implicit object ForSet extends NodeLabeling[Set[_ <: Any]] {
+  given NodeLabeling[Set[_ <: Any]] with
     def getLabel(ss:Set[_ <: Any]):String = {
       val sb = new StringBuilder
       var sep = "{"
@@ -33,7 +32,6 @@ object NodeLabeling {
       sb += '}'
       sb.toString
     }
-  }
 
   def labelingSetOf[Elem](nl:NodeLabeling[Elem]):NodeLabeling[Set[Elem]] =
     labelingSetOf[Elem]("{", ",", "}", nl)

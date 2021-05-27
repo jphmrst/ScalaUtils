@@ -18,7 +18,7 @@ class Outline[E] (val items: Seq[OutlineItem[E]],
 extends LaTeXRenderable {
   def formatAsItemTop(dest: PrintWriter, lead: String,
                       singular: String, plural: String)(
-    implicit controls: OutlineOptions
+    using controls: OutlineOptions
   ): Unit = {
     items.size match {
       case 0 => { }
@@ -36,7 +36,7 @@ extends LaTeXRenderable {
   }
 
   def formatAsItems(dest: PrintWriter, lead: String)(
-    implicit controls: OutlineOptions
+    using controls: OutlineOptions
   ): Unit = {
     for(item <- items)  item.formatAsItem(dest, lead)
   }

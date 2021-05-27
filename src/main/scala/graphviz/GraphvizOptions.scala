@@ -26,7 +26,7 @@ class GraphvizOptions(var sourceFile:String = "graph.dot",
   }
 }
 object GraphvizOptions {
-  implicit object DefaultOptions extends GraphvizOptions()
+  given GraphvizOptions = new GraphvizOptions()
   val defaultFontSize:Int = 12
   val defaultMargin:Double = 0.5
 }

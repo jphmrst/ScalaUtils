@@ -14,7 +14,7 @@ import java.util.Comparator
 
 /**
  * Specialization of the generic {@link GraphSearcher} to use a queue
- * for its frontier, and thus erform breadth-first search.
+ * for its frontier --- thus, breadth-first search.
  *
  * @tparam State Type representing elements of the search space.
  *
@@ -49,9 +49,9 @@ extends GraphSearcher[State, Node, Frontier.Queue[Node]](
    *  nodes.
    *
    * @param goalCheckerFactory The
-   * {@link java.util.function.Supplier#get get} method of this object must
-   * return a predicate on tree nodes used to tell if they are goal
-   * nodes.
+   * {@link java.util.function.Supplier#get get} method of this object
+   * must return a predicate on tree nodes used to tell if they are
+   * goal nodes.
    *
    * @param initializer Creates an initial tree node from a search
    * space element.
@@ -59,34 +59,47 @@ extends GraphSearcher[State, Node, Frontier.Queue[Node]](
   def this(goalCheckerFactory: () => GoalChecker[Node],
            init: State => Node) =
     this(goalCheckerFactory,
-         ExploredSet.trackStateByHashSet[Frontier.Queue[Node], State, Node],
+         ExploredSet.trackStateByHashSet[Frontier.Queue[Node],
+                                         State, Node],
          init)
 
-  /**
-   *  Constructor which uses a
-   *  {@linkplain java.util.function.Predicate predicate}
-   *  on goals for checking
-   *  success of a tree node, and which defaults to a
-   *  {@link java.util.HashSet HashSet} on state elements for detecting
-   *  previously-explored nodes.
-   *
-   * @param stateChecker Success predicate on state elements.
-   *
-   * @param initializer Creates an initial tree node from a search
-   * space element.
-   */
-  def this(stateChecker: State => Boolean,
-           initializer: State => Node) =
-    this(GoalChecker.goalCheckerFactory[State, Node](stateChecker),
-         initializer)
+//  /**
+//   *  Constructor which uses a
+//   *  {@linkplain java.util.function.Predicate predicate}
+//   *  on goals for checking
+//   *  success of a tree node, and which defaults to a
+//   *  {@link java.util.HashSet HashSet} on state elements for
+//   *  detecting previously-explored nodes.
+//   *
+//   * @param stateChecker Success predicate on state elements.
+//   *
+//   * @param initializer Creates an initial tree node from a search
+//   * space element.
+//   */
+//  def this(stateChecker: State => Boolean,
+//           initializer: State => Node) =
+//    this(GoalChecker.goalCheckerFactory[State, Node](stateChecker),
+//         initializer)
 }
 
 object BreadthFirstSearcher {
+  def buildFromCheckerInitializer[
+    State, Node <: SearchTreeNode[Node,State]
+  ](
+    stateChecker: State => Boolean,
+    initializer: State => Node
+  ) = new BreadthFirstSearcher[State, Node](
+    GoalChecker.goalCheckerFactory[State, Node](stateChecker),
+    initializer
+  )
+
   def build[S](
     stateChecker: S => Boolean, expander: S => Iterable[S]
   ): BreadthFirstSearcher[S, Nodes.SimpleTreeNode[S]] =
     new BreadthFirstSearcher[S, Nodes.SimpleTreeNode[S]](
-      GoalChecker.goalCheckerFactory[S, Nodes.SimpleTreeNode[S]](stateChecker),
+      GoalChecker.goalCheckerFactory[S, Nodes.SimpleTreeNode[S]](
+        stateChecker
+      ),
       Nodes.SimpleTreeNode.initializer[S](expander)
     )
 }

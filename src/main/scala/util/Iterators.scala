@@ -112,7 +112,7 @@ object Iterators {
         val cand = metaIterator.next()
         if (cand.hasNext) { return cand }
       }
-      return Iterator.empty[A]
+      Iterator.empty[A]
     }
     private def updateNextA(): Option[A] = currentIterator.hasNext match {
       case true => Some(currentIterator.next())

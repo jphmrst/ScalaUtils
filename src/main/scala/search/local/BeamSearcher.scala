@@ -157,5 +157,5 @@ object BeamSearchConverters {
   import scala.language.implicitConversions
   implicit def intToSBBuilder[S](i: Int): StochasticBeamBuilder[S] => Int =
     (_) => i
-  implicit val randomizer = new scala.util.Random
+  implicit val randomizer: scala.util.Random = new scala.util.Random
 }

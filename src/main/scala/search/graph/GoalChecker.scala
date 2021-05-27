@@ -47,7 +47,9 @@ object GoalChecker {
       override def test(n: Node): Boolean = checker.test(n)
     }
 
-  def goalCheckerFactory[S, N <: SearchTreeNode[N,S]](pred: (S) => Boolean): () => GoalChecker[N] =
+  def goalCheckerFactory[S, N <: SearchTreeNode[N,S]](
+    pred: (S) => Boolean
+  ): () => GoalChecker[N] =
     () => new GoalChecker[N]() {
       override def test(n: N): Boolean = pred(n.state)
       override def get(): N = throw new SearchFailureException()

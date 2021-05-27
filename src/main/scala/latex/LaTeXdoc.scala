@@ -100,7 +100,7 @@ class LaTeXdoc(var rootFile:String) {
 
     var makeTitle = false
     if (title.length>0 || author.length>0 || date.length>0)  {
-        bw.write("\\title{" + title + "}\n\\author{" + author + "}\n")  // scalastyle:ignore
+      bw.write("\\title{" + title + "}\n\\author{" + author + "}\n")  // scalastyle:ignore
       if (date.length>0)
         bw.write("\\date{" + date + "}\n")
       else

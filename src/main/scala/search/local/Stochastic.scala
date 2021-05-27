@@ -133,9 +133,9 @@ extends Beam[S] {
                scores(x).compare(scores(y))
            })
            othersSorted ++= others
-           storeBuilder ++= othersSorted.takeRight(src.beamLength(src)
-                                                   - keepTop)
-
+           storeBuilder ++= othersSorted.takeRight(
+             src.beamLength(src) - keepTop
+           )
            storeBuilder.result().sorted(src.stateCompare)
          })
 

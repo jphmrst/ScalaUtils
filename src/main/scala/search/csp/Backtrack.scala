@@ -79,20 +79,20 @@ class Backtrack[
     search(csp, initial(csp))
   }
 
-  def search(csp: CSP, given: Assignments): Assignments = {
-    if (isComplete(given)) {
-      return given
+  def search(csp: CSP, givens: Assignments): Assignments = {
+    if (isComplete(givens)) {
+      return givens
     }
 
-    val variable: Var = selectNextVariable(given)
+    val variable: Var = selectNextVariable(givens)
     if (debugOn) {
       println("")
-      print(given)
+      print(givens)
       printf("Selected variable %s\n", variable)
     }
-    for(value <- domainValues(given, variable, csp)) {
-      if (given.isConsistent(variable, value)) {
-        val added = given.add(variable, value)
+    for(value <- domainValues(givens, variable, csp)) {
+      if (givens.isConsistent(variable, value)) {
+        val added = givens.add(variable, value)
 
         val inferences = drawInferences(added, variable)
         if (!inferences.isFailure) {
@@ -106,7 +106,7 @@ class Backtrack[
         retractInferences(added, variable, value, inferences)
       }
 
-      given.remove(variable, value)
+      givens.remove(variable, value)
     }
     return failure()
   }

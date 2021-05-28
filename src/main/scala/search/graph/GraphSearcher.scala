@@ -43,9 +43,9 @@ import org.maraist.search.SearchFailureException
  * @param initializer Creates an initial tree node from a search
  * space element.
  */
-class GraphSearcher[State,
-                    Node <: SearchTreeNode[Node,State],
-                    F <: Frontier[Node]](
+open class GraphSearcher[State,
+                         Node <: SearchTreeNode[Node,State],
+                         F <: Frontier[Node]](
   val goalCheckerFactory: () => GoalChecker[Node],
   val frontierFactory: () => F,
   val exploredSetFactory: F => ExploredSet[Node],

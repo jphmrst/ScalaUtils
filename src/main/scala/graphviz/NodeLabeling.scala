@@ -19,8 +19,8 @@ object NodeLabeling {
   given NodeLabeling[Any] with
     def getLabel(s:Any):String = s.toString()
 
-  given NodeLabeling[Set[_ <: Any]] with
-    def getLabel(ss:Set[_ <: Any]):String = {
+  given NodeLabeling[Set[? <: Any]] with
+    def getLabel(ss:Set[? <: Any]):String = {
       val sb = new StringBuilder
       var sep = "{"
       val sublabeler = summon[NodeLabeling[Any]]

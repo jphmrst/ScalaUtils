@@ -155,7 +155,7 @@ private[local] class SBOrder[S](val scores: HashMap[S, Double])
  *  needed for stochastic beam search.
  */
 object StochasticBeam {
-  import BeamSearcher._
+  import BeamSearcher.*
 
   def extractor[S]: ExtractorFn[S, StochasticBeam[S]] = (b => b.store.last)
 

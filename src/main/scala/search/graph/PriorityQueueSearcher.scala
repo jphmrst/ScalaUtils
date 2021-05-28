@@ -42,7 +42,7 @@ import java.util.Comparator
  * @param initializer Creates an initial tree node from a search
  * space element.
  */
-class PriorityQueueSearcher[
+open class PriorityQueueSearcher[
   State,
   Node <: SearchTreeNode[Node,State],
   Front <: Frontier.PriorityQueue[Node]

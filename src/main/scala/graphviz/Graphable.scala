@@ -10,7 +10,7 @@
 
 package org.maraist.graphviz
 import scala.language.postfixOps
-import scala.sys.process._  // scalastyle:ignore
+import scala.sys.process.*  // scalastyle:ignore
 import java.io.File
 import java.io.FileWriter
 import java.io.BufferedWriter

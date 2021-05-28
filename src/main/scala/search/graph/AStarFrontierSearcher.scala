@@ -45,9 +45,9 @@ import java.util.Comparator
  * class, and thence to the {@linkplain org.maraist.search.graph.GraphSearcher parent}
  * constructor.
  */
-class AStarFrontierSearcher[
+open class AStarFrontierSearcher[
   State,
-  Node <: SearchTreeNode[Node,State] with KnowsOwnCost,
+  Node <: SearchTreeNode[Node,State] & KnowsOwnCost,
   Front <: Frontier.PriorityQueue[Node]
 ](goalTest: GoalChecker[Node],
   val heuristic: Node => Double,

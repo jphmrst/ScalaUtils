@@ -79,36 +79,40 @@ class Backtrack[
     search(csp, initial(csp))
   }
 
-  def search(csp: CSP, givens: Assignments): Assignments = {
+  import scala.util.control.NonLocalReturns.*
+  def search(csp: CSP, givens: Assignments): Assignments = returning {
     if (isComplete(givens)) {
-      return givens
-    }
+      givens
+    } else {
 
-    val variable: Var = selectNextVariable(givens)
-    if (debugOn) {
-      println("")
-      print(givens)
-      printf("Selected variable %s\n", variable)
-    }
-    for(value <- domainValues(givens, variable, csp)) {
-      if (givens.isConsistent(variable, value)) {
-        val added = givens.add(variable, value)
+      val variable: Var = selectNextVariable(givens)
+      if (debugOn) {
+        println("")
+        print(givens)
+        printf("Selected variable %s\n", variable)
+      }
+      for(value <- domainValues(givens, variable, csp)) {
+        if (givens.isConsistent(variable, value)) {
+          val added = givens.add(variable, value)
 
-        val inferences = drawInferences(added, variable)
-        if (!inferences.isFailure) {
-          val next = withInferences(added, inferences)
-          val result = search(csp, next)
-          if (!result.isFailure) {
-            return result
+          val inferences = drawInferences(added, variable)
+          if (!inferences.isFailure) {
+            val next = withInferences(added, inferences)
+            val result = search(csp, next)
+            if (!result.isFailure) {
+              throwReturn(result)
+            }
           }
+
+          retractInferences(added, variable, value, inferences)
         }
 
-        retractInferences(added, variable, value, inferences)
+        givens.remove(variable, value)
       }
 
-      givens.remove(variable, value)
+      // If we haven't used throwReturn in the loop, then it's an error
+      failure()
     }
-    return failure()
   }
 
 }

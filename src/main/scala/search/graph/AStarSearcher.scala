@@ -37,7 +37,7 @@ import java.util.Comparator
  * constructor.
  */
 class AStarSearcher[
-  State, Node <: SearchTreeNode[Node,State] with KnowsOwnCost
+  State, Node <: SearchTreeNode[Node,State] & KnowsOwnCost
 ](
   goalTest: GoalChecker[Node],
   heuristic: Node => Double,

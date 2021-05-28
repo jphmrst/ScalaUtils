@@ -10,7 +10,7 @@
 
 package org.maraist.latex
 import scala.language.postfixOps
-import scala.sys.process._ // scalastyle:ignore
+import scala.sys.process.* // scalastyle:ignore
 import scala.collection.mutable.ListBuffer
 import java.io.File
 import java.io.FileWriter

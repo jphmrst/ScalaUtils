@@ -55,11 +55,12 @@ abstract class AbstractHashAssignmentSet[
    */
   def boundSet: Set[Var] = bindings.keySet.toSet
 
+  import scala.util.control.NonLocalReturns.*
   /**
    * Returns {@code true} if the given variable-value assignment
    * would be consistent.
    */
-  def isConsistent(variable: Var, value: Val): Boolean = {
+  def isConsistent(variable: Var, value: Val): Boolean = returning {
     if (debugOn)
       println("- Checking addition " ++ variable.toString()
               ++ " <- " ++ value.toString())
@@ -69,10 +70,12 @@ abstract class AbstractHashAssignmentSet[
         println("  + Checking " ++ constraint.toString()
                 ++ ": " ++ checkResult.toString())
       if (!checkResult) {
-        return false
+        throwReturn(false)
       }
     }
-    return true
+
+    // Result if we have not returned false
+    true
   }
 
   /**

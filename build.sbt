@@ -5,7 +5,9 @@ lazy val utils = project
   .settings(
     name := "Maraist Utils",
     version := "0.1.0",
-    scalaVersion := scala3Version
+    scalaVersion := scala3Version,
+    compile / watchTriggers += baseDirectory.value.toGlob / "build.sbt",
+    scalacOptions ++= Seq( "-source:future-migration" )
 
     // libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"
   )

@@ -86,7 +86,7 @@ trait BeamBuilder[S, B <: Beam[S]] {
  * @param extractor Function extracting the result of the search from
  * the final beam.
  */
-class BeamSearcher[State, B <: Beam[State]](
+open class BeamSearcher[State, B <: Beam[State]](
   val successors: State => Iterator[State],
   val firstBeam: State => B,
   val nextBeam: B => Option[BeamBuilder[State, B]],

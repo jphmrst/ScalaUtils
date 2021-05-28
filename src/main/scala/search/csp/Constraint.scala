@@ -30,7 +30,7 @@ object Constraint {
   extends Constraint[Var, Val] {
     def check[AS <: AssignmentSet[Var, Val, AS]](
       assignments: AssignmentSet[Var, Val, AS]
-    ): Boolean = !(assignments(var1) equals (assignments(var2)))
+    ): Boolean = !assignments(var1).equals(assignments(var2))
 
     def checkWith[AS <: AssignmentSet[Var, Val, AS]](
       assignments: AssignmentSet[Var, Val, AS], variable: Var, value: Val

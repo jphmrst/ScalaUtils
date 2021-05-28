@@ -10,25 +10,23 @@
 
 package org.maraist.util
 
-import scala.collection.Set
 import scala.collection.mutable.ListBuffer
-import scala.collection.Seq
 
 /**
  * Index a set of index subranges
  */
 class IndexSetsTracker(private val count:Int,
                        private val setsBuf:ListBuffer[Set[Int]]) {
-  def sets(): Seq[Set[Int]] = setsBuf
-  private var root:TrackTree = Absent()
-  override def toString():String = root.toString()
-  /** Return the index of the given set in the registry, adding it if
-   *  necessary.  Every member of `elements` must be in the range
-   *  [0,`count`), where `count` is the initialized number of indices.
-   */
-  def apply(idx:Int):Set[Int] = setsBuf(idx)
-  def size:Int = setsBuf.size
-  def getIndex(elements:Set[Int]):Int = {  // scalastyle:ignore
+  private var root: TrackTree = Absent()
+  override def toString(): String = root.toString()
+  /** Return the index of the given set in the registry, adding
+    * it if necessary.  Every member of `elements` must be in the
+    * range [0,`count`), where `count` is the initialized number
+    * of indices.
+    */
+  def apply(idx: Int): Set[Int] = setsBuf(idx)
+  def size: Int = setsBuf.size
+  def getIndex(elements:Set[Int]): Int = {  // scalastyle:ignore
     var thisIdx = 0
     var toFile = elements.toSeq.sorted
     root match {
@@ -37,7 +35,7 @@ class IndexSetsTracker(private val count:Int,
         setsBuf.length-1
       }
       case _ => {
-        var node:TrackTree = root
+        var node: TrackTree = root
         while (thisIdx<count) {
           node match {
             case decision:TrackItem => {
@@ -46,14 +44,16 @@ class IndexSetsTracker(private val count:Int,
                 if (decision.hasPresent()) {
                   node = decision.present
                 } else {
-                  decision.present = newTree(1 + thisIdx,elements,toFile)
+                  decision.present =
+                    newTree(1 + thisIdx, elements, toFile)
                   return setsBuf.length-1
                 }
               } else {
                 if (decision.hasAbsent()) {
                   node = decision.absent
                 } else {
-                  decision.absent = newTree(1 + thisIdx,elements,toFile)
+                  decision.absent =
+                    newTree(1 + thisIdx, elements, toFile)
                   return setsBuf.length-1
                 }
               }
@@ -72,13 +72,17 @@ class IndexSetsTracker(private val count:Int,
   private def newTree(thisIdx:Int, set:Set[Int],
                       elements:Seq[Int]):TrackTree = {
     if (thisIdx == count) {
-      val slot:Int = sets().length
+      val slot:Int = setsBuf.length
       setsBuf += set
       Present(slot)
     } else if (!elements.isEmpty && thisIdx == elements.head) {
-      TrackItem(thisIdx, newTree(thisIdx + 1,set,elements.tail), Absent())
+      TrackItem(
+        thisIdx, newTree(thisIdx + 1,set,elements.tail),
+        Absent())
     } else {
-      TrackItem(thisIdx, Absent(), newTree(thisIdx + 1,set,elements))
+      TrackItem(
+        thisIdx, Absent(),
+        newTree(thisIdx + 1,set,elements))
     }
   }
 }

@@ -10,7 +10,6 @@
 
 
 package org.maraist.graphviz
-import scala.collection.Set
 
 trait NodeLabeling[-S] {
   def getLabel(s:S):String

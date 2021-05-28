@@ -23,7 +23,7 @@ object NodeLabeling {
     def getLabel(ss:Set[_ <: Any]):String = {
       val sb = new StringBuilder
       var sep = "{"
-      val sublabeler = implicitly[NodeLabeling[Any]]
+      val sublabeler = summon[NodeLabeling[Any]]
       for(s <- ss) {
         sb ++= sep
         sb ++= sublabeler.getLabel(s)

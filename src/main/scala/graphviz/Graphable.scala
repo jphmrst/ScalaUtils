@@ -34,10 +34,10 @@ trait Graphable[S,T] {
             transitionLabeling:TransitionLabeling[T] =
               this.transitionLabeling):String
 
-  var graphvizOptions:GraphvizOptions = implicitly[GraphvizOptions]
-  var nodeLabeling:NodeLabeling[S] = implicitly[NodeLabeling[S]]
+  var graphvizOptions:GraphvizOptions = summon[GraphvizOptions]
+  var nodeLabeling:NodeLabeling[S] = summon[NodeLabeling[S]]
   var transitionLabeling:TransitionLabeling[T] =
-    implicitly[TransitionLabeling[T]]
+    summon[TransitionLabeling[T]]
 
   /** Use Graphviz to render this object (in the default format) to the
    *  given file.
@@ -98,10 +98,10 @@ trait Grapher[X,S,T] {
             transitionLabeling:TransitionLabeling[T] =
               this.transitionLabeling):String
 
-  var nodeLabeling:NodeLabeling[S] = implicitly[NodeLabeling[S]]
+  var nodeLabeling:NodeLabeling[S] = summon[NodeLabeling[S]]
   var transitionLabeling:TransitionLabeling[T] =
-    implicitly[TransitionLabeling[T]]
-  var graphvizOptions:GraphvizOptions = implicitly[GraphvizOptions]
+    summon[TransitionLabeling[T]]
+  var graphvizOptions:GraphvizOptions = summon[GraphvizOptions]
 
   /** Use Graphviz to render this object (in the default format) to the
    *  given file.

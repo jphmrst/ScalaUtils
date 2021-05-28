@@ -9,7 +9,6 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.outlines
-import scala.language.implicitConversions
 import java.io.PrintWriter
 import org.maraist.latex.{LaTeXdoc,LaTeXRenderable}
 
@@ -60,10 +59,13 @@ extends LaTeXRenderable {
 
 object Outline {
   def apply[E](items: OutlineItem[E]*): Outline[E] = new Outline[E](items)
-  implicit def itemToOutline[E](s: OutlineItem[E]): Outline[E] = Outline(s)
-  implicit def elemToOutline[E](e: E): Outline[E] = Outline(OutlineItem(e))
-  implicit def elemsToOutline[E](es: Seq[E]): Outline[E]
-    = new Outline(es.map(OutlineItem(_)))
+
+  // Conversions
+  given itemToOutline[E]: Conversion[OutlineItem[E], Outline[E]] = Outline(_)
+  given elemToOutline[E]: Conversion[E, Outline[E]] with
+    def apply(elem: E): Outline[E] = Outline(OutlineItem(elem))
+  given elemsToOutline[E]: Conversion[Seq[E], Outline[E]] with
+    def apply(es: Seq[E]): Outline[E] = new Outline(es.map(OutlineItem(_)))
 }
 
 object OutlineWithSummary {

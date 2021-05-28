@@ -66,7 +66,13 @@ object OutlineItem {
     = new OutlineItem[E](e, items)
   def summarized[E](summary: E, e: E, items: OutlineItem[E]*): OutlineItem[E]
     = new OutlineItem[E](e, items, Some(summary))
-  implicit def basicToItem[E](s: E): OutlineItem[E] = new OutlineItem(s,Seq())
-  implicit def seqToItem[E](s: Seq[E]): OutlineItem[E]
-    = new OutlineItem(s.head,s.tail.map(apply(_)))
+
+  given basicToItem[E]: Conversion[E, OutlineItem[E]] =
+    new OutlineItem(_, Seq())
+
+  implicit def seqToItem[E](s: Seq[E]): OutlineItem[E] =
+    new OutlineItem(s.head, s.tail.map(apply(_)))
+  // given givenSeqToItem[E]: Conversion[Seq[E], OutlineItem[E]] with
+  //   def apply(s: Seq[E]): OutlineItem[E] =
+  //     new OutlineItem(s.head, s.tail.map(apply(_)))
 }

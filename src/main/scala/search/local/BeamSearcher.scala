@@ -154,8 +154,7 @@ object BeamSearcher {
 }
 
 object BeamSearchConverters {
-  import scala.language.implicitConversions
-  implicit def intToSBBuilder[S](i: Int): StochasticBeamBuilder[S] => Int =
-    (_) => i
+  given intToSBB[S]: Conversion[Int, StochasticBeamBuilder[S] => Int] with
+    def apply(i: Int): StochasticBeamBuilder[S] => Int = (_) => i
   given scala.util.Random = new scala.util.Random
 }

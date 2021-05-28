@@ -9,7 +9,6 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.outlines
-import scala.language.implicitConversions
 import java.io.PrintWriter
 import org.maraist.latex.{LaTeXdoc,LaTeXRenderable}
 
@@ -69,10 +68,8 @@ object OutlineItem {
 
   given basicToItem[E]: Conversion[E, OutlineItem[E]] =
     new OutlineItem(_, Seq())
-
-  implicit def seqToItem[E](s: Seq[E]): OutlineItem[E] =
-    new OutlineItem(s.head, s.tail.map(apply(_)))
-  // given givenSeqToItem[E]: Conversion[Seq[E], OutlineItem[E]] with
-  //   def apply(s: Seq[E]): OutlineItem[E] =
-  //     new OutlineItem(s.head, s.tail.map(apply(_)))
+  given givenSeqToItem[E]: Conversion[Seq[E], OutlineItem[E]] with
+    def apply(s: Seq[E]): OutlineItem[E] = {
+      new OutlineItem[E](s.head, s.tail.map(basicToItem(_)))
+    }
 }

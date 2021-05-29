@@ -9,7 +9,7 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.search.csp.examples
-import org.maraist.search.csp._
+import org.maraist.search.csp.*
 import org.maraist.search.csp.Problem.HashSetProblem
 import org.maraist.search.csp.Constraint.Different
 import org.maraist.search.csp.NoInference
@@ -18,7 +18,7 @@ object Color3 extends Enumeration {
   type Color3 = Value
   val Red, Green, Blue = Value
 }
-import Color3._
+import Color3.*
 
 object SimpleAustraliaColor3
 extends Problem.HashSetProblem[String, Color3](

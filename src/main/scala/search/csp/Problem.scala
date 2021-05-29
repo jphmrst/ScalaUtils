@@ -15,7 +15,7 @@ import org.maraist.search.SearchFailureException
 /**
  *  Elements of a CSP problem.
  */
-trait Problem[Var, Val] {
+open trait Problem[Var, Val] {
   def variables: Seq[Var]
   def constraints: Seq[Constraint[Var, Val]]
 }

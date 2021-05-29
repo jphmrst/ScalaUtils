@@ -7,6 +7,7 @@ lazy val utils = project
     version := "0.1.0",
     scalaVersion := scala3Version,
     compile / watchTriggers += baseDirectory.value.toGlob / "build.sbt",
+    unmanagedSources / excludeFilter := ".#*",
     scalacOptions ++= Seq( "-source:future-migration" )
 
     // libraryDependencies += "com.novocode" % "junit-interface" % "0.11" % "test"

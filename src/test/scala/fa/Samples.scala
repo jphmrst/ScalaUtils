@@ -9,11 +9,12 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
+import scala.language.adhocExtensions
 import java.io.File
 import scala.collection.mutable.HashSet
 import org.maraist.util.FilesCleaner
 import org.maraist.latex.{LaTeXdoc,Sampler}
-import scala.language.adhocExtensions
+import org.scalatest.matchers.*
 import org.scalatest.matchers.should.*
 
 /**

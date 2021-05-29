@@ -9,10 +9,8 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
-import scala.collection.mutable.Stack
-import org.scalatest.*
-import org.scalatest.flatspec.AnyFlatSpec
 import scala.language.adhocExtensions
+import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.*
 
 class TestDFA extends AnyFlatSpec with Matchers {
@@ -56,7 +54,7 @@ class TestDFA extends AnyFlatSpec with Matchers {
     builder
   }
 
-  "Converting from PDABuilder to PDA" should "normalize weights" in {
+  "Converting from PDABuilder to PDA" `should` "normalize weights" in {
     val builder = pdaBuilder2
     val pfa = builder.toPFA
 
@@ -91,24 +89,24 @@ class TestDFA extends AnyFlatSpec with Matchers {
     assert(pfa.transition("B",3,"D") === 0.5 +- 0.000000001)
   }
 
-  "A PFABuilder" should "have the states and transitions put into it" in {
+  "A PFABuilder" `should` "have the states and transitions put into it" in {
     val builder = pdaBuilder1
 
-    builder.isState("A") should be (true)
-    builder.isState("B") should be (true)
-    builder.isState("C") should be (true)
-    builder.isState("D") should be (true)
-    builder.isState("E") should be (false)
+    builder.isState("A") `should` be (true)
+    builder.isState("B") `should` be (true)
+    builder.isState("C") `should` be (true)
+    builder.isState("D") `should` be (true)
+    builder.isState("E") `should` be (false)
 
     val dfa = builder.toPFA
-    dfa.isState("A") should be (true)
-    dfa.isState("B") should be (true)
-    dfa.isState("C") should be (true)
-    dfa.isState("D") should be (true)
-    dfa.isState("E") should be (false)
+    dfa.isState("A") `should` be (true)
+    dfa.isState("B") `should` be (true)
+    dfa.isState("C") `should` be (true)
+    dfa.isState("D") `should` be (true)
+    dfa.isState("E") `should` be (false)
   }
 
-  "A DFABuilder" should "have the states and transitions put into it" in {
+  "A DFABuilder" `should` "have the states and transitions put into it" in {
     val builder = new HashDFABuilder[String,Int]("A")
     builder.addState("B")
     builder.addState("C")
@@ -117,25 +115,25 @@ class TestDFA extends AnyFlatSpec with Matchers {
     builder.addTransition("A", 2, "C")
     builder.addTransition("B", 3, "D")
 
-    builder.isState("A") should be (true)
-    builder.isState("B") should be (true)
-    builder.isState("C") should be (true)
-    builder.isState("D") should be (true)
-    builder.isState("E") should be (false)
+    builder.isState("A") `should` be (true)
+    builder.isState("B") `should` be (true)
+    builder.isState("C") `should` be (true)
+    builder.isState("D") `should` be (true)
+    builder.isState("E") `should` be (false)
 
     val dfa = builder.toDFA
-    dfa.isState("A") should be (true)
-    dfa.isState("B") should be (true)
-    dfa.isState("C") should be (true)
-    dfa.isState("D") should be (true)
-    dfa.isState("E") should be (false)
+    dfa.isState("A") `should` be (true)
+    dfa.isState("B") `should` be (true)
+    dfa.isState("C") `should` be (true)
+    dfa.isState("D") `should` be (true)
+    dfa.isState("E") `should` be (false)
 
-    dfa.accepts(List(1,3)) should be (true)
-    dfa.accepts(List(1)) should be (false)
-    dfa.accepts(List(1,2)) should be (false)
+    dfa.accepts(List(1,3)) `should` be (true)
+    dfa.accepts(List(1)) `should` be (false)
+    dfa.accepts(List(1,2)) `should` be (false)
   }
 
-  "An NDFABuilder" should "work" in {
+  "An NDFABuilder" `should` "work" in {
     val builder = new HashNDFABuilder[String,Int]()
     builder.addInitialState("A")
     builder.addState("B")
@@ -147,11 +145,11 @@ class TestDFA extends AnyFlatSpec with Matchers {
     builder.addTransition("B", 3, "D")
     builder.addETransition("B", "D")
 
-    builder.isState("A") should be (true)
-    builder.isState("B") should be (true)
-    builder.isState("C") should be (true)
-    builder.isState("D") should be (true)
-    builder.isState("E") should be (false)
+    builder.isState("A") `should` be (true)
+    builder.isState("B") `should` be (true)
+    builder.isState("C") `should` be (true)
+    builder.isState("D") `should` be (true)
+    builder.isState("E") `should` be (false)
 
     val dfa = builder.toDFA
   }

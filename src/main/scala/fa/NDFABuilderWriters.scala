@@ -40,4 +40,20 @@ trait NDFABuilderWriter[S,T] {
   def removeTransition(s1:S, t:T, s2:S): Unit
   /** Removes any &epsilon;-transition from `s1` to `s2` */
   def removeETransition(s1:S, s2:S): Unit
+
+  /** Dispatch steps for a Builder-pattern implementation.  */
+  def dispatchBuilder(builder: NDFABuilders[S,T] & MultipleInitialStateBuilders[S] & NonProbBuilders[S,T] & AnyBuilders[S,T]): Unit = builder match {
+    case AddState(s) => addState(s)
+    case RemoveState(state) => removeState(state)
+    case AddFinalState(state) => addFinalState(state)
+    case RemoveFinalState(state) => removeFinalState(state)
+    case AddTransition(state1, trans, state2) =>
+      addTransition(state1, trans, state2)
+    case RemoveTransition(state1, trans, state2) =>
+      removeTransition(state1, trans, state2)
+    case AddInitialState(state) => addInitialState(state)
+    case RemoveInitialState(state) => removeInitialState(state)
+    case AddETransition(state1, state2) => addETransition(state1, state2)
+    case RemoveETransition(state1, state2) => removeETransition(state1, state2)
+  }
 }

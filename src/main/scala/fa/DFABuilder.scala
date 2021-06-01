@@ -9,14 +9,23 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
+import scala.collection.mutable.Builder
+import org.maraist.fa.Builders.DFAelements
 
 /** Builders for deterministic finite automata (DFAs)
   * @tparam S The type of all states of the automaton
   * @tparam T The type of labels on (non-epsilon) transitions of the automaton
   */
-trait DFABuilder[S,T] extends DFA[S,T] with DFABuilderWriter[S,T] {
+trait DFABuilder[S,T]
+    extends DFA[S,T]
+    with DFABuilderWriter[S,T]
+    with Builder[DFAelements[S,T], DFA[S,T]]{
   /** Returns the (possibly immutable) [[org.maraist.fa.DFA DFA]]
     * described to this builder */
   type ThisDFA <: DFA[S,T]
+
+  def result(): ThisDFA
+
+  /** @deprecated Use {@link #result} */
   def toDFA: ThisDFA
 }

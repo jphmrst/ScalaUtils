@@ -50,6 +50,22 @@ trait PFABuilder[S,T] extends PFA[S,T] {
   def toPFA: ThisPFA
 
   def removeEpsilonTransitions:Unit = new EpsilonRemover(this).run()
+
+  def dispatchBuilder(builder: ProbBuilders[S,T] & AnyBuilders[S,T]): Unit = builder match {
+    case AddState(s) => addState(s)
+    case RemoveState(state) => removeState(state)
+    case AddProbFinalState(state, prob) => addFinalState(state, prob)
+    case RemoveFinalState(state) => removeFinalState(state)
+    case AddProbTransition(state1, trans, state2, prob) =>
+      addTransition(state1, trans, state2, prob)
+    case RemoveTransition(state1, trans, state2) =>
+      removeTransition(state1, trans, state2)
+    case SetInitialState(state) => SetInitialState(state)
+    case AddProbETransition(state1, state2, prob) =>
+      addETransition(state1, state2, prob)
+    case RemoveProbETransition(state1, state2, prob) =>
+      removeETransition(state1, state2)
+  }
 }
 
 /** Implementation of de la Higurera's Algorithm 5.8 for eliminating

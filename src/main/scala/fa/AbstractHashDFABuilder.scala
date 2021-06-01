@@ -9,7 +9,8 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
-import scala.collection.mutable.{HashMap,HashSet}
+import scala.collection.mutable.{Builder,Growable,HashMap,HashSet}
+import org.maraist.fa.Builders.DFAelements
 
 /** Implementation of [[org.maraist.fa.DFABuilder DFABuilder]] using
  *  [[scala.collection.mutable.HashSet `HashSet`s]] and
@@ -20,8 +21,9 @@ import scala.collection.mutable.{HashMap,HashSet}
  * @tparam T The type of labels on (non-epsilon) transitions of the automaton
  */
 abstract class AbstractHashDFABuilder[S,T](initialState: S)
-extends SingleInitialStateMixin[S,T](initialState) with DFABuilder[S,T]
-with StateHashBuilderTrait[S,T] with FinalStateSetHashBuilderTrait[S,T] {
+    extends SingleInitialStateMixin[S,T](initialState)
+      with DFABuilder[S,T]
+      with StateHashBuilderTrait[S,T] with FinalStateSetHashBuilderTrait[S,T] {
   private val transitionsMap = new HashMap[S,HashMap[T,S]]
 
   private[fa] def deleteTransitionsFrom(s:S) = {
@@ -71,7 +73,8 @@ with StateHashBuilderTrait[S,T] with FinalStateSetHashBuilderTrait[S,T] {
     isFinalState(current)
   }
 
-  def toDFA: ThisDFA = {
+  def toDFA: ThisDFA = result()
+  def result(): ThisDFA = {
     val statesSeq: IndexedSeq[S] = IndexedSeq.from(allStates)
     val transitionsSeq: IndexedSeq[T] = IndexedSeq.from(labels)
     val initialIdx: Int = statesSeq.indexOf(initialState)
@@ -105,4 +108,8 @@ with StateHashBuilderTrait[S,T] with FinalStateSetHashBuilderTrait[S,T] {
                             transitionsSeq: IndexedSeq[T],
                             idxLabels: Array[Array[Int]]): ThisDFA
 
+  /** This {@link scala.collection.mutable.Builder Builder} method
+    * is not implemented at this time.
+    */
+  def clear(): Unit = throw new UnsupportedOperationException()
 }

@@ -9,7 +9,7 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
-import scala.collection.mutable.HashSet
+import scala.collection.mutable.{Builder,HashSet}
 
 /**
  * Concrete builder class for {@link org.maraist.fa.DFA DFAs} based on hash
@@ -19,7 +19,7 @@ import scala.collection.mutable.HashSet
  * @tparam T The type of labels on transitions of the automaton
  */
 class HashDFABuilder[S,T](initialState: S)
-  extends AbstractHashDFABuilder[S,T](initialState) {
+    extends AbstractHashDFABuilder[S,T](initialState) {
   type ThisDFA = ArrayDFA[S,T]
   type Traverser = DFAtraverser[S,T]
   protected def dotTraverser(sb:StringBuilder,stateList:IndexedSeq[S]) =

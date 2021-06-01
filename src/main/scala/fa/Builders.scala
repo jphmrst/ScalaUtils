@@ -52,10 +52,13 @@ object Builders {
   type NDFAelements[S, T] =
     MultipleInitialStateBuilders[S] & NDFABuilders[S,T] & NonProbBuilders[S,T]
      & AnyBuilders[S,T]
+  type PFAelements[S, T] =
+    SingleInitialStateBuilders[S] & ProbBuilders[S,T] & AnyBuilders[S,T]
 
   trait BuildersWith[SetType[_], MapType[_,_]] {
     def forDFA[S, T](init: S): Builder[DFAelements[S, T], DFA[S,T]]
     def forNDFA[S, T](): Builder[NDFAelements[S, T], NDFA[S,T, IndexedDFA[Set[S],T]]]
+    def forPFA[S, T](): Builder[PFAelements[S, T], PFA[S,T]]
   }
 
   given BuildersWith[HashSet, HashMap] with
@@ -63,4 +66,6 @@ object Builders {
       new HashDFABuilder[S, T](init)
     def forNDFA[S, T](): Builder[NDFAelements[S, T], NDFA[S,T, IndexedDFA[Set[S], T]]] =
       new HashNDFABuilder[S, T]
+    def forPFA[S, T](): Builder[PFAelements[S, T], PFA[S,T]] =
+      new HashPFABuilder[S, T]
 }

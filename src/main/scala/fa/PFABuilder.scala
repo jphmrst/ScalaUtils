@@ -9,12 +9,17 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
+import scala.collection.mutable.{Builder,Growable}
+import org.maraist.fa.Builders.PFAelements
 
 /** Builders for probabilistic finite automata (PFAs)
   * @tparam S The type of all states of the automaton
   * @tparam T The type of labels on (non-epsilon) transitions of the automaton
   */
-trait PFABuilder[S,T] extends PFA[S,T] {
+trait PFABuilder[S,T]
+    extends PFA[S,T]
+    with Builder[PFAelements[S,T], PFA[S,T]]
+    with Growable[PFAelements[S, T]] {
   /** Adds a state to the automaton */
   def addState(s:S):Unit
   /** Removes a state from the automaton */
@@ -51,21 +56,29 @@ trait PFABuilder[S,T] extends PFA[S,T] {
 
   def removeEpsilonTransitions:Unit = new EpsilonRemover(this).run()
 
-  def dispatchBuilder(builder: ProbBuilders[S,T] & AnyBuilders[S,T]): Unit = builder match {
-    case AddState(s) => addState(s)
-    case RemoveState(state) => removeState(state)
-    case AddProbFinalState(state, prob) => addFinalState(state, prob)
-    case RemoveFinalState(state) => removeFinalState(state)
-    case AddProbTransition(state1, trans, state2, prob) =>
-      addTransition(state1, trans, state2, prob)
-    case RemoveTransition(state1, trans, state2) =>
-      removeTransition(state1, trans, state2)
-    case SetInitialState(state) => SetInitialState(state)
-    case AddProbETransition(state1, state2, prob) =>
-      addETransition(state1, state2, prob)
-    case RemoveProbETransition(state1, state2, prob) =>
-      removeETransition(state1, state2)
+  override def addOne(builder: PFAelements[S,T]): this.type = {
+    builder match {
+      case AddState(s) => addState(s)
+      case RemoveState(state) => removeState(state)
+      case AddProbFinalState(state, prob) => addFinalState(state, prob)
+      case RemoveFinalState(state) => removeFinalState(state)
+      case AddProbTransition(state1, trans, state2, prob) =>
+        addTransition(state1, trans, state2, prob)
+      case RemoveTransition(state1, trans, state2) =>
+        removeTransition(state1, trans, state2)
+      case SetInitialState(state) => SetInitialState(state)
+      case AddProbETransition(state1, state2, prob) =>
+        addETransition(state1, state2, prob)
+      case RemoveProbETransition(state1, state2, prob) =>
+        removeETransition(state1, state2)
+    }
+    this
   }
+
+  /** This {@link scala.collection.mutable.Builder Builder} method
+    * is not implemented at this time.
+    */
+  def clear(): Unit = throw new UnsupportedOperationException()
 }
 
 /** Implementation of de la Higurera's Algorithm 5.8 for eliminating

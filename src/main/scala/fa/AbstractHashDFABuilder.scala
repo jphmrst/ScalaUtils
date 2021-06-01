@@ -73,7 +73,9 @@ abstract class AbstractHashDFABuilder[S,T](initialState: S)
     isFinalState(current)
   }
 
+  /** @deprecated */
   def toDFA: ThisDFA = result()
+
   def result(): ThisDFA = {
     val statesSeq: IndexedSeq[S] = IndexedSeq.from(allStates)
     val transitionsSeq: IndexedSeq[T] = IndexedSeq.from(labels)

@@ -9,7 +9,7 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
-import scala.collection.mutable.{Builder,HashSet}
+import scala.collection.mutable.{HashSet}
 
 /**
  * Concrete builder class for {@link org.maraist.fa.DFA DFAs} based on hash

@@ -206,7 +206,10 @@ extends StateHashBuilderTrait[S,T] with PFABuilder[S,T] {
     }
   }
 
-  def toPFA: ThisPFA = { // scalastyle:ignore cyclomatic.complexity method.length
+  /** @deprecated */
+  def toPFA: ThisPFA = result()
+
+  def result(): ThisPFA = { // scalastyle:ignore cyclomatic.complexity method.length
     val statesSeq: IndexedSeq[S] = IndexedSeq.from(allStates)
     val transitionsSeq: IndexedSeq[T] = IndexedSeq.from(labels)
     val initialProbs = Array.ofDim[Double](statesSeq.length)

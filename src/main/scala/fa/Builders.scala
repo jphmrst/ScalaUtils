@@ -55,8 +55,6 @@ object Builders {
   }
 
   given BuildersWith[HashSet, HashMap] with
-    def forDFA[S, T](init: S): Builder[
-     SingleInitialStateBuilders[S] & NonProbBuilders[S,T] & AnyBuilders[S,T],
-     DFA[S,T]
-    ] = new HashDFABuilder[S, T](init)
+    def forDFA[S, T](init: S): Builder[DFAelements[S, T], DFA[S,T]] =
+      new HashDFABuilder[S, T](init)
 }

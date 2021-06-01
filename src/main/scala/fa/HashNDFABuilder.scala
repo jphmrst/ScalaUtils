@@ -11,7 +11,9 @@
 package org.maraist.fa
 import scala.collection.mutable.HashSet
 
-class HashNDFABuilder[S,T] extends AbstractHashNDFABuilder[S,T,ArrayDFA[Set[S],T],ArrayNDFA[S,T]] {
+class HashNDFABuilder[S,T]
+    extends AbstractHashNDFABuilder[S,T,ArrayDFA[Set[S],T],ArrayNDFA[S,T]] {
+
   def toDFA: ArrayDFA[Set[S],T] = toNDFA.toDFA
   protected def assembleNDFA(statesSeq:IndexedSeq[S], initials:Set[Int],
                              finals:Set[Int], transitionsSeq: IndexedSeq[T],

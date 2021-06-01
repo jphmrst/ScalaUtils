@@ -49,12 +49,18 @@ case class RemoveProbETransition[S,T](state1: S, state2: S, prob: Double)
 object Builders {
   type DFAelements[S, T] =
     SingleInitialStateBuilders[S] & NonProbBuilders[S,T] & AnyBuilders[S,T]
+  type NDFAelements[S, T] =
+    MultipleInitialStateBuilders[S] & NDFABuilders[S,T] & NonProbBuilders[S,T]
+     & AnyBuilders[S,T]
 
   trait BuildersWith[SetType[_], MapType[_,_]] {
     def forDFA[S, T](init: S): Builder[DFAelements[S, T], DFA[S,T]]
+    def forNDFA[S, T](): Builder[NDFAelements[S, T], NDFA[S,T, IndexedDFA[Set[S],T]]]
   }
 
   given BuildersWith[HashSet, HashMap] with
     def forDFA[S, T](init: S): Builder[DFAelements[S, T], DFA[S,T]] =
       new HashDFABuilder[S, T](init)
+    def forNDFA[S, T](): Builder[NDFAelements[S, T], NDFA[S,T, IndexedDFA[Set[S], T]]] =
+      new HashNDFABuilder[S, T]
 }

@@ -9,6 +9,8 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
+import scala.collection.mutable.Growable
+import org.maraist.fa.Builders.NDFAelements
 
 /** Mutation methods for building nondeterministic finite automata (NDFAs).
   * This trait ''excludes'' DFA/NDFA export for the sake of a simple type
@@ -16,7 +18,7 @@ package org.maraist.fa
   * @tparam S The type of all states of the automaton
   * @tparam T The type of labels on (non-epsilon) transitions of the automaton
   */
-trait NDFABuilderWriter[S,T] {
+trait NDFABuilderWriter[S,T] extends Growable[NDFAelements[S, T]] {
   /** Adds a state to the automaton */
   def addState(s:S):Unit
   /** Removes a state from the automaton */
@@ -42,18 +44,26 @@ trait NDFABuilderWriter[S,T] {
   def removeETransition(s1:S, s2:S): Unit
 
   /** Dispatch steps for a Builder-pattern implementation.  */
-  def dispatchBuilder(builder: NDFABuilders[S,T] & MultipleInitialStateBuilders[S] & NonProbBuilders[S,T] & AnyBuilders[S,T]): Unit = builder match {
-    case AddState(s) => addState(s)
-    case RemoveState(state) => removeState(state)
-    case AddFinalState(state) => addFinalState(state)
-    case RemoveFinalState(state) => removeFinalState(state)
-    case AddTransition(state1, trans, state2) =>
-      addTransition(state1, trans, state2)
-    case RemoveTransition(state1, trans, state2) =>
-      removeTransition(state1, trans, state2)
-    case AddInitialState(state) => addInitialState(state)
-    case RemoveInitialState(state) => removeInitialState(state)
-    case AddETransition(state1, state2) => addETransition(state1, state2)
-    case RemoveETransition(state1, state2) => removeETransition(state1, state2)
+  override def addOne(builder: NDFAelements[S,T]): this.type = {
+    builder match {
+      case AddState(s) => addState(s)
+      case RemoveState(state) => removeState(state)
+      case AddFinalState(state) => addFinalState(state)
+      case RemoveFinalState(state) => removeFinalState(state)
+      case AddTransition(state1, trans, state2) =>
+        addTransition(state1, trans, state2)
+      case RemoveTransition(state1, trans, state2) =>
+        removeTransition(state1, trans, state2)
+      case AddInitialState(state) => addInitialState(state)
+      case RemoveInitialState(state) => removeInitialState(state)
+      case AddETransition(state1, state2) => addETransition(state1, state2)
+      case RemoveETransition(state1, state2) => removeETransition(state1, state2)
+    }
+    this
   }
+
+  /** This {@link scala.collection.mutable.Builder Builder} method
+    * is not implemented at this time.
+    */
+  def clear(): Unit = throw new UnsupportedOperationException()
 }

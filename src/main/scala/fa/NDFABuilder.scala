@@ -9,6 +9,8 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
+import scala.collection.mutable.Builder
+import org.maraist.fa.Builders.NDFAelements
 
 /** Builders for nondeterministic finite automata (NDFAs)
   * @tparam S The type of all states of the automaton
@@ -16,7 +18,10 @@ package org.maraist.fa
   */
 trait NDFABuilder[S, T, +ThisDFA <: IndexedDFA[Set[S],T],
                   +ThisNDFA <: NDFA[S,T,ThisDFA]]
-extends NDFA[S,T,ThisDFA] with NDFABuilderWriter[S,T] {
+    extends NDFA[S,T,ThisDFA]
+    with NDFABuilderWriter[S,T]
+    with Builder[NDFAelements[S,T], ThisNDFA] {
+
   /** Returns the (possibly immutable) [[org.maraist.fa.NDFA NDFA]]
     * described to this builder */
   def toNDFA: ThisNDFA

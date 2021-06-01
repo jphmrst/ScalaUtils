@@ -118,10 +118,13 @@ extends NDFABuilder[S,T,ThisDFA,ThisNDFA] {
       Set.empty[S]
   }
 
+  /** @deprecated */
+  def toNDFA: ThisNDFA = result()
+
   /** Creates an immutable [[org.maraist.fa.ArrayNDFA ArrayNDFA]]
     * corresponding to the automaton described to this builder.
     */
-  def toNDFA: ThisNDFA = {
+  def result(): ThisNDFA = {
     val statesSeq: IndexedSeq[S] = IndexedSeq.from(allStates)
     val transitionsSeq: IndexedSeq[T] = IndexedSeq.from(labels)
     val initials: HashSet[Int] = new HashSet[Int]

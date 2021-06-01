@@ -11,7 +11,7 @@
 package org.maraist.fa
 import scala.collection.mutable.{HashMap,HashSet,Queue}
 import org.maraist.graphviz.{Graphable,NodeLabeling,TransitionLabeling}
-import org.maraist.fa.Builders.BuildersWith
+import org.maraist.fa.Builders.{HasBuilder,NDFAelements}
 
 /** Methods provided by nondeterministic finite automata (NDFAs)
   *
@@ -117,8 +117,10 @@ extends Automaton[S,T] with Graphable[S,T] {
 }
 
 object NDFA {
-  def newBuilder[S, T, SetType[_], MapType[_,_]](
-    using impl: BuildersWith[SetType, MapType]
-  ) = impl.forNDFA()
+  def newBuilder[S, T, SetType[_], MapType[_,_]](initialState: S)(
+    using impl: HasBuilder[
+      SetType, MapType, NDFAelements, [X,Y] =>> NDFA[X, Y, IndexedDFA[Set[X], Y]]
+    ]
+  ) = impl.build[S,T]()
 }
 

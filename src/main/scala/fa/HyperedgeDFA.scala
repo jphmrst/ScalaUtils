@@ -35,4 +35,9 @@ trait HyperedgeDFA[S,T] extends DFA[S,T] with Hyperedge[S] {
   }
 }
 
+object HyperedgeDFA {
+//  def newBuilder[S, T, SetType[_], MapType[_]]:
+//      Builder[]
+}
+
 trait IndexedHyperedgeDFA[S,T] extends IndexedDFA[S,T] with HyperedgeDFA[S,T]

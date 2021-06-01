@@ -13,6 +13,7 @@ import scala.collection.mutable.{HashMap,HashSet}
 import org.maraist.graphviz.Graphable
 import org.maraist.graphviz.NodeLabeling
 import org.maraist.graphviz.TransitionLabeling
+import org.maraist.fa.Builders.{HasBuilder,PFAelements}
 
 /** Trait of the basic usage operations on a PFA.
  *
@@ -178,4 +179,10 @@ trait PFA[S,T] extends Automaton[S,T] with Graphable[S,T] {
 
     totals.map({ case (k, vm) => (k, vm.toMap) }).toMap
   }
+}
+
+object PFA {
+  def newBuilder[S, T, SetType[_], MapType[_,_]](initialState: S)(
+    using impl: HasBuilder[SetType, MapType, PFAelements, PFA]
+  ) = impl.build[S,T]()
 }

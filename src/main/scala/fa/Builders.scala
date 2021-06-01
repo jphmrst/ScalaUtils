@@ -55,17 +55,28 @@ object Builders {
   type PFAelements[S, T] =
     SingleInitialStateBuilders[S] & ProbBuilders[S,T] & AnyBuilders[S,T]
 
-  trait BuildersWith[SetType[_], MapType[_,_]] {
-    def forDFA[S, T](init: S): Builder[DFAelements[S, T], DFA[S,T]]
-    def forNDFA[S, T](): Builder[NDFAelements[S, T], NDFA[S,T, IndexedDFA[Set[S],T]]]
-    def forPFA[S, T](): Builder[PFAelements[S, T], PFA[S,T]]
+  trait HasBuilder[Setter[_], Mapper[_,_], Elements[_,_], Res[_,_]] {
+    def build[S,T](): Builder[Elements[S,T], Res[S,T]]
+  }
+  trait HasBuilderWithInit[Setter[_], Mapper[_,_], Elements[_,_], Res[_,_]] {
+    def build[S,T](init: S): Builder[Elements[S,T], Res[S,T]]
   }
 
-  given BuildersWith[HashSet, HashMap] with
-    def forDFA[S, T](init: S): Builder[DFAelements[S, T], DFA[S,T]] =
-      new HashDFABuilder[S, T](init)
-    def forNDFA[S, T](): Builder[NDFAelements[S, T], NDFA[S,T, IndexedDFA[Set[S], T]]] =
-      new HashNDFABuilder[S, T]
-    def forPFA[S, T](): Builder[PFAelements[S, T], PFA[S,T]] =
-      new HashPFABuilder[S, T]
+  given HasBuilderWithInit[HashSet, HashMap, DFAelements, DFA] with {
+    override def build[S,T](init: S): Builder[DFAelements[S, T], DFA[S, T]] =
+        new HashDFABuilder[S, T](init)
+  }
+
+  given HasBuilder[
+    HashSet, HashMap, NDFAelements, [X,Y] =>> NDFA[X, Y, IndexedDFA[Set[X], Y]]
+  ] with {
+    override def build[S,T]():
+      Builder[NDFAelements[S, T], NDFA[S, T, IndexedDFA[Set[S], T]]] =
+        new HashNDFABuilder[S, T]
+  }
+
+  given HasBuilder[HashSet, HashMap, PFAelements, PFA] with {
+    override def build[S,T](): Builder[PFAelements[S, T], PFA[S, T]] =
+        new HashPFABuilder[S, T]
+  }
 }

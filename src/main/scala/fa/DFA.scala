@@ -11,7 +11,7 @@
 package org.maraist.fa
 import org.maraist.graphviz.{Graphable,GraphvizOptions,
                              NodeLabeling,TransitionLabeling}
-import org.maraist.fa.Builders.BuildersWith
+import org.maraist.fa.Builders.{HasBuilderWithInit,DFAelements}
 
 /** Trait of the basic usage operations on a DFA.
  *
@@ -120,6 +120,6 @@ trait DFA[S,T] extends Automaton[S,T] with Graphable[S,T] {
 
 object DFA {
   def newBuilder[S, T, SetType[_], MapType[_,_]](initialState: S)(
-    using impl: BuildersWith[SetType, MapType]
-  ) = impl.forDFA(initialState)
+    using impl: HasBuilderWithInit[SetType, MapType, DFAelements, DFA]
+  ) = impl.build[S,T](initialState)
 }

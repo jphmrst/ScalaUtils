@@ -18,8 +18,7 @@ import org.maraist.fa.Builders.DFAelements
   */
 trait DFABuilder[S,T]
     extends DFA[S,T]
-    with DFABuilderWriter[S,T]
-    with Builder[DFAelements[S,T], DFA[S,T]] {
+    with DFABuilderWriter[S,T] {
   /** Returns the (possibly immutable) [[org.maraist.fa.DFA DFA]]
     * described to this builder */
   type ThisDFA <: DFA[S,T]

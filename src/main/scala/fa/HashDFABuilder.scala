@@ -9,7 +9,8 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
-import scala.collection.mutable.{HashSet}
+import scala.collection.mutable.{Builder,HashSet}
+import org.maraist.fa.Builders.DFAelements
 
 /**
  * Concrete builder class for {@link org.maraist.fa.DFA DFAs} based on hash
@@ -19,7 +20,8 @@ import scala.collection.mutable.{HashSet}
  * @tparam T The type of labels on transitions of the automaton
  */
 class HashDFABuilder[S,T](initialState: S)
-    extends AbstractHashDFABuilder[S,T](initialState) {
+    extends AbstractHashDFABuilder[S,T](initialState)
+    with Builder[DFAelements[S,T], DFA[S,T]] {
   type ThisDFA = ArrayDFA[S,T]
   type Traverser = DFAtraverser[S,T]
   protected def dotTraverser(sb:StringBuilder,stateList:IndexedSeq[S]) =
@@ -32,5 +34,22 @@ class HashDFABuilder[S,T](initialState: S)
                             idxLabels: Array[Array[Int]]): ThisDFA = {
     new ArrayDFA[S,T](statesSeq, initialIdx, finalStateIndices.toSet,
                       transitionsSeq, idxLabels)
+  }
+
+  /** Primary {@link scala.collection.mutable.Builder Builder} method
+    * implementation.
+    */
+  override def addOne(builder: DFAelements[S, T]): this.type = {
+    builder match {
+      case AddState(s) => addState(s)
+      case RemoveState(state) => removeState(state)
+      case AddFinalState(state) => addFinalState(state)
+      case RemoveFinalState(state) => removeFinalState(state)
+      case AddTransition(state1, trans, state2) =>
+        addTransition(state1, trans, state2)
+      case RemoveTransition(state, trans, state2) => removeTransition(state, trans)
+      case SetInitialState(state) => setInitialState(state)
+    }
+    this
   }
 }

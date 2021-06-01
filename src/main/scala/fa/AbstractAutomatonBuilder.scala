@@ -11,7 +11,7 @@
 package org.maraist.fa
 import scala.collection.mutable.{HashMap,HashSet}
 
-/** Implementation of builder routines for
+/** Mixin of builder routines pertaining to states for
  * [[org.maraist.fa.Automaton Automaton]]s using
  * [[scala.collection.mutable.HashSet `HashSet`s]] and
  * [[scala.collection.mutable.HashMap `HashMap`s]].
@@ -41,7 +41,7 @@ trait StateHashBuilderTrait[S,T] {
   def isState(s:S):Boolean = allStates.contains(s)
 }
 
-/** Implementation of builder routines for
+/** Implementation of builder routines pertaining to final states for
  * [[org.maraist.fa.Automaton Automaton]]s using
  * [[scala.collection.mutable.HashSet `HashSet`s]] and
  * [[scala.collection.mutable.HashMap `HashMap`s]].
@@ -68,15 +68,16 @@ trait FinalStateSetHashBuilderTrait[S,T] {
   def isFinalState(s:S):Boolean = finalStatesSet.contains(s)
 }
 
-/** Implementation of builder routines for
- * [[org.maraist.fa.Automaton Automaton]]s using
- * [[scala.collection.mutable.HashSet `HashSet`s]] and
- * [[scala.collection.mutable.HashMap `HashMap`s]].
- * @param initialState The initial state of the automaton.  This builder must
- * be instantiated with one state, initially taken to be the initial state.
- * @tparam S The type of all states of the automaton
- * @tparam T The type of labels on (non-epsilon) transitions of the automaton
- */
+/**
+  * Mixin of builder routines for
+  * [[org.maraist.fa.Automaton Automaton]]s pertaining to the initial
+  * state using [[scala.collection.mutable.HashSet `HashSet`s]] and
+  * [[scala.collection.mutable.HashMap `HashMap`s]].
+  * @param initialState The initial state of the automaton.  This builder must
+  * be instantiated with one state, initially taken to be the initial state.
+  * @tparam S The type of all states of the automaton
+  * @tparam T The type of labels on (non-epsilon) transitions of the automaton
+  */
 abstract class SingleInitialStateMixin[S,T](var initialState: S) {
   def addState(s:S):Unit
   def setInitialState(s:S):Unit = {

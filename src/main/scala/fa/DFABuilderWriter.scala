@@ -16,8 +16,7 @@ import org.maraist.fa.Builders.DFAelements
   * @tparam S The type of all states of the automaton
   * @tparam T The type of labels on (non-epsilon) transitions of the automaton
   */
-trait DFABuilderWriter[S,T]
-    extends Growable[DFAelements[S, T]] {
+trait DFABuilderWriter[S,T] extends Growable[DFAelements[S, T]] {
 
   /** Adds a state to the automaton */
   def addState(s:S):Unit
@@ -39,7 +38,10 @@ trait DFABuilderWriter[S,T]
   /** Removes any transition labelled `t` from `s1` to `s2` */
   def removeTransition(s1:S, t:T): Unit
 
-  override def addOne(builder: DFAelements[S, T]): DFABuilderWriter.this.type = {
+  /** Primary {@link scala.collection.mutable.Builder Builder} method
+    * implementation.
+    */
+  override def addOne(builder: DFAelements[S, T]): this.type = {
     builder match {
       case AddState(s) => addState(s)
       case RemoveState(state) => removeState(state)
@@ -52,4 +54,9 @@ trait DFABuilderWriter[S,T]
     }
     this
   }
+
+  /** This {@link scala.collection.mutable.Builder Builder} method
+    * is not implemented at this time.
+    */
+  def clear(): Unit = throw new UnsupportedOperationException()
 }

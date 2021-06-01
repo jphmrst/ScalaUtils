@@ -107,9 +107,4 @@ abstract class AbstractHashDFABuilder[S,T](initialState: S)
                             finalStateIndices: HashSet[Int],
                             transitionsSeq: IndexedSeq[T],
                             idxLabels: Array[Array[Int]]): ThisDFA
-
-  /** This {@link scala.collection.mutable.Builder Builder} method
-    * is not implemented at this time.
-    */
-  def clear(): Unit = throw new UnsupportedOperationException()
 }

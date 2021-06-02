@@ -11,8 +11,9 @@
 package org.maraist.fa
 import scala.language.adhocExtensions
 import java.io.File
-import scala.collection.mutable.HashSet
+import scala.collection.mutable.{Builder,HashMap,HashSet}
 import org.maraist.util.FilesCleaner
+import org.maraist.fa.Builders.*
 import org.maraist.latex.{LaTeXdoc,Sampler}
 import org.scalatest.matchers.*
 import org.scalatest.matchers.should.*
@@ -25,14 +26,23 @@ object Samples extends App with Sampler {
   /**
    * Return a fresh copy of a sample DFA builder
    */
-  def dfa1B: HashDFABuilder[String,Int] = {
-    val builder = new HashDFABuilder[String,Int]("A")
-    builder.addState("B")
-    builder.addState("C")
-    builder.addFinalState("D")
-    builder.addTransition("A", 1, "B")
-    builder.addTransition("A", 2, "C")
-    builder.addTransition("B", 3, "D")
+  def dfa1B: Builder[DFAelements[String,Int], DFA[String,Int]] = {
+    val builder = DFA.newBuilder[String, Int, HashSet, HashMap]("A")
+    builder += AddState[String,Int]("B")
+    builder += AddState("C")
+    builder += AddFinalState("D")
+    builder += AddTransition("A", 1, "B")
+    builder += AddTransition("A", 2, "C")
+    builder += AddTransition("B", 3, "D")
+
+    // val builder = new HashDFABuilder[String,Int]("A")
+    // builder.addState("B")
+    // builder.addState("C")
+    // builder.addFinalState("D")
+    // builder.addTransition("A", 1, "B")
+    // builder.addTransition("A", 2, "C")
+    // builder.addTransition("B", 3, "D")
+
     builder
   }
 
@@ -40,14 +50,14 @@ object Samples extends App with Sampler {
    * Return a DFA derived from a fresh copy of the builder
    * {@link dfa1B}
    */
-  def dfa1: ArrayDFA[String,Int] = {
-    dfa1B.toDFA
+  def dfa1: DFA[String,Int] = {
+    dfa1B.result()
   }
 
   /**
    * Return a fresh copy of a sample NDFA builder
    */
-  def ndfa2B: HashNDFABuilder[String,Int] = {
+  def ndfa2B: NDFABuilder[String,Int,?,?] = {
     val builder = new HashNDFABuilder[String,Int]()
     builder.addInitialState("A")
     builder.addState("B")
@@ -64,7 +74,7 @@ object Samples extends App with Sampler {
    * Return an NDFA, derived from a fresh copy of the sample builder
    * {@link ndfa2B}
    */
-  def ndfa2: ArrayNDFA[String,Int] = {
+  def ndfa2: NDFA[String,Int,?] = {
     ndfa2B.toNDFA
   }
 
@@ -72,14 +82,14 @@ object Samples extends App with Sampler {
    * Return a DFA converted from a fresh copy of the sample NDFA builder
    * {@link ndfa2B}
    */
-  def ndfa2dfa: ArrayDFA[Set[String],Int] = {
+  def ndfa2dfa: DFA[Set[String],Int] = {
     ndfa2.toDFA
   }
 
   /**
    * Return a fresh copy of a sample DFA-with-hyperedge builder
    */
-  def hdfa3B: HashHyperedgeDFABuilder[String,Int] = {
+  def hdfa3B: HyperedgeDFABuilder[String, Int, ArrayHyperedgeDFA[String,Int]] = {
     val builder = new HashHyperedgeDFABuilder[String,Int]("A")
     builder.addState("B")
     builder.addState("C")
@@ -95,14 +105,15 @@ object Samples extends App with Sampler {
    * Return a DFA converted from a fresh copy of the sample
    * DFA-with-hyperedge builder {@link hdfa3B}
    */
-  def hdfa3: ArrayHyperedgeDFA[String,Int] = {
-    hdfa3B.toDFA
+  def hdfa3: HyperedgeDFA[String,Int] = {
+    val res: ArrayHyperedgeDFA[String,Int] = hdfa3B.result()
+    res
   }
 
   /**
    * Return a fresh copy of a sample NDFA-with-hyperedge builder
    */
-  def hndfa4B: HashHyperedgeNDFABuilder[String,Int] = {
+  def hndfa4B: HyperedgeNDFABuilder[String, Int, IndexedHyperedgeDFA[Set[String], Int], HyperedgeNDFA[String,Int, IndexedHyperedgeDFA[Set[String], Int]]] = {
     val builder = new HashHyperedgeNDFABuilder[String,Int]
     builder.addInitialState("Z")
     builder.addState("A")
@@ -137,7 +148,7 @@ object Samples extends App with Sampler {
    * Return a NDFA converted from a fresh copy of the sample
    * NDFA-with-hyperedge builder {@link hndfa4B}
    */
-  def hndfa4: ArrayHyperedgeNDFA[String,Int] = {
+  def hndfa4: HyperedgeNDFA[String, Int, IndexedHyperedgeDFA[Set[String], Int]] = {
     hndfa4B.toNDFA
   }
 
@@ -145,11 +156,11 @@ object Samples extends App with Sampler {
    * Return a DFA converted from a fresh copy of the sample
    * NDFA-with-hyperedge builder {@link hndfa4B}
    */
-  def hndfa4dfa: ArrayHyperedgeDFA[Set[String],Int] = {
+  def hndfa4dfa: HyperedgeDFA[Set[String],Int] = {
     hndfa4.toDFA
   }
 
-  def dlhPfa57:HashPFABuilder[Int,String] = {
+  def dlhPfa57:PFABuilder[Int,String] = {
     val res = new HashPFABuilder[Int,String]
     res.addInitialState(1, 1.0)
     res.addFinalState(2, 0.4)
@@ -172,7 +183,7 @@ object Samples extends App with Sampler {
     res
    }
 
-  def dlhPfa57_erem:HashPFABuilder[Int,String] = {
+  def dlhPfa57_erem: PFABuilder[Int,String] = {
     val res = dlhPfa57
     res.removeEpsilonTransitions
     res
@@ -181,7 +192,10 @@ object Samples extends App with Sampler {
   def addSamples(guide:LaTeXdoc):FilesCleaner = {
     val cleaner = newCleaner()
     section(guide,"Package FA")
-    graphable(guide,cleaner,dfa1B,    "dfa1B",    "dfa1B",     "1.75in")
+
+    // This one uses the Builder API, so loses the relationship to Graphable
+    // graphable(guide,cleaner,dfa1B,    "dfa1B",    "dfa1B",     "1.75in")
+
     graphable(guide,cleaner,dfa1,     "dfa1",     "dfa1",      "1.75in")
     graphable(guide,cleaner,ndfa2B,   "ndfa2B",   "ndfa2B",    "1.75in")
     graphable(guide,cleaner,ndfa2,    "ndfa2",    "ndfa2",     "1.75in")

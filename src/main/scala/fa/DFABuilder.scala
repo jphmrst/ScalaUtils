@@ -16,14 +16,36 @@ import org.maraist.fa.Builders.DFAelements
   * @tparam S The type of all states of the automaton
   * @tparam T The type of labels on (non-epsilon) transitions of the automaton
   */
-trait DFABuilder[S,T]
-    extends DFA[S,T]
-    with DFABuilderWriter[S,T] {
+trait DFABuilder[S, T, +ThisDFA <: DFA[S,T]] extends DFA[S,T] {
+
   /** Returns the (possibly immutable) [[org.maraist.fa.DFA DFA]]
     * described to this builder */
-  type ThisDFA <: DFA[S,T]
-
   def result(): ThisDFA
+
+  /** Adds a state to the automaton */
+  def addState(s:S):Unit
+  /** Removes a state from the automaton */
+  def removeState(s:S):Unit
+
+  /** Sets the initial state of the automaton */
+  def setInitialState(s:S):Unit
+  /** Adds a final state to the automaton */
+  def addFinalState(s:S):Unit
+  /** Causes a state not to be considered a final state, but does
+   *  ''not'' remove it from the automaton */
+  def removeFinalState(s:S):Unit
+
+  /** Adds a transition labelled `t` from `s1` to `s2`, removing any
+   *  previous transition labelled `t` from `s1`.
+   */
+  def addTransition(s1:S, t:T, s2:S): Unit
+  /** Removes any transition labelled `t` from `s1` to `s2` */
+  def removeTransition(s1:S, t:T): Unit
+
+  /** This {@link scala.collection.mutable.Builder Builder} method
+    * is not implemented at this time.
+    */
+  def clear(): Unit = throw new UnsupportedOperationException()
 
   /** @deprecated Use {@link #result} */
   def toDFA: ThisDFA

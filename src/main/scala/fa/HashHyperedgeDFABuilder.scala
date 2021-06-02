@@ -12,9 +12,9 @@ package org.maraist.fa
 import scala.collection.mutable.{Builder,HashSet,HashMap}
 import org.maraist.fa.Builders.HyperedgeDFAelements
 
-class HashHyperedgeDFABuilder[S,T](initialState: S)
-    extends AbstractHashDFABuilder[S,T](initialState)
-    with HyperedgeDFA[S,T] with HyperedgeBuilder[S]
+class HashHyperedgeDFABuilder[S, T](initialState: S)
+    extends AbstractHashDFABuilder[S, T, ArrayHyperedgeDFA[S, T]](initialState)
+    with HyperedgeDFABuilder[S, T, ArrayHyperedgeDFA[S, T]]
     with Builder[HyperedgeDFAelements[S, T], HyperedgeDFA[S, T]]{
   val hyperedgeMap: HashMap[S,HashSet[Set[S]]] = new HashMap[S,HashSet[Set[S]]]
   def eHyperedgeTargets(s:S): Set[Set[S]] = hyperedgeMap.get(s) match {
@@ -32,12 +32,11 @@ class HashHyperedgeDFABuilder[S,T](initialState: S)
                                      transitionLabeling, stateList,
                                      initialState)
 
-  type ThisDFA = ArrayHyperedgeDFA[S,T]
   protected def assembleDFA(statesSeq: IndexedSeq[S],
                             initialIdx: Int,
                             finalStateIndices: HashSet[Int],
                             transitionsSeq: IndexedSeq[T],
-                            idxLabels: Array[Array[Int]]): ThisDFA = {
+                            idxLabels: Array[Array[Int]]): ArrayHyperedgeDFA[S,T] = {
     val hyperedgeIndicesMap = new HashMap[Int,HashSet[Set[Int]]]
     for((node,nodeSets) <- hyperedgeMap) {
       val nodeIdx = statesSeq.indexOf(node)

@@ -20,9 +20,9 @@ import org.maraist.fa.Builders.DFAelements
  * @tparam S The type of all states of the automaton
  * @tparam T The type of labels on (non-epsilon) transitions of the automaton
  */
-abstract class AbstractHashDFABuilder[S,T](initialState: S)
+abstract class AbstractHashDFABuilder[S,T, ThisDFA <: AbstractArrayDFA[S,T]](initialState: S)
     extends SingleInitialStateMixin[S,T](initialState)
-      with DFABuilder[S,T]
+      with DFABuilder[S,T, ThisDFA]
       with StateHashBuilderTrait[S,T] with FinalStateSetHashBuilderTrait[S,T] {
   private val transitionsMap = new HashMap[S,HashMap[T,S]]
 

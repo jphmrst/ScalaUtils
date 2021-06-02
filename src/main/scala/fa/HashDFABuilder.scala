@@ -20,7 +20,7 @@ import org.maraist.fa.Builders.DFAelements
  * @tparam T The type of labels on transitions of the automaton
  */
 class HashDFABuilder[S,T](initialState: S)
-    extends AbstractHashDFABuilder[S,T](initialState)
+    extends AbstractHashDFABuilder[S,T, AbstractArrayDFA[S,T]](initialState)
     with Builder[DFAelements[S,T], DFA[S,T]] {
   type ThisDFA = ArrayDFA[S,T]
   type Traverser = DFAtraverser[S,T]

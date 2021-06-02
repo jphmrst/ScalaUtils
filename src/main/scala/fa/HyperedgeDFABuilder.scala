@@ -10,5 +10,6 @@
 
 package org.maraist.fa
 
-trait HyperedgeDFABuilder[S,T] extends DFABuilder[S,T]
-      with HyperedgeDFA[S,T] with HyperedgeBuilder[S]
+trait HyperedgeDFABuilder[S, T, ThisDFA <: HyperedgeDFA[S,T]]
+    extends DFABuilder[S, T, ThisDFA]
+    with HyperedgeDFA[S, T] with HyperedgeBuilder[S]

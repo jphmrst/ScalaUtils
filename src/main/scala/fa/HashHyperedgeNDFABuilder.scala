@@ -9,14 +9,16 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
-import scala.collection.mutable.HashMap
-import scala.collection.mutable.HashSet
+import scala.collection.mutable.{Builder,HashSet,HashMap}
+import org.maraist.fa.Builders.HyperedgeNDFAelements
 
 class HashHyperedgeNDFABuilder[S,T]
-extends AbstractHashNDFABuilder[S,T,ArrayHyperedgeDFA[Set[S],T],
-                                ArrayHyperedgeNDFA[S,T]]
-with HyperedgeNDFABuilder[S,T,ArrayHyperedgeDFA[Set[S],T],
-                          ArrayHyperedgeNDFA[S,T]]
+    extends AbstractHashNDFABuilder[
+      S,T,ArrayHyperedgeDFA[Set[S],T], ArrayHyperedgeNDFA[S,T]
+    ] with HyperedgeNDFABuilder[
+      S,T,ArrayHyperedgeDFA[Set[S],T], ArrayHyperedgeNDFA[S,T]
+    ] with Builder[
+      HyperedgeNDFAelements[S,T], HyperedgeNDFA[S,T,ArrayHyperedgeDFA[Set[S],T]]]
 {
   val hyperedgeMap: HashMap[S,HashSet[Set[S]]] = new HashMap[S,HashSet[Set[S]]]
   def eHyperedgeTargets(s:S): Set[Set[S]] = hyperedgeMap.get(s) match {
@@ -45,5 +47,25 @@ with HyperedgeNDFABuilder[S,T,ArrayHyperedgeDFA[Set[S],T],
       epsilonsArray.map(_.toSet),
       hyperedgeIndexMap.toMap)
   }
+
+  /** Dispatch steps for a Builder-pattern implementation.  */
+  override def addOne(builder: HyperedgeNDFAelements[S,T]): this.type = {
+    builder match {
+      case AddState(s) => addState(s)
+      case RemoveState(state) => removeState(state)
+      case AddFinalState(state) => addFinalState(state)
+      case RemoveFinalState(state) => removeFinalState(state)
+      case AddTransition(state1, trans, state2) =>
+        addTransition(state1, trans, state2)
+      case RemoveTransition(state1, trans, state2) =>
+        removeTransition(state1, trans, state2)
+      case AddInitialState(state) => addInitialState(state)
+      case RemoveInitialState(state) => removeInitialState(state)
+      case AddETransition(state1, state2) => addETransition(state1, state2)
+      case RemoveETransition(state1, state2) => removeETransition(state1, state2)
+    }
+    this
+  }
+
   override def toDFA: ArrayHyperedgeDFA[Set[S],T] = this.toNDFA.toDFA
 }

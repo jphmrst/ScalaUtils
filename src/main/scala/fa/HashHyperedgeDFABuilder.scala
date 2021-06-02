@@ -9,12 +9,13 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
-import scala.collection.mutable.HashMap
-import scala.collection.mutable.HashSet
+import scala.collection.mutable.{Builder,HashSet,HashMap}
+import org.maraist.fa.Builders.HyperedgeDFAelements
 
 class HashHyperedgeDFABuilder[S,T](initialState: S)
-      extends AbstractHashDFABuilder[S,T](initialState)
-      with HyperedgeDFA[S,T] with HyperedgeBuilder[S] {
+    extends AbstractHashDFABuilder[S,T](initialState)
+    with HyperedgeDFA[S,T] with HyperedgeBuilder[S]
+    with Builder[HyperedgeDFAelements[S, T], HyperedgeDFA[S, T]]{
   val hyperedgeMap: HashMap[S,HashSet[Set[S]]] = new HashMap[S,HashSet[Set[S]]]
   def eHyperedgeTargets(s:S): Set[Set[S]] = hyperedgeMap.get(s) match {
     case Some(set) => set.toSet
@@ -49,5 +50,23 @@ class HashHyperedgeDFABuilder[S,T](initialState: S)
       statesSeq, initialIdx, finalStateIndices.toSet,
       transitionsSeq, idxLabels,
       hyperedgeIndicesMap.map({case (k, v) => (k, v.toSet)}).toMap)
+  }
+
+  /** Primary {@link scala.collection.mutable.Builder Builder} method
+    * implementation.
+    */
+  override def addOne(builder: HyperedgeDFAelements[S, T]): this.type = {
+    builder match {
+      case AddState(s) => addState(s)
+      case RemoveState(state) => removeState(state)
+      case AddFinalState(state) => addFinalState(state)
+      case RemoveFinalState(state) => removeFinalState(state)
+      case AddTransition(state1, trans, state2) =>
+        addTransition(state1, trans, state2)
+      case RemoveTransition(state, trans, state2) => removeTransition(state, trans)
+      case SetInitialState(state) => setInitialState(state)
+      case AddEHyperedge(state, toStates) => addEHyperedge(state, toStates)
+    }
+    this
   }
 }

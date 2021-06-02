@@ -10,6 +10,7 @@
 
 package org.maraist.fa
 import org.maraist.graphviz.{NodeLabeling,TransitionLabeling}
+import org.maraist.fa.Builders.{HasBuilder,HyperedgeNDFAelements}
 
 trait HyperedgeNDFA[S, T, +ThisDFA <: IndexedHyperedgeDFA[Set[S],T]]
 extends NDFA[S,T,ThisDFA] with Hyperedge[S] {
@@ -27,3 +28,13 @@ extends NDFA[S,T,ThisDFA] with Hyperedge[S] {
 
 trait IndexedHyperedgeNDFA[S,T,+ThisDFA <: IndexedHyperedgeDFA[Set[S],T]]  // scalastyle:ignore
 extends HyperedgeNDFA[S,T,ThisDFA] with IndexedNDFA[S,T,ThisDFA]
+
+object HyperedgeNDFA {
+  def newBuilder[S, T, SetType[_], MapType[_,_]](
+    using impl: HasBuilder[
+      SetType, MapType, HyperedgeNDFAelements,
+      [X,Y] =>> HyperedgeNDFA[X, Y, IndexedHyperedgeDFA[Set[X], Y]]
+    ]
+  ) = impl.build[S,T]()
+}
+

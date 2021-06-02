@@ -19,8 +19,7 @@ import org.maraist.fa.Builders.NDFAelements
 trait NDFABuilder[S, T, +ThisDFA <: IndexedDFA[Set[S],T],
                   +ThisNDFA <: NDFA[S,T,ThisDFA]]
     extends NDFA[S,T,ThisDFA]
-    with NDFABuilderWriter[S,T]
-    with Builder[NDFAelements[S,T], ThisNDFA] {
+    with NDFABuilderWriter[S,T] {
 
   /** Returns the (possibly immutable) [[org.maraist.fa.NDFA NDFA]]
     * described to this builder */

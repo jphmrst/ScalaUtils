@@ -11,54 +11,47 @@
 package org.maraist.fa
 import scala.collection.mutable.{Builder, HashMap, HashSet}
 
-sealed trait AnyBuilders[S,T]
-case class AddState[S,T](state: S) extends AnyBuilders[S,T]
-case class RemoveState[S,T](state: S) extends AnyBuilders[S,T]
-case class RemoveFinalState[S,T](state: S) extends AnyBuilders[S,T]
-case class RemoveTransition[S,T](state1: S, trans: T, state2: S)
-    extends AnyBuilders[S,T]
-
-sealed trait NonProbBuilders[S,T]
-case class AddFinalState[S,T](state: S) extends AnyBuilders[S,T]
-case class AddTransition[S,T](state1: S, trans: T, state2: S)
-    extends NonProbBuilders[S,T]
-
-sealed trait SingleInitialStateBuilders[S]
-case class SetInitialState[S](state: S) extends SingleInitialStateBuilders[S]
-
-sealed trait MultipleInitialStateBuilders[S]
-case class AddInitialState[S](state: S) extends MultipleInitialStateBuilders[S]
-case class RemoveInitialState[S](state: S)
-    extends MultipleInitialStateBuilders[S]
-
-sealed trait NDFABuilders[S,T]
-case class AddETransition[S,T](state1: S, state2: S) extends NDFABuilders[S,T]
-case class RemoveETransition[S,T](state1: S, state2: S)
-    extends NDFABuilders[S,T]
-
-sealed trait ProbBuilders[S,T]
-case class AddProbFinalState[S,T](state: S, prob: Double)
-    extends ProbBuilders[S,T]
-case class AddProbTransition[S,T](state1: S, trans: T, state2: S, prob: Double)
-    extends ProbBuilders[S,T]
-case class AddProbETransition[S,T](state1: S, state2: S, prob: Double)
-    extends ProbBuilders[S,T]
-case class RemoveProbETransition[S,T](state1: S, state2: S, prob: Double)
-    extends ProbBuilders[S,T]
-
-sealed trait EHyperedgeBuilders[S]
-case class AddEHyperedge[S](s: S, ss: Set[S]) extends EHyperedgeBuilders[S]
-
 object Builders {
+  case class AddState[S,T](state: S)
+  case class RemoveState[S,T](state: S)
+  case class RemoveFinalState[S,T](state: S)
+  case class RemoveTransition[S,T](state1: S, trans: T, state2: S)
+  type AnyBuilders[S,T] =
+    AddState[S,T] | RemoveState[S,T] | RemoveFinalState[S,T] | RemoveTransition[S,T]
+
+  case class AddFinalState[S,T](state: S)
+  case class AddTransition[S,T](state1: S, trans: T, state2: S)
+  type NonProbBuilders[S,T] = AddFinalState[S,T] | AddTransition[S,T]
+
+  case class SetInitialState[S](state: S)
+  type SingleInitialStateBuilders[S] = SetInitialState[S]
+
+  case class AddInitialState[S](state: S)
+  case class RemoveInitialState[S](state: S)
+  type MultipleInitialStateBuilders[S] = AddInitialState[S] | RemoveInitialState[S]
+
+  case class AddETransition[S,T](state1: S, state2: S)
+  case class RemoveETransition[S,T](state1: S, state2: S)
+  type NDFABuilders[S,T] = AddETransition[S,T] | RemoveETransition[S,T]
+
+  case class AddProbFinalState[S,T](state: S, prob: Double)
+  case class AddProbTransition[S,T](state1: S, trans: T, state2: S, prob: Double)
+  case class AddProbETransition[S,T](state1: S, state2: S, prob: Double)
+  case class RemoveProbETransition[S,T](state1: S, state2: S, prob: Double)
+  type ProbBuilders[S,T] = AddProbFinalState[S,T] | AddProbTransition[S,T] | AddProbETransition[S,T] | RemoveProbETransition[S,T]
+
+  case class AddEHyperedge[S](s: S, ss: Set[S])
+  type EHyperedgeBuilders[S] = AddEHyperedge[S]
+
   type DFAelements[S, T] =
-    SingleInitialStateBuilders[S] & NonProbBuilders[S,T] & AnyBuilders[S,T]
+    SingleInitialStateBuilders[S] | NonProbBuilders[S,T] | AnyBuilders[S,T]
   type NDFAelements[S, T] =
-    MultipleInitialStateBuilders[S] & NDFABuilders[S,T] & NonProbBuilders[S,T]
-     & AnyBuilders[S,T]
+    MultipleInitialStateBuilders[S] | NDFABuilders[S,T] | NonProbBuilders[S,T]
+     | AnyBuilders[S,T]
   type PFAelements[S, T] =
-    SingleInitialStateBuilders[S] & ProbBuilders[S,T] & AnyBuilders[S,T]
-  type HyperedgeDFAelements[S, T]  = DFAelements[S, T]  & EHyperedgeBuilders[S]
-  type HyperedgeNDFAelements[S, T] = NDFAelements[S, T] & EHyperedgeBuilders[S]
+    SingleInitialStateBuilders[S] | ProbBuilders[S,T] | AnyBuilders[S,T]
+  type HyperedgeDFAelements[S, T]  = DFAelements[S, T]  | EHyperedgeBuilders[S]
+  type HyperedgeNDFAelements[S, T] = NDFAelements[S, T] | EHyperedgeBuilders[S]
 
   trait HasBuilder[Setter[_], Mapper[_,_], Elements[_,_], Res[_,_]] {
     def build[S,T](): Builder[Elements[S,T], Res[S,T]]

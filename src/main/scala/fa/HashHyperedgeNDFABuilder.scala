@@ -10,7 +10,7 @@
 
 package org.maraist.fa
 import scala.collection.mutable.{Builder,HashSet,HashMap}
-import org.maraist.fa.Builders.HyperedgeNDFAelements
+import org.maraist.fa.Builders.*
 
 class HashHyperedgeNDFABuilder[S,T]
     extends AbstractHashNDFABuilder[
@@ -48,6 +48,8 @@ class HashHyperedgeNDFABuilder[S,T]
       hyperedgeIndexMap.toMap)
   }
 
+  override def toDFA: ArrayHyperedgeDFA[Set[S],T] = this.toNDFA.toDFA
+
   /** Dispatch steps for a Builder-pattern implementation.  */
   override def addOne(builder: HyperedgeNDFAelements[S,T]): this.type = {
     builder match {
@@ -63,9 +65,8 @@ class HashHyperedgeNDFABuilder[S,T]
       case RemoveInitialState(state) => removeInitialState(state)
       case AddETransition(state1, state2) => addETransition(state1, state2)
       case RemoveETransition(state1, state2) => removeETransition(state1, state2)
+      case AddEHyperedge(fromState, toStates) => addEHyperedge(fromState, toStates)
     }
     this
   }
-
-  override def toDFA: ArrayHyperedgeDFA[Set[S],T] = this.toNDFA.toDFA
 }

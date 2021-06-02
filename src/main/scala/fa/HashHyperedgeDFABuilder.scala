@@ -10,7 +10,7 @@
 
 package org.maraist.fa
 import scala.collection.mutable.{Builder,HashSet,HashMap}
-import org.maraist.fa.Builders.HyperedgeDFAelements
+import org.maraist.fa.Builders.*
 
 class HashHyperedgeDFABuilder[S, T](initialState: S)
     extends AbstractHashDFABuilder[S, T, ArrayHyperedgeDFA[S, T]](initialState)

@@ -22,8 +22,8 @@ open trait Problem[Var, Val] {
 
 object Problem {
 
-  class HashSetProblem[Var, Val](val variables: Seq[Var],
-                                 val constraints: Seq[Constraint[Var, Val]])
+  open class HashSetProblem[Var, Val](
+    val variables: Seq[Var], val constraints: Seq[Constraint[Var, Val]])
   extends Problem[Var, Val]
 
 }

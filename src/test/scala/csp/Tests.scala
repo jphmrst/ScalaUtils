@@ -11,14 +11,14 @@
 package org.maraist.search.csp.examples
 import org.scalatest.OptionValues
 import org.scalatest.flatspec.AnyFlatSpec
-// import org.scalatest.Assertions._
-import org.maraist.search.csp._
-import org.maraist.search.csp.examples.Color3._
+import org.maraist.search.csp.*
+import org.maraist.search.csp.examples.Color3.*
+import scala.language.adhocExtensions
 
 class Tests extends AnyFlatSpec {
   val solution = SimpleAustraliaColor3.solver().search(SimpleAustraliaColor3)
 
-  "3-coloring Australia with simple hash backtracker" should "find correct colors" in {
+  "3-coloring Australia with simple hash backtracker" `should` "find correct colors" in {
     assert(solution("VIC").get === Red)
     assert(solution("ACT").get === Red)
     assert(solution("NSW").get === Green)

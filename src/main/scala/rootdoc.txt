@@ -33,8 +33,14 @@ can be customized via constructor arguments.
  - [[org.maraist.search]] - Umbrella package for common generalizing
    traits and exceptions.
  
-=Other=
+=Automata=
+ 
+ - [[org.maraist.fa]] - Finite automata and various extensions, most
+   including implementations of Rabin-Scott where appropriate for
+   conversion from nondeterministic to deterministic representations.
 
- - [[org.maraist.util]] - Miscellaneous utilities.
+=Miscellaneous utilities=
+
+ - [[org.maraist.util]]
 
 

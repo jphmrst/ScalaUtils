@@ -1,5 +1,5 @@
 // Copyright (C) 2020, 2021 John Maraist
-// See the LICENCE.txt file distributed with this work for additional
+// See the LICENSE.txt file distributed with this work for additional
 // information regarding copyright ownership.
 //
 // Unless required by applicable law or agreed to in writing, software

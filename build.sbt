@@ -1,4 +1,5 @@
 
+version := "2.0.0"
 val scala3Version = "3.0.1-RC1"
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.9"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % "test"

@@ -7,7 +7,7 @@ Compile / doc / scalacOptions ++= Seq(
   "-doc-root-content", "src/main/rootdoc.txt",
   "-external-mappings:" ++ (
     ".*scala.*::scaladoc3::" ++ "http://dotty.epfl.ch/api/,"
-      ++ "org\\.scalatest.*::scaladoc3::#" ++ "http://doc.scalatest.org/3.0.0/"
+      ++ "org\\.scalatest.*::scaladoc3::" ++ "http://doc.scalatest.org/3.0.0/"
   )
 )
 

@@ -1,4 +1,4 @@
-// Copyright (C) 2017, 2018 John Maraist
+// Copyright (C) 2017, 2018, 2021 John Maraist
 // See the LICENSE.txt file distributed with this work for additional
 // information regarding copyright ownership.
 //
@@ -31,6 +31,28 @@ object Collections {
         res.result()
       }
     }
+  }
+
+  /** Normalize a [[Seq]] of [[Double]]s, so that the total of the
+    * resulting numbers is `1.0`, and the relative ratio of each is
+    * preserved.
+    */
+  def normalizeSeq(values: Seq[Double]): Seq[Double] = {
+    val total: Double = values.foldLeft(0.0)(_ + _)
+    val builder = IndexedSeq.newBuilder[Double]
+    for(p <- values) do builder += (p / total)
+    builder.result()
+  }
+
+  /** Normalize a [[Set]] of [[Double]]s, so that the total of the
+    * resulting numbers is `1.0`, and the relative ratio of each is
+    * preserved.
+    */
+  def normalizeSet(values: Set[Double]): Set[Double] = {
+    val total: Double = values.foldLeft(0.0)(_ + _)
+    val builder = Set.newBuilder[Double]
+    for(p <- values) do builder += (p / total)
+    builder.result()
   }
 
   def hoistSome[A](l:List[Option[A]]):Option[List[A]] = l match {

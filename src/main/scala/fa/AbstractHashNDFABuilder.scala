@@ -56,6 +56,8 @@ extends NDFABuilder[S,T,ThisDFA,ThisNDFA] {
     finalStatesSet += s
   }
   def removeFinalState(s:S):Unit = finalStatesSet -= s
+  def setFinalState(s:S):Unit = finalStatesSet += s
+  def setInitialState(s:S):Unit = initialStatesSet += s
   def addTransition(s1:S, t:T, s2:S):Unit = {
     allStates += s1
     allStates += s2

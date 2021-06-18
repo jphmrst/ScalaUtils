@@ -13,7 +13,8 @@ import org.maraist.graphviz.{GraphvizOptions,NodeLabeling,TransitionLabeling}
 import org.maraist.fa.general.{Hyperedge}
 import org.maraist.fa.DFA
 import org.maraist.fa.DFA.IndexedDFA
-import org.maraist.fa.Builders.{HasBuilderWithInit,HyperedgeDFAelements}
+import org.maraist.fa.Builders.{HasBuilderWithInit}
+import org.maraist.fa.hyperedges.Builders.HyperedgeDFAelements
 
 /**
   *  @group Hyperedge

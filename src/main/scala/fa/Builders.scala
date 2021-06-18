@@ -13,10 +13,6 @@ import scala.collection.mutable.{Builder, HashMap, HashSet}
 import java.awt.geom.GeneralPath
 import org.maraist.fa.DFA.IndexedDFA
 import org.maraist.fa.impl.{HashDFABuilder,HashNDFABuilder}
-import org.maraist.fa.hyperedges.{
-  HyperedgeDFA,HyperedgeNDFA,IndexedHyperedgeDFA,IndexedHyperedgeNDFA}
-import org.maraist.fa.hyperedges.impl.
-  {HashHyperedgeDFABuilder,HashHyperedgeNDFABuilder}
 import org.maraist.fa.pfa.PFA
 import org.maraist.fa.pfa.impl.HashPFABuilder
 
@@ -52,9 +48,6 @@ object Builders {
   case class RemoveProbETransition[S,T](state1: S, state2: S, prob: Double)
   type ProbBuilders[S,T] = AddProbFinalState[S,T] | AddProbTransition[S,T] | AddProbETransition[S,T] | RemoveProbETransition[S,T]
 
-  case class AddEHyperedge[S](s: S, ss: Set[S])
-  type EHyperedgeBuilders[S] = AddEHyperedge[S]
-
   type DFAelements[S, T] =
     SingleInitialStateBuilders[S] | NonProbBuilders[S,T] | AnyBuilders[S,T]
   type NDFAelements[S, T] =
@@ -62,9 +55,6 @@ object Builders {
      | AnyBuilders[S,T]
   type PFAelements[S, T] =
     SingleInitialStateBuilders[S] | ProbBuilders[S,T] | AnyBuilders[S,T]
-  type HyperedgeDFAelements[S, T]  = DFAelements[S, T]  | EHyperedgeBuilders[S]
-  type HyperedgeNDFAelements[S, T] = NDFAelements[S, T] | EHyperedgeBuilders[S]
-
   trait HasBuilder[Setter[_], Mapper[_,_], Elements[_,_], Res[_,_]] {
     def build[S,T](): Builder[Elements[S,T], Res[S,T]]
   }
@@ -88,23 +78,5 @@ object Builders {
   given HasBuilder[HashSet, HashMap, PFAelements, PFA] with {
     override def build[S,T](): Builder[PFAelements[S, T], PFA[S, T]] =
         new HashPFABuilder[S, T]
-  }
-
-  given HasBuilderWithInit[
-    HashSet, HashMap, HyperedgeDFAelements, HyperedgeDFA
-  ] with {
-    override def build[S,T](init: S): Builder[HyperedgeDFAelements[S, T],
-                                              HyperedgeDFA[S, T]] =
-      new HashHyperedgeDFABuilder[S, T](init)
-  }
-
-  given HasBuilder[
-    HashSet, HashMap, HyperedgeNDFAelements,
-    [X,Y] =>> HyperedgeNDFA[X, Y, IndexedHyperedgeDFA[Set[X], Y]]
-  ] with {
-    override def build[S,T]():
-        Builder[HyperedgeNDFAelements[S, T],
-                HyperedgeNDFA[S, T, IndexedHyperedgeDFA[Set[S], T]]] =
-        new HashHyperedgeNDFABuilder[S, T]
   }
 }

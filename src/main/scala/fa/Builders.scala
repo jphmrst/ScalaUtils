@@ -17,7 +17,8 @@ import org.maraist.fa.hyperedges.{
   HyperedgeDFA,HyperedgeNDFA,IndexedHyperedgeDFA,IndexedHyperedgeNDFA}
 import org.maraist.fa.hyperedges.impl.
   {HashHyperedgeDFABuilder,HashHyperedgeNDFABuilder}
-import org.maraist.fa.pfa.HashPFABuilder
+import org.maraist.fa.pfa.PFA
+import org.maraist.fa.pfa.impl.HashPFABuilder
 
 /**
   * @group General

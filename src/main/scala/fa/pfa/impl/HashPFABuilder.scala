@@ -8,10 +8,10 @@
 // implied, for NON-COMMERCIAL use.  See the License for the specific
 // language governing permissions and limitations under the License.
 
-package org.maraist.fa.pfa
+package org.maraist.fa.pfa.impl
 import scala.collection.mutable.HashSet
 import java.nio.file.attribute.PosixFileAttributes
-import org.maraist.fa.{PFA, IndexedPFA}
+import org.maraist.fa.pfa.{PFA, IndexedPFA}
 
 /**
   * Concrete builder class for {@link org.maraist.fa.DFA DFAs} based

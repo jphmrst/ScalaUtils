@@ -10,7 +10,7 @@
 
 package org.maraist.fa.pfa.impl
 import org.maraist.graphviz.{GraphvizOptions,NodeLabeling,TransitionLabeling}
-import org.maraist.fa.{PFAtraverser}
+import org.maraist.fa.pfa.{PFAtraverser}
 import org.maraist.fa.impl.{DOT}
 
 /**

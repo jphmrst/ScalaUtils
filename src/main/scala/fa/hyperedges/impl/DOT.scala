@@ -10,7 +10,6 @@
 
 package org.maraist.fa.hyperedges.impl
 import org.maraist.graphviz.{GraphvizOptions,NodeLabeling,TransitionLabeling}
-import org.maraist.fa.{PFAtraverser}
 import org.maraist.fa.impl.{DOT, DotTraverseMixin}
 import org.maraist.fa.hyperedges.{HyperedgeDFAtraverser}
 import org.maraist.fa.DFA.{DFAtraverser}

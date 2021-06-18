@@ -9,12 +9,13 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
-import scala.collection.mutable.Builder
+import scala.collection.mutable.{Builder, HashMap, HashSet}
 import org.maraist.graphviz.{Graphable,GraphvizOptions,
                              NodeLabeling,TransitionLabeling}
 import org.maraist.fa.general.{Automaton, IndexedAutomaton}
 import org.maraist.fa.Builders.{HasBuilderWithInit,DFAelements}
 import org.maraist.fa.DFA.DFAtraverser
+import org.maraist.fa.impl.{HashDFABuilder}
 
 /** Builders for deterministic finite automata (DFAs)
   * @tparam S The type of all states of the automaton
@@ -57,3 +58,12 @@ trait DFABuilder[S, T, +ThisDFA <: DFA[S,T]] extends DFA[S,T]
   /** @deprecated Use {@link #result} */
   def toDFA: ThisDFA
 }
+
+object DFABuilders {
+
+  given HasBuilderWithInit[HashSet, HashMap, DFAelements, DFA] with {
+    override def build[S,T](init: S): Builder[DFAelements[S, T], DFA[S, T]] =
+        new HashDFABuilder[S, T](init)
+  }
+}
+

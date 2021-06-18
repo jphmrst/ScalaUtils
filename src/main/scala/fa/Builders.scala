@@ -11,7 +11,6 @@
 package org.maraist.fa
 import scala.collection.mutable.{Builder, HashMap, HashSet}
 import org.maraist.fa.DFA.IndexedDFA
-import org.maraist.fa.impl.{HashDFABuilder}
 
 /**
   * @group General
@@ -31,10 +30,6 @@ object Builders {
   case class SetInitialState[S](state: S)
   type SingleInitialStateBuilders[S] = SetInitialState[S]
 
-  case class AddInitialState[S](state: S)
-  case class RemoveInitialState[S](state: S)
-  type MultipleInitialStateBuilders[S] = AddInitialState[S] | RemoveInitialState[S]
-
   type DFAelements[S, T] =
     SingleInitialStateBuilders[S] | NonProbBuilders[S,T] | AnyBuilders[S,T]
 
@@ -43,10 +38,5 @@ object Builders {
   }
   trait HasBuilderWithInit[Setter[_], Mapper[_,_], Elements[_,_], Res[_,_]] {
     def build[S,T](init: S): Builder[Elements[S,T], Res[S,T]]
-  }
-
-  given HasBuilderWithInit[HashSet, HashMap, DFAelements, DFA] with {
-    override def build[S,T](init: S): Builder[DFAelements[S, T], DFA[S, T]] =
-        new HashDFABuilder[S, T](init)
   }
 }

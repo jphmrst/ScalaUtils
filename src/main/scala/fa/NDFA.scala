@@ -11,7 +11,7 @@
 package org.maraist.fa
 import scala.collection.mutable.{HashMap,HashSet,Queue}
 import org.maraist.graphviz.{Graphable,NodeLabeling,TransitionLabeling}
-import org.maraist.fa.general.Automaton
+import org.maraist.fa.general.{IndexedAutomaton, Automaton}
 import org.maraist.fa.DFA.IndexedDFA
 import org.maraist.fa.Builders.{HasBuilder,NDFAelements}
 import org.maraist.fa.impl.DOT
@@ -121,6 +121,17 @@ extends Automaton[S,T] with Graphable[S,T] {
 }
 
 object NDFA {
+  /** Type signature of an NDFA whose states and transition labels can
+    * be referenced by an index number.
+    *
+    *  @tparam S The type of all states of the automaton
+    *  @tparam T The type of labels on transitions of the automaton
+    *
+    * @group NDFA
+    */
+  trait IndexedNDFA[S, T, +ThisDFA <: IndexedDFA[Set[S],T]]
+      extends IndexedAutomaton[S,T] with NDFA[S,T,ThisDFA]
+
   def newBuilder[S, T, SetType[_], MapType[_,_]](initialState: S)(
     using impl: HasBuilder[
       SetType, MapType, NDFAelements, [X,Y] =>> NDFA[X, Y, IndexedDFA[Set[X], Y]]

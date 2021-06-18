@@ -11,7 +11,7 @@
 package org.maraist.fa.impl
 import scala.collection.mutable.{ArrayBuffer,ListBuffer,HashSet,Queue}
 import org.maraist.util.IndexSetsTracker
-import org.maraist.fa.{IndexedNDFA}
+import org.maraist.fa.NDFA.IndexedNDFA
 
 /** Immutable [[org.maraist.fa.NDFA NDFA]] implementation using
   * [[scala.collection.immutable.IndexedSeq `IndexedSeq`s]] and

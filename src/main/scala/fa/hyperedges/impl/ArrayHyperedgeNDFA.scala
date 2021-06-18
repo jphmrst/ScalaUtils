@@ -8,13 +8,13 @@
 // implied, for NON-COMMERCIAL use.  See the License for the specific
 // language governing permissions and limitations under the License.
 
-package org.maraist.fa.hyperedges
+package org.maraist.fa.hyperedges.impl
 import scala.collection.mutable.ArrayBuffer
 import scala.collection.mutable.HashMap
 import scala.collection.mutable.HashSet
 import org.maraist.util.IndexSetsTracker
 import org.maraist.graphviz.NodeLabeling
-import org.maraist.fa.{HyperedgeNDFA}
+import org.maraist.fa.hyperedges.HyperedgeNDFA
 import org.maraist.fa.impl.{AbstractArrayDFA, AbstractArrayNDFA}
 
 /**

@@ -8,10 +8,12 @@
 // implied, for NON-COMMERCIAL use.  See the License for the specific
 // language governing permissions and limitations under the License.
 
-package org.maraist.fa
+package org.maraist.fa.hyperedges
 import org.maraist.graphviz.{GraphvizOptions,NodeLabeling,TransitionLabeling}
 import org.maraist.fa.general.{Hyperedge}
+import org.maraist.fa.DFA
 import org.maraist.fa.DFA.IndexedDFA
+import org.maraist.fa.HyperedgeDFAtraverser
 import org.maraist.fa.Builders.{HasBuilderWithInit,HyperedgeDFAelements}
 
 /**

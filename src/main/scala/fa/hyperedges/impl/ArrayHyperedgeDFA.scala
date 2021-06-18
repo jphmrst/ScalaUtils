@@ -8,9 +8,10 @@
 // implied, for NON-COMMERCIAL use.  See the License for the specific
 // language governing permissions and limitations under the License.
 
-package org.maraist.fa.hyperedges
+package org.maraist.fa.hyperedges.impl
 import scala.collection.mutable.HashMap
-import org.maraist.fa.{IndexedHyperedgeDFA, HyperedgeDFAtraverser}
+import org.maraist.fa.{HyperedgeDFAtraverser}
+import org.maraist.fa.hyperedges.{IndexedHyperedgeDFA}
 import org.maraist.fa.impl.{AbstractArrayDFA, DotTraverseHyperedgeDFA}
 
 /**

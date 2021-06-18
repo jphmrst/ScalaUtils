@@ -13,7 +13,9 @@ import scala.collection.mutable.{Builder, HashMap, HashSet}
 import java.awt.geom.GeneralPath
 import org.maraist.fa.DFA.IndexedDFA
 import org.maraist.fa.impl.{HashDFABuilder,HashNDFABuilder}
-import org.maraist.fa.hyperedges.
+import org.maraist.fa.hyperedges.{
+  HyperedgeDFA,HyperedgeNDFA,IndexedHyperedgeDFA,IndexedHyperedgeNDFA}
+import org.maraist.fa.hyperedges.impl.
   {HashHyperedgeDFABuilder,HashHyperedgeNDFABuilder}
 import org.maraist.fa.pfa.HashPFABuilder
 

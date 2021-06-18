@@ -8,13 +8,13 @@
 // implied, for NON-COMMERCIAL use.  See the License for the specific
 // language governing permissions and limitations under the License.
 
-package org.maraist.fa
+package org.maraist.fa.hyperedges
 import org.maraist.fa.general.HyperedgeBuilder
+import org.maraist.fa.DFABuilder
 
 /**
   *  @group Hyperedge
   */
-trait HyperedgeNDFABuilder[S,T, +ThisDFA <: IndexedHyperedgeDFA[Set[S],T],
-                           +ThisNDFA <: NDFA[S,T,ThisDFA]]
-extends NDFABuilder[S,T,ThisDFA,ThisNDFA]
-      with HyperedgeNDFA[S,T,ThisDFA] with HyperedgeBuilder[S]
+trait HyperedgeDFABuilder[S, T, ThisDFA <: HyperedgeDFA[S,T]]
+    extends DFABuilder[S, T, ThisDFA]
+    with HyperedgeDFA[S, T] with HyperedgeBuilder[S]

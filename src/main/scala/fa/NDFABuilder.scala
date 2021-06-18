@@ -9,9 +9,10 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
-import scala.collection.mutable.Builder
-import org.maraist.fa.Builders.NDFAelements
+import scala.collection.mutable.{Builder, HashMap, HashSet}
+import org.maraist.fa.Builders.{NDFAelements, HasBuilder}
 import org.maraist.fa.DFA.IndexedDFA
+import org.maraist.fa.impl.HashNDFABuilder
 
 /** Builders for nondeterministic finite automata (NDFAs)
   * @tparam S The type of all states of the automaton
@@ -59,3 +60,14 @@ trait NDFABuilder[S, T, +ThisDFA <: IndexedDFA[Set[S],T],
     * described to this builder */
   def toNDFA: ThisNDFA
 }
+
+object NDFABuilders {
+  given HasBuilder[
+    HashSet, HashMap, NDFAelements, [X,Y] =>> NDFA[X, Y, IndexedDFA[Set[X], Y]]
+  ] with {
+    override def build[S,T]():
+      Builder[NDFAelements[S, T], NDFA[S, T, IndexedDFA[Set[S], T]]] =
+        new HashNDFABuilder[S, T]
+  }
+}
+

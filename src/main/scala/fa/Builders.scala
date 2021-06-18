@@ -11,7 +11,7 @@
 package org.maraist.fa
 import scala.collection.mutable.{Builder, HashMap, HashSet}
 import org.maraist.fa.DFA.IndexedDFA
-import org.maraist.fa.impl.{HashDFABuilder,HashNDFABuilder}
+import org.maraist.fa.impl.{HashDFABuilder}
 
 /**
   * @group General
@@ -55,13 +55,5 @@ object Builders {
   given HasBuilderWithInit[HashSet, HashMap, DFAelements, DFA] with {
     override def build[S,T](init: S): Builder[DFAelements[S, T], DFA[S, T]] =
         new HashDFABuilder[S, T](init)
-  }
-
-  given HasBuilder[
-    HashSet, HashMap, NDFAelements, [X,Y] =>> NDFA[X, Y, IndexedDFA[Set[X], Y]]
-  ] with {
-    override def build[S,T]():
-      Builder[NDFAelements[S, T], NDFA[S, T, IndexedDFA[Set[S], T]]] =
-        new HashNDFABuilder[S, T]
   }
 }

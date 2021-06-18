@@ -11,7 +11,7 @@
 package org.maraist.fa
 import scala.collection.mutable.{Builder, HashMap, HashSet}
 import org.maraist.fa.Builders.
-  {HasBuilder, MultipleInitialStateBuilders, NonProbBuilders, AnyBuilders, NDFABuilders}
+  {HasBuilder, MultipleInitialStateBuilders, NonProbBuilders, AnyBuilders}
 import org.maraist.fa.DFA.IndexedDFA
 import org.maraist.fa.impl.HashNDFABuilder
 
@@ -63,6 +63,10 @@ trait NDFABuilder[S, T, +ThisDFA <: IndexedDFA[Set[S],T],
 }
 
 object NDFABuilders {
+  case class AddETransition[S,T](state1: S, state2: S)
+  case class RemoveETransition[S,T](state1: S, state2: S)
+  type NDFABuilders[S,T] = AddETransition[S,T] | RemoveETransition[S,T]
+
   type NDFAelements[S, T] =
     MultipleInitialStateBuilders[S] | NDFABuilders[S,T] | NonProbBuilders[S,T]
      | AnyBuilders[S,T]

@@ -35,10 +35,6 @@ object Builders {
   case class RemoveInitialState[S](state: S)
   type MultipleInitialStateBuilders[S] = AddInitialState[S] | RemoveInitialState[S]
 
-  case class AddETransition[S,T](state1: S, state2: S)
-  case class RemoveETransition[S,T](state1: S, state2: S)
-  type NDFABuilders[S,T] = AddETransition[S,T] | RemoveETransition[S,T]
-
   type DFAelements[S, T] =
     SingleInitialStateBuilders[S] | NonProbBuilders[S,T] | AnyBuilders[S,T]
 

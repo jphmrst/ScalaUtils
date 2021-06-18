@@ -11,8 +11,8 @@
 package org.maraist.fa.hyperedges.impl
 import scala.collection.mutable.{Builder,HashSet,HashMap}
 import org.maraist.fa.DFABuilder
-import org.maraist.fa.{HyperedgeDFAtraverser}
-import org.maraist.fa.hyperedges.{HyperedgeDFA, HyperedgeDFABuilder}
+import org.maraist.fa.hyperedges.{
+  HyperedgeDFAtraverser, HyperedgeDFA, HyperedgeDFABuilder}
 import org.maraist.fa.Builders.*
 import org.maraist.fa.impl.{AbstractHashDFABuilder, DotTraverseHyperedgeDFA}
 

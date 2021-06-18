@@ -13,7 +13,6 @@ import org.maraist.graphviz.{GraphvizOptions,NodeLabeling,TransitionLabeling}
 import org.maraist.fa.general.{Hyperedge}
 import org.maraist.fa.DFA
 import org.maraist.fa.DFA.IndexedDFA
-import org.maraist.fa.HyperedgeDFAtraverser
 import org.maraist.fa.Builders.{HasBuilderWithInit,HyperedgeDFAelements}
 
 /**
@@ -58,3 +57,18 @@ object HyperedgeDFA {
   *  @group Hyperedge
   */
 trait IndexedHyperedgeDFA[S,T] extends IndexedDFA[S,T] with HyperedgeDFA[S,T]
+
+/**
+ * Methods for traversing the structure of a
+ * {@link org.maraist.fa.HyperedgeDFA HyperedgeDFA}. Use with the
+ * {@link org.maraist.fa.HyperedgeDFA#traverse HyperedgeDFA.traverse} method.
+ * By default, all methods are empty.
+ *
+ *  @tparam S The type of all states of the automaton
+ *  @tparam T The type of labels on transitions of the automaton
+ *
+ * @group DFA
+ */
+trait HyperedgeDFAtraverser[S,-T] extends DFA.DFAtraverser[S,T] {
+  def eHyperedge(sourceIndex:Int, source:S, targets:Set[S]): Unit
+}

@@ -8,8 +8,9 @@
 // implied, for NON-COMMERCIAL use.  See the License for the specific
 // language governing permissions and limitations under the License.
 
-package org.maraist.fa
+package org.maraist.fa.impl
 import scala.collection.mutable.{Builder,HashSet}
+import org.maraist.fa.{DFA, DFAtraverser}
 import org.maraist.fa.Builders.*
 
 /**

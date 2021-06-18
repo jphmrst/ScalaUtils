@@ -11,6 +11,7 @@
 package org.maraist.fa
 import org.maraist.graphviz.{Graphable,GraphvizOptions,
                              NodeLabeling,TransitionLabeling}
+import org.maraist.fa.general.Automaton
 import org.maraist.fa.Builders.{HasBuilderWithInit,DFAelements}
 
 /** Trait of the basic usage operations on a DFA.

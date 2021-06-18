@@ -12,7 +12,7 @@ package org.maraist.fa.pfa
 import scala.collection.mutable.HashMap
 import scala.collection.mutable.HashSet
 import org.maraist.fa.{PFA, IndexedPFA, PFABuilder}
-import org.maraist.fa.{StateHashBuilderTrait}
+import org.maraist.fa.impl.{StateHashBuilderTrait}
 
 /** Implementation of [[org.maraist.fa.PFABuilder PFABuilder]] using
  *  [[scala.collection.mutable.HashSet `HashSet`s]] and

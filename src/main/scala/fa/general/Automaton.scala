@@ -8,7 +8,7 @@
 // implied, for NON-COMMERCIAL use.  See the License for the specific
 // language governing permissions and limitations under the License.
 
-package org.maraist.fa
+package org.maraist.fa.general
 
 /** Trait of the basic usage operations on an automaton with states and labels.
  *

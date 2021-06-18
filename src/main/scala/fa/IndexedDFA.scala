@@ -12,6 +12,7 @@ package org.maraist.fa
 import org.maraist.graphviz.Graphable
 import org.maraist.graphviz.NodeLabeling
 import org.maraist.graphviz.TransitionLabeling
+import org.maraist.fa.general.IndexedAutomaton
 
 /** Trait of the basic usage operations on a DFA.
  *

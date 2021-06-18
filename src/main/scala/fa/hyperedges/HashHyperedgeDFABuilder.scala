@@ -10,9 +10,9 @@
 
 package org.maraist.fa.hyperedges
 import scala.collection.mutable.{Builder,HashSet,HashMap}
-import org.maraist.fa.{AbstractHashDFABuilder,HyperedgeDFA}
+import org.maraist.fa.{HyperedgeDFA, HyperedgeDFABuilder, HyperedgeDFAtraverser}
 import org.maraist.fa.Builders.*
-import org.maraist.fa.{HyperedgeDFABuilder, HyperedgeDFAtraverser, DotTraverseHyperedgeDFA}
+import org.maraist.fa.impl.{AbstractHashDFABuilder, DotTraverseHyperedgeDFA}
 
 /**
   *

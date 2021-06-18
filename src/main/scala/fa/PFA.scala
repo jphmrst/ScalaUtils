@@ -13,7 +13,9 @@ import scala.collection.mutable.{HashMap,HashSet}
 import org.maraist.graphviz.Graphable
 import org.maraist.graphviz.NodeLabeling
 import org.maraist.graphviz.TransitionLabeling
+import org.maraist.fa.general.Automaton
 import org.maraist.fa.Builders.{HasBuilder,PFAelements}
+import org.maraist.fa.impl.{PFAdotTraverser}
 
 /** Trait of the basic usage operations on a PFA.
  *
@@ -179,6 +181,63 @@ trait PFA[S,T] extends Automaton[S,T] with Graphable[S,T] {
 
     totals.map({ case (k, vm) => (k, vm.toMap) }).toMap
   }
+}
+
+/**
+ * Methods for traversing the structure of a {@link org.maraist.fa.PFA PFA}.
+ * Use with the {@link org.maraist.fa.PFA#traverse PFA.traverse} method. By
+ * default, all methods are empty.
+ *
+ *  @tparam S The type of all states of the automaton
+ *  @tparam T The type of labels on transitions of the automaton
+ * @group graphviz
+ */
+private[fa] trait PFAtraverser[-S,-T] {
+
+  /** Called at the beginning of traversal, before any other methods. */
+  def init():Unit = { }
+
+  /** Called once for each state in the {@link org.maraist.fa.DFA DFA}. */
+  def state(index:Int, state:S,
+            initialProb:Double, finalProb:Double):Unit = { }
+
+  /**
+   * Called after the last call to {@link org.maraist.fa.PFAtraverser#state
+   * state}, but before any calls to
+   * presentEdge
+   * or absentEdge.
+   */
+  def postState():Unit = { }
+
+  /** Called for each epsilon-transition between states in the DFA with
+   *  non-zero pronbability. */
+  def presentEdge(fromIndex:Int, fromState:S,
+                  toIndex:Int, toState:S, prob:Double):Unit = { }
+
+  /** Called for each state pair with zero probability of an epsilon
+   * transition between them.  Note that this method will be called even if
+   * there is a labeled transition from `fromState` to `toState`.*/
+  def absentEpsilonEdge(fromIndex:Int, fromState:S,
+                        toIndex:Int, toState:S):Unit = { }
+
+  /** Called for each labeled transition between states with non-zero
+   *  probability in the DFA. */
+  def presentEdge(fromIndex:Int, fromState:S, labelIndex:Int, label:T,
+                  toIndex:Int, toState:S, prob:Double):Unit = { }
+
+  /** Called for each state/label/state triple with zero probability.
+   *  Note that this method will be called even if there is an epsilon
+   *  transition from `fromState` to `toState`.
+   */
+  def absentEdge(fromIndex:Int, fromState:S, labelIndex:Int, label:T,
+                 toIndex:Int, toState:S):Unit = { }
+
+  /** Called for each state/label pair for which there is no target state
+   *  with nonzero pobability. */
+  def absentEdge(fromIndex:Int, fromState:S, labelIndex:Int, label:T):Unit = { }
+
+  /** Called last among the methods of this trait for any traversal. */
+  def finish():Unit = { }
 }
 
 /**

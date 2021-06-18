@@ -8,9 +8,9 @@
 // implied, for NON-COMMERCIAL use.  See the License for the specific
 // language governing permissions and limitations under the License.
 
-package org.maraist.fa
-import scala.collection.mutable.HashMap
-import scala.collection.mutable.HashSet
+package org.maraist.fa.impl
+import scala.collection.mutable.{HashMap,HashSet}
+import org.maraist.fa.{IndexedDFA, NDFA, NDFABuilder}
 
 /** Implementation of [[org.maraist.fa.NDFABuilder NDFABuilder]] using
   * [[scala.collection.mutable.HashMap `HashMap`s]] and

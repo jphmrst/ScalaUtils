@@ -14,7 +14,8 @@ import scala.collection.mutable.HashMap
 import scala.collection.mutable.HashSet
 import org.maraist.util.IndexSetsTracker
 import org.maraist.graphviz.NodeLabeling
-import org.maraist.fa.{AbstractArrayNDFA, HyperedgeNDFA}
+import org.maraist.fa.{HyperedgeNDFA}
+import org.maraist.fa.impl.{AbstractArrayDFA, AbstractArrayNDFA}
 
 /**
   *

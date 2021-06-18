@@ -26,14 +26,4 @@ object Builders {
   case class AddFinalState[S,T](state: S)
   case class AddTransition[S,T](state1: S, trans: T, state2: S)
   type NonProbBuilders[S,T] = AddFinalState[S,T] | AddTransition[S,T]
-
-  case class SetInitialState[S](state: S)
-  type SingleInitialStateBuilders[S] = SetInitialState[S]
-
-  trait HasBuilder[Setter[_], Mapper[_,_], Elements[_,_], Res[_,_]] {
-    def build[S,T](): Builder[Elements[S,T], Res[S,T]]
-  }
-  trait HasBuilderWithInit[Setter[_], Mapper[_,_], Elements[_,_], Res[_,_]] {
-    def build[S,T](init: S): Builder[Elements[S,T], Res[S,T]]
-  }
 }

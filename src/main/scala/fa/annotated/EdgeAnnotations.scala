@@ -11,10 +11,10 @@
 package org.maraist.fa.annotated
 import scala.collection.mutable.{HashMap,HashSet,Queue}
 import org.maraist.graphviz.{Graphable,NodeLabeling,TransitionLabeling}
+import org.maraist.fa.general.Builders.HasBuilder
 import org.maraist.fa.{DFA, NDFA}
 import org.maraist.fa.NDFA.IndexedNDFA
 import org.maraist.fa.DFA.IndexedDFA
-import org.maraist.fa.Builders.HasBuilder
 
 /** Methods provided by nondeterministic finite automata (NDFAs)
   *

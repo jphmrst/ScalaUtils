@@ -13,8 +13,8 @@ import scala.collection.mutable.{Builder, HashMap, HashSet}
 import org.maraist.graphviz.{Graphable,GraphvizOptions,
                              NodeLabeling,TransitionLabeling}
 import org.maraist.fa.general.{Automaton, IndexedAutomaton}
-import org.maraist.fa.Builders.{HasBuilderWithInit,
-  SingleInitialStateBuilders, NonProbBuilders, AnyBuilders}
+import org.maraist.fa.general.Builders.HasBuilderWithInit
+import org.maraist.fa.Builders.{NonProbBuilders, AnyBuilders}
 import org.maraist.fa.DFA.DFAtraverser
 import org.maraist.fa.impl.{HashDFABuilder}
 
@@ -61,6 +61,9 @@ trait DFABuilder[S, T, +ThisDFA <: DFA[S,T]] extends DFA[S,T]
 }
 
 object DFABuilders {
+
+  case class SetInitialState[S](state: S)
+  type SingleInitialStateBuilders[S] = SetInitialState[S]
 
   type DFAelements[S, T] =
     SingleInitialStateBuilders[S] | NonProbBuilders[S,T] | AnyBuilders[S,T]

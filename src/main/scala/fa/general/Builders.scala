@@ -10,9 +10,16 @@
 
 package org.maraist.fa.general
 import scala.collection.mutable.{Builder, HashMap, HashSet}
+import org.maraist.fa.DFA.IndexedDFA
 
 /**
   * @group General
   */
 object Builders {
+  trait HasBuilder[Setter[_], Mapper[_,_], Elements[_,_], Res[_,_]] {
+    def build[S,T](): Builder[Elements[S,T], Res[S,T]]
+  }
+  trait HasBuilderWithInit[Setter[_], Mapper[_,_], Elements[_,_], Res[_,_]] {
+    def build[S,T](init: S): Builder[Elements[S,T], Res[S,T]]
+  }
 }

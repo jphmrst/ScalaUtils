@@ -9,6 +9,7 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
+import scala.collection.mutable.Builder
 import org.maraist.graphviz.{Graphable,GraphvizOptions,
                              NodeLabeling,TransitionLabeling}
 import org.maraist.fa.general.{Automaton, IndexedAutomaton}
@@ -21,7 +22,8 @@ import org.maraist.fa.DFA.DFAtraverser
   * automaton
   * @group DFA
   */
-trait DFABuilder[S, T, +ThisDFA <: DFA[S,T]] extends DFA[S,T] {
+trait DFABuilder[S, T, +ThisDFA <: DFA[S,T]] extends DFA[S,T]
+    with Builder[DFAelements[S,T], ThisDFA] {
 
   /** Returns the (possibly immutable) [[org.maraist.fa.DFA DFA]]
     * described to this builder */

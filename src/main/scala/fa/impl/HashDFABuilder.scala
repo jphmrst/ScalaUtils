@@ -9,7 +9,7 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa.impl
-import scala.collection.mutable.{Builder,HashSet}
+import scala.collection.mutable.HashSet
 import org.maraist.fa.DFA
 import org.maraist.fa.Builders.*
 import org.maraist.fa.DFA.DFAtraverser
@@ -24,8 +24,7 @@ import org.maraist.fa.DFA.DFAtraverser
  *  @group DFA
  */
 class HashDFABuilder[S,T](initialState: S)
-    extends AbstractHashDFABuilder[S,T, AbstractArrayDFA[S,T]](initialState)
-    with Builder[DFAelements[S,T], DFA[S,T]] {
+    extends AbstractHashDFABuilder[S,T, AbstractArrayDFA[S,T]](initialState) {
   type ThisDFA = ArrayDFA[S,T]
   type Traverser = DFAtraverser[S,T]
   protected def dotTraverser(sb:StringBuilder,stateList:IndexedSeq[S]) =

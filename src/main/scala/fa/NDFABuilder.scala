@@ -21,7 +21,39 @@ import org.maraist.fa.DFA.IndexedDFA
 trait NDFABuilder[S, T, +ThisDFA <: IndexedDFA[Set[S],T],
                   +ThisNDFA <: NDFA[S,T,ThisDFA]]
     extends NDFA[S,T,ThisDFA]
-    with NDFABuilderWriter[S,T] {
+    with Builder[NDFAelements[S,T], ThisNDFA] {
+  /** Adds a state to the automaton */
+  def addState(s:S):Unit
+  /** Removes a state from the automaton */
+  def removeState(s:S):Unit
+  /** Adds an initial state to the automaton */
+  def addInitialState(s:S):Unit
+  /** Causes a state not to be considered an initial state, but does
+    * ''not'' remove it from the automaton */
+  def removeInitialState(s:S):Unit
+  /** Adds a final state to the automaton */
+  def addFinalState(s:S):Unit
+  /** Set a state which is already part of the automaton to be a final state. */
+  def setFinalState(s:S):Unit
+  /** Set a state which is already part of the automaton to be an initial state. */
+  def setInitialState(s:S):Unit
+  /** Causes a state not to be considered a final state, but does
+    * ''not'' remove it from the automaton */
+  def removeFinalState(s:S):Unit
+
+  /** Adds a transition labelled `t` from `s1` to `s2` */
+  def addTransition(s1:S, t:T, s2:S): Unit
+  /** Adds an &epsilon;-transition from `s1` to `s2` */
+  def addETransition(s1:S, s2:S): Unit
+  /** Removes any transition labelled `t` from `s1` to `s2` */
+  def removeTransition(s1:S, t:T, s2:S): Unit
+  /** Removes any &epsilon;-transition from `s1` to `s2` */
+  def removeETransition(s1:S, s2:S): Unit
+
+  /** This {@link scala.collection.mutable.Builder Builder} method
+    * is not implemented at this time.
+    */
+  def clear(): Unit = throw new UnsupportedOperationException()
 
   /** Returns the (possibly immutable) [[org.maraist.fa.NDFA NDFA]]
     * described to this builder */

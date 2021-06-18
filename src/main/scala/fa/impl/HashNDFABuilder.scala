@@ -19,7 +19,8 @@ import org.maraist.fa.{NDFA}
   */
 class HashNDFABuilder[S,T]
     extends AbstractHashNDFABuilder[S,T,ArrayDFA[Set[S],T],ArrayNDFA[S,T]]
-    with Builder[NDFAelements[S,T], NDFA[S,T,ArrayDFA[Set[S],T]]] {
+    // with Builder[NDFAelements[S,T], NDFA[S,T,ArrayDFA[Set[S],T]]]
+{
 
   def toDFA: ArrayDFA[Set[S],T] = toNDFA.toDFA
   protected def assembleNDFA(statesSeq:IndexedSeq[S], initials:Set[Int],

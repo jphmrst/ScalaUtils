@@ -162,8 +162,12 @@ extends NDFABuilder[S,T,ThisDFA,ThisNDFA] {
       epsilonsArray)
   }
 
-  protected def assembleNDFA(statesSeq: IndexedSeq[S], initials:Set[Int],
-                             finals:Set[Int], transitionsSeq: IndexedSeq[T],
-                             labelsArray:Array[Array[HashSet[Int]]],
-                             epsilonsArray:Array[HashSet[Int]]):ThisNDFA
+  protected def assembleNDFA(
+    statesSeq: IndexedSeq[S],
+    initials: Set[Int],
+    finals: Set[Int],
+    transitionsSeq: IndexedSeq[T],
+    labelsArray: Array[Array[HashSet[Int]]],
+    epsilonsArray: Array[HashSet[Int]]):
+      ThisNDFA
 }

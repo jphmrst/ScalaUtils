@@ -8,8 +8,9 @@
 // implied, for NON-COMMERCIAL use.  See the License for the specific
 // language governing permissions and limitations under the License.
 
-package org.maraist.fa
+package org.maraist.fa.pfa
 import scala.collection.mutable.{HashMap}
+import org.maraist.fa.{IndexedPFA}
 
 /** Implementation of a [[org.maraist.fa.DFA DFA]] using
  *  [[scala.collection.immutable.IndexedSeq `IndexedSeq`s]] and

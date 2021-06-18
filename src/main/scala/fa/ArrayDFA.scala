@@ -19,7 +19,7 @@ package org.maraist.fa
  * @tparam S The type of all states of the automaton
  * @tparam T The type of labels on (non-epsilon) transitions of the automaton
  *
- * @group DFA
+ * @group Hyperedge
  */
 class ArrayDFA[S,T](stateSeq: IndexedSeq[S],
                     initialStateIndex: Int, finalStateIndices: Set[Int],

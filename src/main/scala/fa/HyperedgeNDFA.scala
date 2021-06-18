@@ -15,15 +15,15 @@ import org.maraist.fa.Builders.{HasBuilder,HyperedgeNDFAelements}
 /**
   *  @group Hyperedge
   */
-trait HyperedgeNDFA[S, T, +ThisDFA <: IndexedHyperedgeDFA[Set[S],T]]
-extends NDFA[S,T,ThisDFA] with Hyperedge[S] {
+trait HyperedgeNDFA[S, T, +ThisDFA <: IndexedHyperedgeDFA[Set[S], T]]
+extends NDFA[S, T, ThisDFA] with Hyperedge[S] {
   /** {@inheritDoc} */
-  override protected def internalsToDOT(stateList:IndexedSeq[S],
-                                        sb:StringBuilder,
-                                        nodeLabeling:NodeLabeling[S] =
-                                          this.nodeLabeling,
-                                        trLabeling:TransitionLabeling[T] =
-                                          this.transitionLabeling):Unit = {
+  override protected def internalsToDOT(
+    stateList: IndexedSeq[S],
+    sb: StringBuilder,
+    nodeLabeling: NodeLabeling[S] = this.nodeLabeling,
+    trLabeling: TransitionLabeling[T] = this.transitionLabeling):
+      Unit = {
     super.internalsToDOT(stateList, sb, nodeLabeling, trLabeling)
     eHyperedgesToDOT(nodeLabeling, stateList, sb)
   }
@@ -32,8 +32,9 @@ extends NDFA[S,T,ThisDFA] with Hyperedge[S] {
 /**
   *  @group Hyperedge
   */
-trait IndexedHyperedgeNDFA[S,T,+ThisDFA <: IndexedHyperedgeDFA[Set[S],T]]  // scalastyle:ignore
-extends HyperedgeNDFA[S,T,ThisDFA] with IndexedNDFA[S,T,ThisDFA]
+trait IndexedHyperedgeNDFA[S,T,+ThisDFA <: IndexedHyperedgeDFA[Set[S],T]]
+    extends HyperedgeNDFA[S,T,ThisDFA]
+    with IndexedNDFA[S,T,ThisDFA]
 
 /**
   *  @group Hyperedge

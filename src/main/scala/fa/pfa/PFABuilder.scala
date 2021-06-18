@@ -11,6 +11,7 @@
 package org.maraist.fa.pfa
 import scala.collection.mutable.{Builder,Growable}
 import org.maraist.fa.Builders.*
+import org.maraist.fa.pfa.Builders.*
 
 /** Builders for probabilistic finite automata (PFAs)
   * @tparam S The type of all states of the automaton

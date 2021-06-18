@@ -10,11 +10,8 @@
 
 package org.maraist.fa
 import scala.collection.mutable.{Builder, HashMap, HashSet}
-import java.awt.geom.GeneralPath
 import org.maraist.fa.DFA.IndexedDFA
 import org.maraist.fa.impl.{HashDFABuilder,HashNDFABuilder}
-import org.maraist.fa.pfa.PFA
-import org.maraist.fa.pfa.impl.HashPFABuilder
 
 /**
   * @group General
@@ -42,19 +39,12 @@ object Builders {
   case class RemoveETransition[S,T](state1: S, state2: S)
   type NDFABuilders[S,T] = AddETransition[S,T] | RemoveETransition[S,T]
 
-  case class AddProbFinalState[S,T](state: S, prob: Double)
-  case class AddProbTransition[S,T](state1: S, trans: T, state2: S, prob: Double)
-  case class AddProbETransition[S,T](state1: S, state2: S, prob: Double)
-  case class RemoveProbETransition[S,T](state1: S, state2: S, prob: Double)
-  type ProbBuilders[S,T] = AddProbFinalState[S,T] | AddProbTransition[S,T] | AddProbETransition[S,T] | RemoveProbETransition[S,T]
-
   type DFAelements[S, T] =
     SingleInitialStateBuilders[S] | NonProbBuilders[S,T] | AnyBuilders[S,T]
   type NDFAelements[S, T] =
     MultipleInitialStateBuilders[S] | NDFABuilders[S,T] | NonProbBuilders[S,T]
      | AnyBuilders[S,T]
-  type PFAelements[S, T] =
-    SingleInitialStateBuilders[S] | ProbBuilders[S,T] | AnyBuilders[S,T]
+
   trait HasBuilder[Setter[_], Mapper[_,_], Elements[_,_], Res[_,_]] {
     def build[S,T](): Builder[Elements[S,T], Res[S,T]]
   }
@@ -73,10 +63,5 @@ object Builders {
     override def build[S,T]():
       Builder[NDFAelements[S, T], NDFA[S, T, IndexedDFA[Set[S], T]]] =
         new HashNDFABuilder[S, T]
-  }
-
-  given HasBuilder[HashSet, HashMap, PFAelements, PFA] with {
-    override def build[S,T](): Builder[PFAelements[S, T], PFA[S, T]] =
-        new HashPFABuilder[S, T]
   }
 }

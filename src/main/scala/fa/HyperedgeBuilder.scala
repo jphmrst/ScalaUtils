@@ -10,4 +10,7 @@
 
 package org.maraist.fa
 
+/**
+  *  @group Hyperedge
+  */
 trait HyperedgeBuilder[S] { def addEHyperedge(s:S, ss:Set[S]): Unit }

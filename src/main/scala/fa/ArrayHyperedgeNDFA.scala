@@ -15,6 +15,10 @@ import scala.collection.mutable.HashSet
 import org.maraist.util.IndexSetsTracker
 import org.maraist.graphviz.NodeLabeling
 
+/**
+  *
+  * @group NDFA
+  */
 class ArrayHyperedgeNDFA[S,T](
   stateSeq: IndexedSeq[S],
   initialStateSet: Set[Int],

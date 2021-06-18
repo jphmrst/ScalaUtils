@@ -15,6 +15,7 @@ import org.maraist.fa.Builders.NDFAelements
 /** Builders for nondeterministic finite automata (NDFAs)
   * @tparam S The type of all states of the automaton
   * @tparam T The type of labels on (non-epsilon) transitions of the automaton
+  * @group NDFA
   */
 trait NDFABuilder[S, T, +ThisDFA <: IndexedDFA[Set[S],T],
                   +ThisNDFA <: NDFA[S,T,ThisDFA]]

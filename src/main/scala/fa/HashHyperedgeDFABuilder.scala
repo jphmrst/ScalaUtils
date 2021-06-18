@@ -12,6 +12,10 @@ package org.maraist.fa
 import scala.collection.mutable.{Builder,HashSet,HashMap}
 import org.maraist.fa.Builders.*
 
+/**
+  *
+  * @group Hyperedge
+  */
 class HashHyperedgeDFABuilder[S, T](initialState: S)
     extends AbstractHashDFABuilder[S, T, ArrayHyperedgeDFA[S, T]](initialState)
     with HyperedgeDFABuilder[S, T, ArrayHyperedgeDFA[S, T]]

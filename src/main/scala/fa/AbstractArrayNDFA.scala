@@ -30,6 +30,8 @@ import org.maraist.util.IndexSetsTracker
   * @tparam T The type of labels on (non-epsilon) transitions of the automaton
   * @tparam ThisDFA Specific class of the assembled DFA
   * {@link org.maraist.fa.ArrayDFA ArrayDFA}.
+  *
+  * @group NDFA
   */
 abstract class AbstractArrayNDFA[S, T, +ThisDFA <: AbstractArrayDFA[Set[S],T]](
   private val stateSeq: IndexedSeq[S],

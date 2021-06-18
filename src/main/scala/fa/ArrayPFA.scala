@@ -20,7 +20,7 @@ import scala.collection.mutable.{HashMap}
  * @tparam S The type of all states of the automaton
  * @tparam T The type of labels on (non-epsilon) transitions of the automaton
  *
- * @group DFA
+ * @group PFA
  */
 class ArrayPFA[S,T](private val stateSeq: IndexedSeq[S],
                     val initialProbs: Array[Double],

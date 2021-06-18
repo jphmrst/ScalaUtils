@@ -18,6 +18,8 @@ import org.maraist.graphviz.TransitionLabeling
   *
   *  @tparam S The type of all states of the automaton
   *  @tparam T The type of labels on transitions of the automaton
+  *
+  * @group NDFA
   */
 trait IndexedNDFA[S, T, +ThisDFA <: IndexedDFA[Set[S],T]]
 extends IndexedAutomaton[S,T] with NDFA[S,T,ThisDFA]

@@ -23,6 +23,8 @@ import org.maraist.graphviz.NodeLabeling
  *
  *  @tparam S The type of all states of the automaton
  *  @tparam T The type of labels on transitions of the automaton
+ *
+ * @group NDFA
  */
 class ArrayNDFA[S,T](
   stateSeq: IndexedSeq[S],

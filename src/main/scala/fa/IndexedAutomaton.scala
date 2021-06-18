@@ -18,6 +18,7 @@ import org.maraist.graphviz.TransitionLabeling
  *
  *  @tparam S The type of all states of the automaton
  *  @tparam T The type of labels on transitions of the automaton
+  *  @group General
  */
 trait IndexedAutomaton[S,T] extends Automaton[S,T] {
   /** Returns a state by index */

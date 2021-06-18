@@ -10,6 +10,7 @@
 
 package org.maraist.fa
 import scala.collection.mutable.{HashMap,HashSet}
+import java.awt.geom.GeneralPath
 
 /** Mixin of builder routines pertaining to states for
  * [[org.maraist.fa.Automaton Automaton]]s using
@@ -19,6 +20,8 @@ import scala.collection.mutable.{HashMap,HashSet}
  * be instantiated with one state, initially taken to be the initial state.
  * @tparam S The type of all states of the automaton
  * @tparam T The type of labels on (non-epsilon) transitions of the automaton
+ *
+ * @group General
  */
 trait StateHashBuilderTrait[S,T] {
 
@@ -49,6 +52,8 @@ trait StateHashBuilderTrait[S,T] {
  * be instantiated with one state, initially taken to be the initial state.
  * @tparam S The type of all states of the automaton
  * @tparam T The type of labels on (non-epsilon) transitions of the automaton
+ *
+ * @group General
  */
 trait FinalStateSetHashBuilderTrait[S,T] {
   def addState(s:S):Unit
@@ -77,6 +82,8 @@ trait FinalStateSetHashBuilderTrait[S,T] {
   * be instantiated with one state, initially taken to be the initial state.
   * @tparam S The type of all states of the automaton
   * @tparam T The type of labels on (non-epsilon) transitions of the automaton
+  *
+  * @group General
   */
 abstract class SingleInitialStateMixin[S,T](var initialState: S) {
   def addState(s:S):Unit
@@ -89,6 +96,10 @@ abstract class SingleInitialStateMixin[S,T](var initialState: S) {
     throw new IllegalStateException()
 }
 
+/**
+  *
+  * @group DFA
+  */
 trait InitialStateSetTrait[S,T] {
   private val initialStates = new HashSet[S]
   def addState(s:S):Unit

@@ -10,7 +10,11 @@
 
 package org.maraist.fa
 import scala.collection.mutable.{Builder, HashMap, HashSet}
+import java.awt.geom.GeneralPath
 
+/**
+  * @group General
+  */
 object Builders {
   case class AddState[S,T](state: S)
   case class RemoveState[S,T](state: S)

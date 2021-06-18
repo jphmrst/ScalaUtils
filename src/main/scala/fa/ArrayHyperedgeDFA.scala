@@ -11,6 +11,10 @@
 package org.maraist.fa
 import scala.collection.mutable.HashMap
 
+/**
+  *
+  * @group DFA
+  */
 class ArrayHyperedgeDFA[S,T](stateSeq: IndexedSeq[S],
                              initialStateIndex: Int,
                              finalStateIndices: Set[Int],

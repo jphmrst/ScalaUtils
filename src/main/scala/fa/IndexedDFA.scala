@@ -17,6 +17,8 @@ import org.maraist.graphviz.TransitionLabeling
  *
  *  @tparam S The type of all states of the automaton
  *  @tparam T The type of labels on transitions of the automaton
+ *
+ * @group DFA
  */
 trait IndexedDFA[S,T] extends DFA[S,T] with IndexedAutomaton[S,T] {
   def initialStateIndex:Int

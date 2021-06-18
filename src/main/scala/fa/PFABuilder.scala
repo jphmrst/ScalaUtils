@@ -15,6 +15,7 @@ import org.maraist.fa.Builders.*
 /** Builders for probabilistic finite automata (PFAs)
   * @tparam S The type of all states of the automaton
   * @tparam T The type of labels on (non-epsilon) transitions of the automaton
+  * @group PFA
   */
 trait PFABuilder[S,T]
     extends PFA[S,T]

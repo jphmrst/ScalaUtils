@@ -118,6 +118,9 @@ trait DFA[S,T] extends Automaton[S,T] with Graphable[S,T] {
   }
 }
 
+/**
+  * @group DFA
+  */
 object DFA {
   def newBuilder[S, T, SetType[_], MapType[_,_]](initialState: S)(
     using impl: HasBuilderWithInit[SetType, MapType, DFAelements, DFA]

@@ -10,14 +10,17 @@
 
 package org.maraist.fa
 import scala.collection.mutable.HashSet
+import java.nio.file.attribute.PosixFileAttributes
 
 /**
- * Concrete builder class for {@link org.maraist.fa.DFA DFAs} based on hash
- * tables.
- *
- * @tparam S The type of all states of the automaton
- * @tparam T The type of labels on transitions of the automaton
- */
+  * Concrete builder class for {@link org.maraist.fa.DFA DFAs} based
+  * on hash tables.
+  *
+  * @tparam S The type of all states of the automaton
+  * @tparam T The type of labels on transitions of the automaton
+  *
+  *  @group PFA
+  */
 class HashPFABuilder[S,T] extends AbstractHashPFABuilder[S,T] {
   type ThisPFA = ArrayPFA[S,T]
   protected def assemblePFA(statesSeq: IndexedSeq[S],

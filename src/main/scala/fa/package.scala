@@ -11,7 +11,31 @@
 package org.maraist
 
 /**
- * Traits and implementations of both deterministic and
- * nondeterministic finite automata.
- */
+  * Traits and implementations of both deterministic and
+  * nondeterministic finite automata.
+  *
+  * @groupname DFA Deterministic finite automata (DFAs)
+  * @groupdesc DFA
+  * @groupprio DFA 100
+  *
+  * @groupname NDFA Nondeterministic finite automata (NFAs)
+  * @groupdesc NDFA
+  * @groupprio NDFA 110
+  *
+  * @groupname PFA Probabilistic finite automata (PFAs)
+  * @groupdesc PFA
+  * @groupprio PFA 200
+  *
+  * @groupname Annotated Extensions for annotations on automata elements
+  * @groupdesc Annotated
+  * @groupprio Annotated 300
+  *
+  * @groupname Hyperedge Extensions for automata with hyperedges
+  * @groupdesc Hyperedge
+  * @groupprio Hyperedge 310
+  *
+  * @groupname General Very high-level traits and utilities
+  * @groupdesc General
+  * @groupprio General 500
+  */
 package object fa

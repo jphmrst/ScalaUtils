@@ -12,6 +12,10 @@ package org.maraist.fa
 import scala.collection.mutable.{Builder,HashSet}
 import org.maraist.fa.Builders.*
 
+/**
+  *
+  *  @group NDFA
+  */
 class HashNDFABuilder[S,T]
     extends AbstractHashNDFABuilder[S,T,ArrayDFA[Set[S],T],ArrayNDFA[S,T]]
     with Builder[NDFAelements[S,T], NDFA[S,T,ArrayDFA[Set[S],T]]] {

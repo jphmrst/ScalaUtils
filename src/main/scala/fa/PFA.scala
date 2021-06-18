@@ -181,6 +181,10 @@ trait PFA[S,T] extends Automaton[S,T] with Graphable[S,T] {
   }
 }
 
+/**
+  *
+  * @group PFA
+  */
 object PFA {
   def newBuilder[S, T, SetType[_], MapType[_,_]](initialState: S)(
     using impl: HasBuilder[SetType, MapType, PFAelements, PFA]

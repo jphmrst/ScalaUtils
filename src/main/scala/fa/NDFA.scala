@@ -20,6 +20,7 @@ import org.maraist.fa.Builders.{HasBuilder,NDFAelements}
   *
   * @tparam S The type of all states of the automaton
   * @tparam T The type of labels on (non-epsilon) transitions of the automaton
+  * @group NDFA
   */
 trait NDFA[S, T, +ThisDFA <: IndexedDFA[Set[S],T]]
 extends Automaton[S,T] with Graphable[S,T] {

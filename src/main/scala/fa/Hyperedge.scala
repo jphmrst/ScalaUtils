@@ -12,6 +12,9 @@ package org.maraist.fa
 import org.maraist.graphviz.NodeLabeling
 import org.maraist.graphviz.TransitionLabeling
 
+/**
+  *  @group Hyperedge
+  */
 trait Hyperedge[S] {
 
   def eHyperedgeTargets(s:S): Set[Set[S]]

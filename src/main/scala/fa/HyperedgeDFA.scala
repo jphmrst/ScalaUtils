@@ -12,6 +12,9 @@ package org.maraist.fa
 import org.maraist.graphviz.{GraphvizOptions,NodeLabeling,TransitionLabeling}
 import org.maraist.fa.Builders.{HasBuilderWithInit,HyperedgeDFAelements}
 
+/**
+  *  @group Hyperedge
+  */
 trait HyperedgeDFA[S,T] extends DFA[S,T] with Hyperedge[S] {
   override type Traverser <: HyperedgeDFAtraverser[S,T]
 
@@ -36,6 +39,9 @@ trait HyperedgeDFA[S,T] extends DFA[S,T] with Hyperedge[S] {
   }
 }
 
+/**
+  *  @group Hyperedge
+  */
 object HyperedgeDFA {
   def newBuilder[S, T, SetType[_], MapType[_,_]](initialState: S)(
     using impl: HasBuilderWithInit[
@@ -44,4 +50,7 @@ object HyperedgeDFA {
   ) = impl.build[S,T](initialState)
 }
 
+/**
+  *  @group Hyperedge
+  */
 trait IndexedHyperedgeDFA[S,T] extends IndexedDFA[S,T] with HyperedgeDFA[S,T]

@@ -11,6 +11,9 @@
 package org.maraist.fa
 import org.maraist.graphviz.{GraphvizOptions,NodeLabeling,TransitionLabeling}
 
+/**
+  * @group graphviz
+  */
 private[fa] object DOT {
   val tabToVmark:String = "\tV"
   val graphvizArrow:String = " -> "
@@ -18,6 +21,9 @@ private[fa] object DOT {
   val endFontAndDot:String = "</font>> ];\n"
 }
 
+/**
+  * @group graphviz
+  */
 private[fa] trait DotTraverseMixin[S,T] {
   val graphvizOptions:GraphvizOptions
   val sb:StringBuilder
@@ -59,6 +65,9 @@ private[fa] trait DotTraverseMixin[S,T] {
   }
 }
 
+/**
+  * @group graphviz
+  */
 private[fa] trait HyperedgeDOTmixin[S] {
   val sb:StringBuilder
   val stateList:IndexedSeq[S]
@@ -88,12 +97,18 @@ private[fa] trait HyperedgeDOTmixin[S] {
   }
 }
 
+/**
+  * @group graphviz
+  */
 private[fa] trait DOTQuietDFAMethods[S,T] {
   def init(states:Int, labels:Int): Unit = { }
   def absentEdge(fromIndex:Int, fromState:S, labelIndex:Int, label:T): Unit = { }
   def finish(): Unit = { }
 }
 
+/**
+  * @group graphviz
+  */
 private[fa] class DotTraverseDFA[S,T](val graphvizOptions:GraphvizOptions,
                                       val sb:StringBuilder,
                                       val nodeLabeling:NodeLabeling[S],
@@ -103,6 +118,9 @@ private[fa] class DotTraverseDFA[S,T](val graphvizOptions:GraphvizOptions,
 extends DFAtraverser[S,T]
 with DotTraverseMixin[S,T] with DOTQuietDFAMethods[S,T]
 
+/**
+  * @group graphviz
+  */
 private[fa] class DotTraverseHyperedgeDFA[S,T](
   val graphvizOptions:GraphvizOptions,
   val sb:StringBuilder,
@@ -120,6 +138,7 @@ with HyperedgeDOTmixin[S] with DOTQuietDFAMethods[S,T]
  *
  *  @tparam S The type of all states of the automaton
  *  @tparam T The type of labels on transitions of the automaton
+ * @group graphviz
  */
 private[fa] trait PFAtraverser[-S,-T] {
 
@@ -169,6 +188,9 @@ private[fa] trait PFAtraverser[-S,-T] {
   def finish():Unit = { }
 }
 
+/**
+ * @group graphviz
+ */
 private[fa] class PFAdotTraverser[S,T](val sb:StringBuilder,
                                        val nodeLabeling:NodeLabeling[S],
                                        val trLabeling:TransitionLabeling[T],

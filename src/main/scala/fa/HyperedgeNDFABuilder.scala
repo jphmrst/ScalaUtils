@@ -10,6 +10,9 @@
 
 package org.maraist.fa
 
+/**
+  *  @group Hyperedge
+  */
 trait HyperedgeNDFABuilder[S,T, +ThisDFA <: IndexedHyperedgeDFA[Set[S],T],
                            +ThisNDFA <: NDFA[S,T,ThisDFA]]
 extends NDFABuilder[S,T,ThisDFA,ThisNDFA]

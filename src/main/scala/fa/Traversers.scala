@@ -11,13 +11,16 @@
 package org.maraist.fa
 
 /**
- * Methods for traversing the structure of a {@link org.maraist.fa.DFA DFA}.
- * Use with the {@link org.maraist.fa.DFA#traverse DFA.traverse} method. By
- * default, all methods are empty.
- *
- *  @tparam S The type of all states of the automaton
- *  @tparam T The type of labels on transitions of the automaton
- */
+  * Methods for traversing the structure of a
+  * [[org.maraist.fa.DFA DFA]].  Use with the
+  * [[org.maraist.fa.DFA#traverse DFA.traverse]] method. By default,
+  * all methods are empty.
+  *
+  *  @tparam S The type of all states of the automaton
+  *  @tparam T The type of labels on transitions of the automaton
+  *
+  * @group DFA
+  */
 trait DFAtraverser[-S,-T] {
   /** Called at the beginning of traversal, before any other methods. */
   def init(states:Int, labels:Int): Unit
@@ -48,6 +51,8 @@ trait DFAtraverser[-S,-T] {
  *
  *  @tparam S The type of all states of the automaton
  *  @tparam T The type of labels on transitions of the automaton
+ *
+ * @group DFA
  */
 trait HyperedgeDFAtraverser[S,-T] extends DFAtraverser[S,T] {
   def eHyperedge(sourceIndex:Int, source:S, targets:Set[S]): Unit

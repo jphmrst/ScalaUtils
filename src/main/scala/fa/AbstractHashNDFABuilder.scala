@@ -18,6 +18,8 @@ import scala.collection.mutable.HashSet
   * @constructor Returns a builder holding an initially empty automaton
   * @tparam S The type of all states of the automaton
   * @tparam T The type of labels on (non-epsilon) transitions of the automaton
+  *
+  * @group NDFA
   */
 abstract class AbstractHashNDFABuilder[S, T, +ThisDFA <: IndexedDFA[Set[S],T],
                                        +ThisNDFA <: NDFA[S,T,ThisDFA]]

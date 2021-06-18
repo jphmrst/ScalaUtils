@@ -15,7 +15,7 @@ import org.maraist.graphviz.NodeLabeling
 import org.maraist.graphviz.TransitionLabeling
 import org.maraist.fa.general.Automaton
 import org.maraist.fa.Builders.{HasBuilder,PFAelements}
-import org.maraist.fa.impl.{PFAdotTraverser}
+import org.maraist.fa.pfa.impl.PFAdotTraverser
 
 /** Trait of the basic usage operations on a PFA.
  *

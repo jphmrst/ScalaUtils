@@ -14,6 +14,7 @@ import java.awt.geom.GeneralPath
 import org.maraist.fa.Builders.*
 import org.maraist.fa.DFA.IndexedDFA
 import org.maraist.fa.impl.{HashDFABuilder,HashNDFABuilder}
+import org.maraist.fa.NDFABuilders.NDFAelements
 import org.maraist.fa.hyperedges.impl.
   {HashHyperedgeDFABuilder,HashHyperedgeNDFABuilder}
 

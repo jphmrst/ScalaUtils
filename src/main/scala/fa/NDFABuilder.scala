@@ -10,7 +10,8 @@
 
 package org.maraist.fa
 import scala.collection.mutable.{Builder, HashMap, HashSet}
-import org.maraist.fa.Builders.{NDFAelements, HasBuilder}
+import org.maraist.fa.Builders.
+  {HasBuilder, MultipleInitialStateBuilders, NonProbBuilders, AnyBuilders, NDFABuilders}
 import org.maraist.fa.DFA.IndexedDFA
 import org.maraist.fa.impl.HashNDFABuilder
 
@@ -22,7 +23,7 @@ import org.maraist.fa.impl.HashNDFABuilder
 trait NDFABuilder[S, T, +ThisDFA <: IndexedDFA[Set[S],T],
                   +ThisNDFA <: NDFA[S,T,ThisDFA]]
     extends NDFA[S,T,ThisDFA]
-    with Builder[NDFAelements[S,T], ThisNDFA] {
+    with Builder[NDFABuilders.NDFAelements[S,T], ThisNDFA] {
   /** Adds a state to the automaton */
   def addState(s:S):Unit
   /** Removes a state from the automaton */
@@ -62,6 +63,10 @@ trait NDFABuilder[S, T, +ThisDFA <: IndexedDFA[Set[S],T],
 }
 
 object NDFABuilders {
+  type NDFAelements[S, T] =
+    MultipleInitialStateBuilders[S] | NDFABuilders[S,T] | NonProbBuilders[S,T]
+     | AnyBuilders[S,T]
+
   given HasBuilder[
     HashSet, HashMap, NDFAelements, [X,Y] =>> NDFA[X, Y, IndexedDFA[Set[X], Y]]
   ] with {

@@ -41,9 +41,6 @@ object Builders {
 
   type DFAelements[S, T] =
     SingleInitialStateBuilders[S] | NonProbBuilders[S,T] | AnyBuilders[S,T]
-  type NDFAelements[S, T] =
-    MultipleInitialStateBuilders[S] | NDFABuilders[S,T] | NonProbBuilders[S,T]
-     | AnyBuilders[S,T]
 
   trait HasBuilder[Setter[_], Mapper[_,_], Elements[_,_], Res[_,_]] {
     def build[S,T](): Builder[Elements[S,T], Res[S,T]]

@@ -12,6 +12,7 @@ package org.maraist.fa.impl
 import scala.collection.mutable.HashSet
 import org.maraist.fa.DFA
 import org.maraist.fa.Builders.*
+import org.maraist.fa.DFABuilders.*
 import org.maraist.fa.DFA.DFAtraverser
 
 /**

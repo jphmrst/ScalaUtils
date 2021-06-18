@@ -10,7 +10,7 @@
 
 package org.maraist.fa.impl
 import scala.collection.mutable.{Builder,Growable,HashMap,HashSet}
-import org.maraist.fa.Builders.DFAelements
+import org.maraist.fa.DFABuilders.DFAelements
 import org.maraist.fa.DFABuilder
 
 /** Implementation of [[org.maraist.fa.DFABuilder DFABuilder]] using

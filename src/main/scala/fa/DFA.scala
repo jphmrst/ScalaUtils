@@ -9,11 +9,12 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
-import org.maraist.graphviz.{Graphable,GraphvizOptions,
-                             NodeLabeling,TransitionLabeling}
+import org.maraist.graphviz.{Graphable, GraphvizOptions,
+                             NodeLabeling, TransitionLabeling}
 import org.maraist.fa.general.{Automaton, IndexedAutomaton}
-import org.maraist.fa.Builders.{HasBuilderWithInit,DFAelements}
+import org.maraist.fa.Builders.{HasBuilderWithInit}
 import org.maraist.fa.DFA.DFAtraverser
+import org.maraist.fa.DFABuilders.DFAelements
 
 /** Trait of the basic usage operations on a DFA.
  *

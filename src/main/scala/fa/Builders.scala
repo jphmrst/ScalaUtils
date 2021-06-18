@@ -30,9 +30,6 @@ object Builders {
   case class SetInitialState[S](state: S)
   type SingleInitialStateBuilders[S] = SetInitialState[S]
 
-  type DFAelements[S, T] =
-    SingleInitialStateBuilders[S] | NonProbBuilders[S,T] | AnyBuilders[S,T]
-
   trait HasBuilder[Setter[_], Mapper[_,_], Elements[_,_], Res[_,_]] {
     def build[S,T](): Builder[Elements[S,T], Res[S,T]]
   }

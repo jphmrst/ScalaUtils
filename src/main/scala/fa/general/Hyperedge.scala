@@ -8,7 +8,7 @@
 // implied, for NON-COMMERCIAL use.  See the License for the specific
 // language governing permissions and limitations under the License.
 
-package org.maraist.fa
+package org.maraist.fa.general
 import org.maraist.graphviz.NodeLabeling
 import org.maraist.graphviz.TransitionLabeling
 
@@ -64,3 +64,9 @@ trait Hyperedge[S] {
     sb.toString()
   }
 }
+
+/**
+  *  @group Hyperedge
+  */
+trait HyperedgeBuilder[S] { def addEHyperedge(s:S, ss:Set[S]): Unit }
+

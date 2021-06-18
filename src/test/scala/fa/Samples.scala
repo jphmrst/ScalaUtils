@@ -14,6 +14,10 @@ import java.io.File
 import scala.collection.mutable.{Builder,HashMap,HashSet}
 import org.maraist.util.FilesCleaner
 import org.maraist.fa.Builders.*
+import org.maraist.fa.impl.{HashNDFABuilder}
+import org.maraist.fa.pfa.{HashPFABuilder}
+import org.maraist.fa.hyperedges.{
+  ArrayHyperedgeDFA, HashHyperedgeDFABuilder, HashHyperedgeNDFABuilder}
 import org.maraist.latex.{LaTeXdoc,Sampler}
 import org.scalatest.matchers.*
 import org.scalatest.matchers.should.*

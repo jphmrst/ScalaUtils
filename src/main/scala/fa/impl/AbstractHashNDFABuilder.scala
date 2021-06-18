@@ -10,7 +10,8 @@
 
 package org.maraist.fa.impl
 import scala.collection.mutable.{HashMap,HashSet}
-import org.maraist.fa.{IndexedDFA, NDFA, NDFABuilder}
+import org.maraist.fa.{NDFA, NDFABuilder}
+import org.maraist.fa.DFA.IndexedDFA
 
 /** Implementation of [[org.maraist.fa.NDFABuilder NDFABuilder]] using
   * [[scala.collection.mutable.HashMap `HashMap`s]] and

@@ -12,6 +12,8 @@ package org.maraist.fa
 import scala.language.adhocExtensions
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.*
+import org.maraist.fa.impl.{HashDFABuilder,HashNDFABuilder}
+import org.maraist.fa.pfa.{HashPFABuilder}
 
 class TestDFA extends AnyFlatSpec with Matchers {
 

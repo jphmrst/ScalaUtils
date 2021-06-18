@@ -9,7 +9,7 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa.impl
-import org.maraist.fa.{IndexedDFA}
+import org.maraist.fa.DFA.IndexedDFA
 
 /** Implementation of a [[org.maraist.fa.DFA DFA]] using
  *  [[scala.collection.immutable.IndexedSeq `IndexedSeq`s]] and

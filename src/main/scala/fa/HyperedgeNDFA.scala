@@ -11,6 +11,7 @@
 package org.maraist.fa
 import org.maraist.graphviz.{NodeLabeling,TransitionLabeling}
 import org.maraist.fa.Builders.{HasBuilder,HyperedgeNDFAelements}
+import org.maraist.fa.general.Hyperedge
 
 /**
   *  @group Hyperedge

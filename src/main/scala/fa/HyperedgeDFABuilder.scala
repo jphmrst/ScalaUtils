@@ -9,6 +9,8 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
+import org.maraist.fa.DFA.DFABuilder
+import org.maraist.fa.general.HyperedgeBuilder
 
 /**
   *  @group Hyperedge

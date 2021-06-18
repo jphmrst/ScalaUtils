@@ -13,6 +13,7 @@ import org.maraist.graphviz.Graphable
 import org.maraist.graphviz.NodeLabeling
 import org.maraist.graphviz.TransitionLabeling
 import org.maraist.fa.general.IndexedAutomaton
+import org.maraist.fa.DFA.IndexedDFA
 
 /** Type signature of an NDFA whose states and transition labels can
   * be referenced by an index number.

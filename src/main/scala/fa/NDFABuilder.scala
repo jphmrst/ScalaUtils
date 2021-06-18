@@ -11,6 +11,7 @@
 package org.maraist.fa
 import scala.collection.mutable.Builder
 import org.maraist.fa.Builders.NDFAelements
+import org.maraist.fa.DFA.IndexedDFA
 
 /** Builders for nondeterministic finite automata (NDFAs)
   * @tparam S The type of all states of the automaton

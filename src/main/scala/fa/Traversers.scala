@@ -11,39 +11,6 @@
 package org.maraist.fa
 
 /**
-  * Methods for traversing the structure of a
-  * [[org.maraist.fa.DFA DFA]].  Use with the
-  * [[org.maraist.fa.DFA#traverse DFA.traverse]] method. By default,
-  * all methods are empty.
-  *
-  *  @tparam S The type of all states of the automaton
-  *  @tparam T The type of labels on transitions of the automaton
-  *
-  * @group DFA
-  */
-trait DFAtraverser[-S,-T] {
-  /** Called at the beginning of traversal, before any other methods. */
-  def init(states:Int, labels:Int): Unit
-  /** Called once for each state in the {@link org.maraist.fa.DFA DFA}. */
-  def state(index:Int, state:S, isInitial:Boolean, isFinal:Boolean): Unit
-  /**
-   * Called after the last call to {@link org.maraist.fa.DFAtraverser#state
-   * state}, but before any calls to
-   * {@link org.maraist.fa.DFAtraverser#presentEdge presentEdge}
-   * or {@link org.maraist.fa.DFAtraverser#absentEdge absentEdge}.
-   */
-  def postState(): Unit
-  /** Called for each transition between states in the DFA. */
-  def presentEdge(fromIndex:Int, fromState:S, labelIndex:Int, label:T,
-                  toIndex:Int, toState:S): Unit
-  /** Called for each state/label pair for which there is no target state. */
-  def absentEdge(fromIndex:Int, fromState:S, labelIndex:Int, label:T): Unit
-  /** Called last among the methods of this trait for any traversal. */
-  def finish(): Unit
-}
-
-
-/**
  * Methods for traversing the structure of a
  * {@link org.maraist.fa.HyperedgeDFA HyperedgeDFA}. Use with the
  * {@link org.maraist.fa.HyperedgeDFA#traverse HyperedgeDFA.traverse} method.
@@ -54,6 +21,6 @@ trait DFAtraverser[-S,-T] {
  *
  * @group DFA
  */
-trait HyperedgeDFAtraverser[S,-T] extends DFAtraverser[S,T] {
+trait HyperedgeDFAtraverser[S,-T] extends DFA.DFAtraverser[S,T] {
   def eHyperedge(sourceIndex:Int, source:S, targets:Set[S]): Unit
 }

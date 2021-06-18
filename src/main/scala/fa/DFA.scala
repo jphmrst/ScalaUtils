@@ -11,8 +11,9 @@
 package org.maraist.fa
 import org.maraist.graphviz.{Graphable,GraphvizOptions,
                              NodeLabeling,TransitionLabeling}
-import org.maraist.fa.general.Automaton
+import org.maraist.fa.general.{Automaton, IndexedAutomaton}
 import org.maraist.fa.Builders.{HasBuilderWithInit,DFAelements}
+import org.maraist.fa.DFA.DFAtraverser
 
 /** Trait of the basic usage operations on a DFA.
  *
@@ -123,6 +124,133 @@ trait DFA[S,T] extends Automaton[S,T] with Graphable[S,T] {
   * @group DFA
   */
 object DFA {
+  /** Builders for deterministic finite automata (DFAs)
+    * @tparam S The type of all states of the automaton
+    * @tparam T The type of labels on (non-epsilon) transitions of the automaton
+    * @group DFA
+    */
+  trait DFABuilder[S, T, +ThisDFA <: DFA[S,T]] extends DFA[S,T] {
+
+    /** Returns the (possibly immutable) [[org.maraist.fa.DFA DFA]]
+      * described to this builder */
+    def result(): ThisDFA
+
+    /** Adds a state to the automaton */
+    def addState(s:S):Unit
+    /** Removes a state from the automaton */
+    def removeState(s:S):Unit
+
+    /** Sets the initial state of the automaton */
+    def setInitialState(s:S):Unit
+    /** Adds a final state to the automaton */
+    def addFinalState(s:S):Unit
+    /** Causes a state not to be considered a final state, but does
+      *  ''not'' remove it from the automaton */
+    def removeFinalState(s:S):Unit
+
+    /** Adds a transition labelled `t` from `s1` to `s2`, removing any
+      *  previous transition labelled `t` from `s1`.
+      */
+    def addTransition(s1:S, t:T, s2:S): Unit
+    /** Removes any transition labelled `t` from `s1` to `s2` */
+    def removeTransition(s1:S, t:T): Unit
+
+    /** This {@link scala.collection.mutable.Builder Builder} method
+      * is not implemented at this time.
+      */
+    def clear(): Unit = throw new UnsupportedOperationException()
+
+    /** @deprecated Use {@link #result} */
+    def toDFA: ThisDFA
+  }
+
+  /**
+    * Methods for traversing the structure of a
+    * [[org.maraist.fa.DFA DFA]].  Use with the
+    * [[org.maraist.fa.DFA#traverse DFA.traverse]] method. By default,
+    * all methods are empty.
+    *
+    *  @tparam S The type of all states of the automaton
+    *  @tparam T The type of labels on transitions of the automaton
+    *
+    * @group DFA
+    */
+  trait DFAtraverser[-S,-T] {
+    /** Called at the beginning of traversal, before any other methods. */
+    def init(states:Int, labels:Int): Unit
+    /** Called once for each state in the {@link org.maraist.fa.DFA DFA}. */
+    def state(index:Int, state:S, isInitial:Boolean, isFinal:Boolean): Unit
+    /**
+      * Called after the last call to
+      * [[org.maraist.fa.DFA.DFAtraverser#state state]], but before any
+      * calls to
+      * [[org.maraist.fa.DFA.DFAtraverser#presentEdge presentEdge]] or
+      * [[org.maraist.fa.DFA.DFAtraverser#absentEdge absentEdge]].
+      */
+    def postState(): Unit
+    /** Called for each transition between states in the DFA. */
+    def presentEdge(fromIndex:Int, fromState:S, labelIndex:Int, label:T,
+      toIndex:Int, toState:S): Unit
+    /** Called for each state/label pair for which there is no target state. */
+    def absentEdge(fromIndex:Int, fromState:S, labelIndex:Int, label:T): Unit
+    /** Called last among the methods of this trait for any traversal. */
+    def finish(): Unit
+  }
+
+  /** Trait of the basic usage operations on a DFA.
+    *
+    *  @tparam S The type of all states of the automaton
+    *  @tparam T The type of labels on transitions of the automaton
+    *
+    * @group DFA
+    */
+  trait IndexedDFA[S,T] extends DFA[S,T] with IndexedAutomaton[S,T] {
+    def initialStateIndex:Int
+    def initialStateIndices:Set[Int] = Set(initialStateIndex)
+
+    def transitionIndex(si:Int, ti:Int): Option[Int]
+
+    /** Traverse the structure of this DFA, states first, then
+      * transitions.
+      */
+    override def traverse(trav:Traverser) = {
+      trav.init(states.size, labels.size)
+      for(si <- 0 until size) {
+        val s = state(si)
+        trav.state(si,s,si==initialStateIndex,isFinalState(s))
+      }
+      trav.postState()
+      for(si0 <- 0 until size) {
+        val s0 = state(si0)
+        traverseEdgesFrom(si0, s0, states, labels, trav)
+      }
+      trav.finish()
+    }
+
+    override protected def traverseEdgesFrom(
+      si0:Int, s0:S,
+      stateList:IndexedSeq[S],
+      theLabels:IndexedSeq[T],
+      trav:Traverser):
+        Unit = {
+      for(ti <- 0 until labels.size) {
+        val t = label(ti)
+        val toIndex = transitionIndex(si0,ti)
+        //println("  traversing " + si0 + "/" + ti + " --> " + toIndex)
+        toIndex match {
+          case Some(si1) => {
+            //println("        echo " + si0 + " " + ti + " " + si1)
+            trav.presentEdge(si0, s0, ti, t, si1, state(si1))
+          }
+          case None => {
+            trav.absentEdge(si0, s0, ti, t)
+          }
+        }
+        //println("  end traversing")
+      }
+    }
+  }
+
   def newBuilder[S, T, SetType[_], MapType[_,_]](initialState: S)(
     using impl: HasBuilderWithInit[SetType, MapType, DFAelements, DFA]
   ) = impl.build[S,T](initialState)

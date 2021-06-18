@@ -10,6 +10,8 @@
 
 package org.maraist.fa
 import org.maraist.graphviz.{GraphvizOptions,NodeLabeling,TransitionLabeling}
+import org.maraist.fa.general.{Hyperedge}
+import org.maraist.fa.DFA.IndexedDFA
 import org.maraist.fa.Builders.{HasBuilderWithInit,HyperedgeDFAelements}
 
 /**

@@ -10,7 +10,8 @@
 
 package org.maraist.fa.impl
 import org.maraist.graphviz.{GraphvizOptions,NodeLabeling,TransitionLabeling}
-import org.maraist.fa.{DFAtraverser, PFAtraverser, HyperedgeDFAtraverser}
+import org.maraist.fa.{PFAtraverser, HyperedgeDFAtraverser}
+import org.maraist.fa.DFA.{DFAtraverser}
 
 /**
   * @group graphviz

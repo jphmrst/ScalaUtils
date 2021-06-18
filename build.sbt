@@ -5,6 +5,7 @@ libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.9"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % "test"
 Global / excludeLintKeys ++= Set(scalacOptions)
 Compile / doc / scalacOptions ++= Seq(
+  "-groups",
   "-doc-root-content", "src/main/rootdoc.txt",
   "-external-mappings:" ++ (
     ".*scala.*::scaladoc3::" ++ "http://dotty.epfl.ch/api/,"

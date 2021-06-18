@@ -12,6 +12,7 @@ package org.maraist.fa
 import scala.collection.mutable.{HashMap,HashSet,Queue}
 import org.maraist.graphviz.{Graphable,NodeLabeling,TransitionLabeling}
 import org.maraist.fa.general.Automaton
+import org.maraist.fa.DFA.IndexedDFA
 import org.maraist.fa.Builders.{HasBuilder,NDFAelements}
 import org.maraist.fa.impl.DOT
 

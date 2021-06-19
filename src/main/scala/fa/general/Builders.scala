@@ -16,6 +16,17 @@ import org.maraist.fa.DFA.IndexedDFA
   * @group General
   */
 object Builders {
+  case class AddState[S,T](state: S)
+  case class RemoveState[S,T](state: S)
+  case class RemoveFinalState[S,T](state: S)
+  case class AddFinalState[S,T](state: S)
+  case class RemoveTransition[S,T](state1: S, trans: T, state2: S)
+  type AnyBuilders[S,T] =
+    AddState[S,T] | RemoveState[S,T] | RemoveFinalState[S,T] | RemoveTransition[S,T]
+
+  case class AddTransition[S,T](state1: S, trans: T, state2: S)
+  type NonProbBuilders[S,T] = AddFinalState[S,T] | AddTransition[S,T]
+
   trait HasBuilder[Setter[_], Mapper[_,_], Elements[_,_], Res[_,_]] {
     def build[S,T](): Builder[Elements[S,T], Res[S,T]]
   }

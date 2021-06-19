@@ -13,8 +13,8 @@ import scala.collection.mutable.{Builder, HashMap, HashSet}
 import org.maraist.graphviz.{Graphable,GraphvizOptions,
                              NodeLabeling,TransitionLabeling}
 import org.maraist.fa.general.{Automaton, IndexedAutomaton}
-import org.maraist.fa.general.Builders.HasBuilderWithInit
-import org.maraist.fa.Builders.{NonProbBuilders, AnyBuilders}
+import org.maraist.fa.general.Builders.
+  {HasBuilderWithInit, NonProbBuilders, AnyBuilders}
 import org.maraist.fa.DFA.DFAtraverser
 import org.maraist.fa.impl.{HashDFABuilder}
 

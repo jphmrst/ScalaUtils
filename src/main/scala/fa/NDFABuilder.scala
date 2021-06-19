@@ -10,8 +10,7 @@
 
 package org.maraist.fa
 import scala.collection.mutable.{Builder, HashMap, HashSet}
-import org.maraist.fa.general.Builders.HasBuilder
-import org.maraist.fa.Builders.{NonProbBuilders, AnyBuilders}
+import org.maraist.fa.general.Builders.{NonProbBuilders,AnyBuilders,HasBuilder}
 import org.maraist.fa.DFA.IndexedDFA
 import org.maraist.fa.impl.HashNDFABuilder
 

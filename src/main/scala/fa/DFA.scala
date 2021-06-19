@@ -9,12 +9,15 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
+import scala.collection.mutable.{Builder, HashMap, HashSet}
 import org.maraist.graphviz.{Graphable, GraphvizOptions,
                              NodeLabeling, TransitionLabeling}
 import org.maraist.fa.general.{Automaton, IndexedAutomaton}
-import org.maraist.fa.general.Builders.HasBuilderWithInit
+import org.maraist.fa.general.Builders.
+  {HasBuilderWithInit, NonProbBuilders, AnyBuilders}
 import org.maraist.fa.DFA.DFAtraverser
-import org.maraist.fa.DFABuilders.DFAelements
+import org.maraist.fa.DFA.DFAelements
+import org.maraist.fa.impl.HashDFABuilder
 
 /** Trait of the basic usage operations on a DFA.
  *
@@ -123,6 +126,18 @@ trait DFA[S,T] extends Automaton[S,T] with Graphable[S,T] {
 
 /**
   * @group DFA
+  *
+  * @groupname DFA Forms of DFAs
+  * @groupdesc DFA
+  * @groupprio DFA 100
+  *
+  * @groupname builderElements Arguments to [[Builder]]s for [[DFA]]s
+  * @groupdesc builderElements
+  * @groupprio builderElements 150
+  *
+  * @groupname builderPattern [[Builder]] pattern method
+  * @groupdesc builderPattern
+  * @groupprio builderPattern 160
   */
 object DFA {
 
@@ -213,6 +228,53 @@ object DFA {
     }
   }
 
+  // Directives for the Builder pattern
+
+  /** [[Builder]]-pattern element for setting the initial state in a
+    * [[DFABuilder DFA builder]].
+    *
+    *  @tparam S The type of all states of the automaton
+    *
+    * @group builderElements
+    */
+  case class SetInitialState[S](state: S)
+  /** [[Builder]]-pattern elements pertaining to an builder for automata
+    * with a single initial state.
+    *
+    *  @tparam S The type of all states of the automaton
+    *
+    * @group builderElements
+    */
+  type SingleInitialStateBuilders[S] = SetInitialState[S]
+
+  /** All [[Builder]]-pattern elements pertaining to [[DFA]]s.
+    *
+    *  @tparam S The type of all states of the automaton
+    *  @tparam T The type of labels on transitions of the automaton
+    *
+    * @group builderElements
+    */
+  type DFAelements[S, T] =
+    SingleInitialStateBuilders[S] | NonProbBuilders[S,T] | AnyBuilders[S,T]
+
+  /** Implementation of [[Builder]] pattern for [[DFA]]s.
+    *
+    * @group builderPattern
+    */
+  given HasBuilderWithInit[HashSet, HashMap, DFAelements, DFA] with {
+    override def build[S,T](init: S): Builder[DFAelements[S, T], DFA[S, T]] =
+        new HashDFABuilder[S, T](init)
+  }
+
+  // Fetch a builder for the pattern.
+
+  /** [[Builder]] pattern method for [[DFA]]s.
+    *
+    *  @tparam S The type of all states of the automaton
+    *  @tparam T The type of labels on transitions of the automaton
+    *
+    * @group builderPattern
+    */
   def newBuilder[S, T, SetType[_], MapType[_,_]](initialState: S)(
     using impl: HasBuilderWithInit[SetType, MapType, DFAelements, DFA]
   ) = impl.build[S,T](initialState)

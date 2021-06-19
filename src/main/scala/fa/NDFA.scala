@@ -9,13 +9,12 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
-import scala.collection.mutable.{HashMap,HashSet,Queue}
-import org.maraist.graphviz.{Graphable,NodeLabeling,TransitionLabeling}
-import org.maraist.fa.general.Builders.HasBuilder
+import scala.collection.mutable.{Builder, HashMap, HashSet, Queue}
+import org.maraist.graphviz.{Graphable, NodeLabeling, TransitionLabeling}
+import org.maraist.fa.general.Builders.{NonProbBuilders,AnyBuilders,HasBuilder}
 import org.maraist.fa.general.{IndexedAutomaton, Automaton}
 import org.maraist.fa.DFA.IndexedDFA
-import org.maraist.fa.NDFABuilders.NDFAelements
-import org.maraist.fa.impl.DOT
+import org.maraist.fa.impl.{DOT,HashNDFABuilder}
 
 /** Methods provided by nondeterministic finite automata (NDFAs)
   *
@@ -135,8 +134,28 @@ object NDFA {
 
   def newBuilder[S, T, SetType[_], MapType[_,_]](initialState: S)(
     using impl: HasBuilder[
-      SetType, MapType, NDFAelements, [X,Y] =>> NDFA[X, Y, IndexedDFA[Set[X], Y]]
+      SetType, MapType, NDFA.NDFAelements, [X,Y] =>> NDFA[X, Y, IndexedDFA[Set[X], Y]]
     ]
   ) = impl.build[S,T]()
+
+  case class AddInitialState[S](state: S)
+  case class RemoveInitialState[S](state: S)
+  type MultipleInitialStateBuilders[S] = AddInitialState[S] | RemoveInitialState[S]
+
+  case class AddETransition[S,T](state1: S, state2: S)
+  case class RemoveETransition[S,T](state1: S, state2: S)
+  type NDFABuilders[S,T] = AddETransition[S,T] | RemoveETransition[S,T]
+
+  type NDFAelements[S, T] =
+    MultipleInitialStateBuilders[S] | NDFABuilders[S,T] | NonProbBuilders[S,T]
+     | AnyBuilders[S,T]
+
+  given HasBuilder[
+    HashSet, HashMap, NDFAelements, [X,Y] =>> NDFA[X, Y, IndexedDFA[Set[X], Y]]
+  ] with {
+    override def build[S,T]():
+      Builder[NDFAelements[S, T], NDFA[S, T, IndexedDFA[Set[S], T]]] =
+        new HashNDFABuilder[S, T]
+  }
 }
 

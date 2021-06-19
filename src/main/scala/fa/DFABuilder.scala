@@ -9,23 +9,19 @@
 // language governing permissions and limitations under the License.
 
 package org.maraist.fa
-import scala.collection.mutable.{Builder, HashMap, HashSet}
+import scala.collection.mutable.{Builder}
 import org.maraist.graphviz.{Graphable,GraphvizOptions,
                              NodeLabeling,TransitionLabeling}
-import org.maraist.fa.general.{Automaton, IndexedAutomaton}
-import org.maraist.fa.general.Builders.
-  {HasBuilderWithInit, NonProbBuilders, AnyBuilders}
-import org.maraist.fa.DFA.DFAtraverser
-import org.maraist.fa.impl.{HashDFABuilder}
 
 /** Builders for deterministic finite automata (DFAs)
   * @tparam S The type of all states of the automaton
   * @tparam T The type of labels on (non-epsilon) transitions of the
   * automaton
+  * @tparam ThisDFA The concrete type of DFA returned by this builder
   * @group DFA
   */
 trait DFABuilder[S, T, +ThisDFA <: DFA[S,T]] extends DFA[S,T]
-    with Builder[DFABuilders.DFAelements[S,T], ThisDFA] {
+    with Builder[DFA.DFAelements[S,T], ThisDFA] {
 
   /** Returns the (possibly immutable) [[org.maraist.fa.DFA DFA]]
     * described to this builder */
@@ -59,18 +55,3 @@ trait DFABuilder[S, T, +ThisDFA <: DFA[S,T]] extends DFA[S,T]
   /** @deprecated Use {@link #result} */
   def toDFA: ThisDFA
 }
-
-object DFABuilders {
-
-  case class SetInitialState[S](state: S)
-  type SingleInitialStateBuilders[S] = SetInitialState[S]
-
-  type DFAelements[S, T] =
-    SingleInitialStateBuilders[S] | NonProbBuilders[S,T] | AnyBuilders[S,T]
-
-  given HasBuilderWithInit[HashSet, HashMap, DFAelements, DFA] with {
-    override def build[S,T](init: S): Builder[DFAelements[S, T], DFA[S, T]] =
-        new HashDFABuilder[S, T](init)
-  }
-}
-

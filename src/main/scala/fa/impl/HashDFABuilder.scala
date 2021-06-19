@@ -10,10 +10,9 @@
 
 package org.maraist.fa.impl
 import scala.collection.mutable.HashSet
-import org.maraist.fa.DFA
 import org.maraist.fa.general.Builders.*
-import org.maraist.fa.DFABuilders.*
-import org.maraist.fa.DFA.DFAtraverser
+import org.maraist.fa.DFA
+import org.maraist.fa.DFA.*
 
 /**
  * Concrete builder class for {@link org.maraist.fa.DFA DFAs} based on hash

@@ -12,10 +12,10 @@ package org.maraist.fa.hyperedges
 import scala.collection.mutable.{Builder, HashMap, HashSet}
 import java.awt.geom.GeneralPath
 import org.maraist.fa.general.Builders.*
-import org.maraist.fa.DFABuilders.DFAelements
+import org.maraist.fa.DFA.DFAelements
 import org.maraist.fa.DFA.IndexedDFA
 import org.maraist.fa.impl.{HashDFABuilder,HashNDFABuilder}
-import org.maraist.fa.NDFABuilders.NDFAelements
+import org.maraist.fa.NDFA.NDFAelements
 import org.maraist.fa.hyperedges.impl.
   {HashHyperedgeDFABuilder,HashHyperedgeNDFABuilder}
 

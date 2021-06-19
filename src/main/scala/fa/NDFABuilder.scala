@@ -10,9 +10,7 @@
 
 package org.maraist.fa
 import scala.collection.mutable.{Builder, HashMap, HashSet}
-import org.maraist.fa.general.Builders.{NonProbBuilders,AnyBuilders,HasBuilder}
 import org.maraist.fa.DFA.IndexedDFA
-import org.maraist.fa.impl.HashNDFABuilder
 
 /** Builders for nondeterministic finite automata (NDFAs)
   * @tparam S The type of all states of the automaton
@@ -22,7 +20,7 @@ import org.maraist.fa.impl.HashNDFABuilder
 trait NDFABuilder[S, T, +ThisDFA <: IndexedDFA[Set[S],T],
                   +ThisNDFA <: NDFA[S,T,ThisDFA]]
     extends NDFA[S,T,ThisDFA]
-    with Builder[NDFABuilders.NDFAelements[S,T], ThisNDFA] {
+    with Builder[NDFA.NDFAelements[S,T], ThisNDFA] {
   /** Adds a state to the automaton */
   def addState(s:S):Unit
   /** Removes a state from the automaton */
@@ -59,27 +57,5 @@ trait NDFABuilder[S, T, +ThisDFA <: IndexedDFA[Set[S],T],
   /** Returns the (possibly immutable) [[org.maraist.fa.NDFA NDFA]]
     * described to this builder */
   def toNDFA: ThisNDFA
-}
-
-object NDFABuilders {
-  case class AddInitialState[S](state: S)
-  case class RemoveInitialState[S](state: S)
-  type MultipleInitialStateBuilders[S] = AddInitialState[S] | RemoveInitialState[S]
-
-  case class AddETransition[S,T](state1: S, state2: S)
-  case class RemoveETransition[S,T](state1: S, state2: S)
-  type NDFABuilders[S,T] = AddETransition[S,T] | RemoveETransition[S,T]
-
-  type NDFAelements[S, T] =
-    MultipleInitialStateBuilders[S] | NDFABuilders[S,T] | NonProbBuilders[S,T]
-     | AnyBuilders[S,T]
-
-  given HasBuilder[
-    HashSet, HashMap, NDFAelements, [X,Y] =>> NDFA[X, Y, IndexedDFA[Set[X], Y]]
-  ] with {
-    override def build[S,T]():
-      Builder[NDFAelements[S, T], NDFA[S, T, IndexedDFA[Set[S], T]]] =
-        new HashNDFABuilder[S, T]
-  }
 }
 

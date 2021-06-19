@@ -11,8 +11,8 @@
 package org.maraist.fa.impl
 import scala.collection.mutable.{Builder,HashSet}
 import org.maraist.fa.general.Builders.*
-import org.maraist.fa.NDFABuilders.*
-import org.maraist.fa.{NDFA}
+import org.maraist.fa.NDFA
+import org.maraist.fa.NDFA.*
 
 /**
   *

@@ -11,7 +11,7 @@
 package org.maraist.fa.pfa
 import scala.collection.mutable.{Builder,Growable}
 import org.maraist.fa.general.Builders.*
-import org.maraist.fa.DFABuilders.{SetInitialState}
+import org.maraist.fa.DFA.{SetInitialState}
 import org.maraist.fa.pfa.Builders.*
 
 /** Builders for probabilistic finite automata (PFAs)

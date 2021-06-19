@@ -11,7 +11,7 @@
 package org.maraist.fa.pfa
 import scala.collection.mutable.{Builder, HashMap, HashSet}
 import org.maraist.fa.general.Builders.*
-import org.maraist.fa.DFABuilders.{SingleInitialStateBuilders}
+import org.maraist.fa.DFA.SingleInitialStateBuilders
 import org.maraist.fa.pfa.PFA
 import org.maraist.fa.pfa.impl.HashPFABuilder
 

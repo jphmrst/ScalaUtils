@@ -14,7 +14,7 @@ import org.maraist.fa.DFABuilder
 import org.maraist.fa.hyperedges.{
   HyperedgeDFAtraverser, HyperedgeDFA, HyperedgeDFABuilder}
 import org.maraist.fa.general.Builders.*
-import org.maraist.fa.DFABuilders.*
+import org.maraist.fa.DFA.*
 import org.maraist.fa.hyperedges.Builders.*
 import org.maraist.fa.impl.{AbstractHashDFABuilder}
 

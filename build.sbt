@@ -2,7 +2,7 @@
 val scala3Version = "3.0.1-RC1"
 
 // library name
-name := "Maraist Utils"
+name := "misc-utils"
 
 // library version
 version := "1.0.0"
@@ -57,8 +57,6 @@ Compile / doc / scalacOptions ++= Seq(
 lazy val utils = project
   .in(file("."))
   .settings(
-    name := "Maraist Utils",
-    version := "1.0.0",
     scalaVersion := scala3Version,
     compile / watchTriggers += baseDirectory.value.toGlob / "build.sbt",
     unmanagedSources / excludeFilter := ".#*",

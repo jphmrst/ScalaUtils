@@ -12,17 +12,20 @@ version := "1.0.0"
 
 // groupId, SCM, license information
 organization := "org.maraist"
+organizationName := "Atelier Maraist"
+organizationHomepage := Some(url("https://maraist.org/"))
 homepage := Some(url("https://github.com/jphmrst/ScalaUtils"))
 scmInfo := Some(ScmInfo(
   url("https://github.com/jphmrst/ScalaUtils"),
   "git@github.com:jphmrst/ScalaUtils.git"))
 developers := List(Developer(
-  "jphmrst", "jphmrst", "via-github@maraist.org",
-  url("https://maraist.org/work/")))
+  id    = "jphmrst",
+  name  = "John Maraist",
+  email = "via-github@maraist.org",
+  url   = url("https://maraist.org/work/")))
 licenses += (
   "Educational",
   url("https://github.com/jphmrst/ScalaUtils/blob/master/LICENSE.txt"))
-publishMavenStyle := true
 
 // disable publish with scala version, otherwise artifact name will
 // include scala version
@@ -32,12 +35,16 @@ crossPaths := false
 // add sonatype repository settings
 // snapshot versions publish to sonatype snapshot repository
 // other versions publish to sonatype staging repository
+pomIncludeRepository := { _ => false }
 publishTo := Some(
   if (isSnapshot.value)
     Opts.resolver.sonatypeSnapshots
   else
     Opts.resolver.sonatypeStaging
 )
+publishMavenStyle := true
+
+ThisBuild / versionScheme := Some("semver-spec")
 
 // end of maven etc. publishing section
 /////////////////////////////////////////////////////////////////

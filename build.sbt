@@ -5,7 +5,7 @@ val scala3Version = "3.0.1-RC1"
 name := "misc-utils"
 
 // library version
-version := "1.0.0"
+version := "1.0.1"
 
 /////////////////////////////////////////////////////////////////
 // begin maven etc. publishing information
@@ -36,12 +36,13 @@ crossPaths := false
 // snapshot versions publish to sonatype snapshot repository
 // other versions publish to sonatype staging repository
 pomIncludeRepository := { _ => false }
-publishTo := Some(
+val nexus = "https://s01.oss.sonatype.org/"
+publishTo := {
   if (isSnapshot.value)
-    Opts.resolver.sonatypeSnapshots
+    Some("snapshots" at nexus + "content/repositories/snapshots")
   else
-    Opts.resolver.sonatypeStaging
-)
+    Some("releases" at nexus + "service/local/staging/deploy/maven2")
+}
 publishMavenStyle := true
 
 ThisBuild / versionScheme := Some("semver-spec")
